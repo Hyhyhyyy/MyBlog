@@ -1,0 +1,75 @@
+/* motion.css — animation layer for the Growth Archive (大气活泼).
+   Loaded after globals.css. Keeps the book/library aesthetic but adds a
+   lively physics cover, magnetic/spotlight interactions and safe fallbacks. */
+
+.home-hero { position: relative; overflow: hidden; }
+
+.hero-physics {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+/* Keep the literary hero copy and the archive object above the canvas. */
+.home-hero > .hero-copy,
+.home-hero > .archive-object { position: relative; z-index: 2; }
+
+/* Soft floating life on the archive object (reacts to the lively cover). */
+.archive-object { animation: floatY 7s ease-in-out infinite; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+/* Spotlight wrapper helper (cursor glow handled in JS). */
+.spotlight { border-radius: 14px; }
+
+/* Reading progress bar already fixed via Framer; ensure it stays on top. */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-physics { display: none !important; }
+  .archive-object { animation: none !important; }
+  .reveal-1, .reveal-2 { opacity: 1 !important; transform: none !important; }
+  * { scroll-behavior: auto !important; }
+}
+
+/* ---- Studio: records CRUD ---- */
+.records-studio { display: flex; flex-direction: column; gap: 18px; }
+.records-toolbar { display: flex; align-items: center; gap: 14px; }
+.records-count { color: var(--muted, #7a7064); font-size: 0.85em; }
+.record-form {
+  background: var(--card, #fffdf7); border: 1px solid var(--line, #e2d8c3);
+  border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px;
+}
+.form-row { display: flex; flex-direction: column; gap: 6px; }
+.form-row.two { flex-direction: row; gap: 14px; }
+.form-row.two > div { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.form-row label { font-size: 0.82em; color: var(--muted, #7a7064); }
+.record-form input, .record-form textarea, .record-form select {
+  font: inherit; padding: 9px 11px; border: 1px solid var(--line, #e2d8c3);
+  border-radius: 8px; background: #fff; color: inherit;
+}
+.record-form .vermilion-button { align-self: flex-start; cursor: pointer; border: none; }
+.records-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.record-item {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  background: var(--card, #fffdf7); border: 1px solid var(--line, #e2d8c3);
+  border-radius: 12px; padding: 16px 18px;
+}
+.record-cat { font-size: 0.74em; padding: 2px 9px; border-radius: 999px; background: var(--vermilion, #b23a2e); color: #fff; }
+.cat-study { background: #c8761f; }
+.cat-project { background: #7a5a28; }
+.cat-achievement { background: #b23a2e; }
+.cat-review { background: #4a6b57; }
+.record-main b { display: block; font-size: 1.05em; margin: 6px 0 2px; }
+.record-main p { margin: 4px 0; color: var(--muted, #7a7064); }
+.record-main small { color: var(--muted, #7a7064); font-size: 0.8em; }
+.record-actions { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.record-actions button {
+  font: inherit; font-size: 0.8em; padding: 5px 10px; border-radius: 7px; cursor: pointer;
+  border: 1px solid var(--line, #e2d8c3); background: #fff; color: var(--ink, #2b2620);
+}
+.record-actions button.danger { color: #b23a2e; border-color: #e6b3ad; }
+.record-empty { color: var(--muted, #7a7064); padding: 18px; border: 1px dashed var(--line, #e2d8c3); border-radius: 12px; }
+.studio-notice { color: var(--muted, #7a7064); padding: 18px; background: var(--card, #fffdf7); border-radius: 12px; border: 1px solid var(--line, #e2d8c3); }
