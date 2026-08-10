@@ -1,31 +1,51 @@
 "use client";
 
-// hero-physics.tsx — a "大气活泼" full-bleed Matter.js scene for the cover.
-// Floating glowing orbs drift, link into a constellation, react to the
-// cursor (repel), can be dragged and flung, and burst on click. Matter.js is
-// vendored locally at /vendor/matter.min.js (zero CDN). Honors
-// prefers-reduced-motion by rendering a calm static arrangement.
+// hero-physics.tsx — "大气活泼" layered flowing-grid background with
+// mouse-interactive ripples. Replaces the old gravity-orb (Matter.js) scene.
+//
+// A real (if lightweight) per-node physics engine runs here: every grid node
+// is a spring anchored to a slowly drifting "home" position (the flow), is
+// pushed away by the cursor (the ripple), and is damped each frame. Three
+// stacked layers at different spacing / opacity / reactivity give the
+// background a sense of depth (层次感). Honors prefers-reduced-motion: the
+// CSS hides the canvas, so we only render one calm frame and skip the loop.
 
 import { useEffect, useRef } from "react";
 
-declare global {
-  interface Window {
-    Matter?: any;
-  }
-}
+type GridNode = {
+  bx: number; by: number; // base grid home (drift centre)
+  hx: number; hy: number; // drifting home (spring target)
+  x: number; y: number;   // current position
+  vx: number; vy: number; // velocity
+  phase: number;          // per-node drift offset
+};
 
-const PALETTE = ["#b23a2e", "#c8761f", "#e8b04b", "#7a5a28", "#d98a3a"];
+type Layer = {
+  nodes: GridNode[];
+  cols: number;
+  rows: number;
+  spacing: number;
+  flowAmp: number;
+  flowSpeed: number;
+  reactive: number;
+  lineAlpha: number;
+  dotR: number;
+  rgb: string;
+  dotAlpha: number;
+};
 
-function loadMatter(): Promise<any> {
-  if (typeof window !== "undefined" && window.Matter) return Promise.resolve(window.Matter);
-  return new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = "/vendor/matter.min.js";
-    s.onload = () => (window.Matter ? resolve(window.Matter) : reject(new Error("Matter missing")));
-    s.onerror = () => reject(new Error("Matter failed to load"));
-    document.body.appendChild(s);
-  });
-}
+// Far → near. Near layer is tight, bright and highly reactive (reads as front);
+// far layer is sparse, hazy and barely reactive (reads as depth behind).
+const LAYER_DEFS = [
+  { spacing: 88, flowAmp: 11, flowSpeed: 0.00055, reactive: 0.35, lineAlpha: 0.05, dotR: 0.9, rgb: "214,184,140", dotAlpha: 0.20 },
+  { spacing: 60, flowAmp: 8,  flowSpeed: 0.00085, reactive: 0.65, lineAlpha: 0.085, dotR: 1.3, rgb: "200,118,31", dotAlpha: 0.34 },
+  { spacing: 42, flowAmp: 5,  flowSpeed: 0.00125, reactive: 1.0,  lineAlpha: 0.14, dotR: 1.9, rgb: "214,58,46", dotAlpha: 0.55 },
+];
+
+const R = 160;     // cursor influence radius (css px)
+const PUSH = 1.1;  // cursor repulsion strength
+const K = 0.055;   // spring stiffness (pull back to home)
+const DAMP = 0.87; // per-frame velocity damping
 
 export default function HeroPhysics({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,189 +54,164 @@ export default function HeroPhysics({ className }: { className?: string }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0;
+    let layers: Layer[] = [];
     let raf = 0;
-    let cleanup = () => {};
+    let idleTimer: number | undefined;
 
-    loadMatter()
-      .then((M) => {
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-        let dpr = Math.min(window.devicePixelRatio || 1, 2);
-        let W = 0, H = 0;
+    const mouse = { x: -9999, y: -9999, active: false };
 
-        const resize = () => {
-          const r = canvas.getBoundingClientRect();
-          W = r.width; H = r.height;
-          canvas.width = Math.max(1, W * dpr);
-          canvas.height = Math.max(1, H * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        };
-        resize();
+    const build = () => {
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      if (W < 2 || H < 2) return;
+      canvas.width = Math.max(1, Math.round(W * dpr));
+      canvas.height = Math.max(1, Math.round(H * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const engine = M.Engine.create();
-        engine.gravity.y = 0.1;
-
-        const orbs: any[] = [];
-        const MAX = 64;
-
-        const makeOrb = (x: number, y: number, r: number, opts: any = {}) => {
-          const b = M.Bodies.circle(x, y, r, {
-            restitution: 0.92, frictionAir: 0.014, friction: 0, density: 0.001, ...opts,
-          });
-          b._color = PALETTE[(Math.random() * PALETTE.length) | 0];
-          b._r = r;
-          M.World.add(engine.world, b);
-          orbs.push(b);
-          if (orbs.length > MAX) {
-            const old = orbs.shift();
-            M.World.remove(engine.world, old);
+      // fewer nodes on small / high-density screens for performance.
+      const scale = W < 720 ? 1.55 : W < 1100 ? 1.18 : 1;
+      layers = LAYER_DEFS.map((def) => {
+        const spacing = def.spacing * scale;
+        const cols = Math.ceil(W / spacing) + 2;
+        const rows = Math.ceil(H / spacing) + 2;
+        const ox = (W - (cols - 1) * spacing) / 2;
+        const oy = (H - (rows - 1) * spacing) / 2;
+        const nodes: GridNode[] = [];
+        for (let rr = 0; rr < rows; rr++) {
+          for (let c = 0; c < cols; c++) {
+            const bx = ox + c * spacing;
+            const by = oy + rr * spacing;
+            nodes.push({ bx, by, hx: bx, hy: by, x: bx, y: by, vx: 0, vy: 0, phase: Math.random() * Math.PI * 2 });
           }
-          return b;
-        };
-
-        const buildWalls = () => {
-          const t = 240;
-          const walls = [
-            M.Bodies.rectangle(W / 2, -t / 2, W + 2 * t, t, { isStatic: true }),
-            M.Bodies.rectangle(W / 2, H + t / 2, W + 2 * t, t, { isStatic: true }),
-            M.Bodies.rectangle(-t / 2, H / 2, t, H + 2 * t, { isStatic: true }),
-            M.Bodies.rectangle(W + t / 2, H / 2, t, H + 2 * t, { isStatic: true }),
-          ];
-          M.World.add(engine.world, walls);
-          return walls;
-        };
-        let walls = buildWalls();
-
-        const n = Math.max(8, Math.min(16, Math.round(W / 96)));
-        for (let i = 0; i < n; i++) {
-          makeOrb(
-            Math.random() * W, Math.random() * H * 0.6, 14 + Math.random() * 22,
-            { velocity: { x: (Math.random() - 0.5) * 3, y: (Math.random() - 0.5) * 3 } },
-          );
         }
+        return { ...def, nodes, cols, rows, spacing };
+      });
+    };
 
-        if (reduce) {
-          // Calm static arrangement: no physics stepping, just draw once.
-          const drawStatic = () => {
-            ctx.clearRect(0, 0, W, H);
-            for (const o of orbs) {
-              const x = o.position.x, y = o.position.y, r = o._r;
-              const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-              g.addColorStop(0, o._color);
-              g.addColorStop(1, "rgba(178,58,46,0)");
-              ctx.fillStyle = g;
-              ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-            }
-          };
-          drawStatic();
-          cleanup = () => {};
-          return;
-        }
+    const stepAndDraw = (t: number) => {
+      ctx.clearRect(0, 0, W, H);
 
-        const mouse = M.Mouse.create(canvas);
-        mouse.pixelRatio = dpr;
-        if (mouse.mousewheel) {
-          canvas.removeEventListener("mousewheel", mouse.mousewheel);
-          canvas.removeEventListener("DOMMouseScroll", mouse.mousewheel);
-        }
-        const mc = M.MouseConstraint.create(engine, {
-          mouse, constraint: { stiffness: 0.18, render: { visible: false } },
-        });
-        M.World.add(engine.world, mc);
+      for (const L of layers) {
+        const { cols, rows } = L;
 
-        let downPos: { x: number; y: number } | null = null;
-        const onDown = (e: MouseEvent) => {
-          const r = canvas.getBoundingClientRect();
-          downPos = { x: e.clientX - r.left, y: e.clientY - r.top };
-        };
-        const onClick = (e: MouseEvent) => {
-          if (!downPos) return;
-          const r = canvas.getBoundingClientRect();
-          const x = e.clientX - r.left, y = e.clientY - r.top;
-          if (Math.hypot(x - downPos.x, y - downPos.y) > 8) return;
-          for (let i = 0; i < 8; i++) {
-            makeOrb(x, y, 5 + Math.random() * 7, {
-              velocity: { x: (Math.random() - 0.5) * 9, y: (Math.random() - 0.5) * 9 },
-            });
-          }
-        };
-        canvas.addEventListener("mousedown", onDown);
-        canvas.addEventListener("click", onClick);
+        // --- physics: drift + spring + cursor repulsion + damping ---
+        for (const n of L.nodes) {
+          const hx = n.bx + Math.sin(t * L.flowSpeed + n.phase) * L.flowAmp;
+          const hy = n.by + Math.cos(t * L.flowSpeed * 0.9 + n.phase * 1.3) * L.flowAmp * 0.6;
+          n.hx = hx; n.hy = hy;
 
-        const repel = () => {
-          const m = mouse.position;
-          if (!m) return;
-          const R = 150;
-          for (const o of orbs) {
-            const dx = o.position.x - m.x, dy = o.position.y - m.y;
-            const d = Math.hypot(dx, dy);
-            if (d > 0 && d < R) {
-              const f = (1 - d / R) * 0.0008 * o._r;
-              M.Body.applyForce(o, o.position, { x: (dx / d) * f, y: (dy / d) * f });
+          let ax = (hx - n.x) * K;
+          let ay = (hy - n.y) * K;
+
+          if (mouse.active) {
+            const dx = n.x - mouse.x, dy = n.y - mouse.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < R * R) {
+              const d = Math.sqrt(d2) || 1;
+              const f = (1 - d / R) * PUSH * L.reactive;
+              ax += (dx / d) * f;
+              ay += (dy / d) * f;
             }
           }
-        };
 
-        const onResize = () => {
-          resize();
-          M.World.remove(engine.world, walls);
-          walls = buildWalls();
-          mouse.pixelRatio = dpr;
-        };
-        window.addEventListener("resize", onResize);
+          n.vx = (n.vx + ax) * DAMP;
+          n.vy = (n.vy + ay) * DAMP;
+          n.x += n.vx;
+          n.y += n.vy;
+        }
 
-        const LINK = 165;
-        const draw = () => {
-          ctx.globalCompositeOperation = "source-over";
-          ctx.fillStyle = "rgba(250,246,236,0.22)";
-          ctx.fillRect(0, 0, W, H);
-          ctx.lineWidth = 1;
-          for (let i = 0; i < orbs.length; i++) {
-            for (let j = i + 1; j < orbs.length; j++) {
-              const a = orbs[i].position, b = orbs[j].position;
-              const d = Math.hypot(a.x - b.x, a.y - b.y);
-              if (d < LINK) {
-                ctx.strokeStyle = `rgba(178,58,46,${((1 - d / LINK) * 0.22).toFixed(3)})`;
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-              }
+        // --- grid lines (warped by node displacement → ripple) ---
+        ctx.lineWidth = 1;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const i = r * cols + c;
+            const n = L.nodes[i];
+            const disp = Math.hypot(n.x - n.hx, n.y - n.hy);
+            const glow = Math.min(0.18, disp * 0.004);
+            if (c < cols - 1) {
+              const m = L.nodes[i + 1];
+              ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + glow).toFixed(3)})`;
+              ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+            }
+            if (r < rows - 1) {
+              const m = L.nodes[i + cols];
+              ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + glow).toFixed(3)})`;
+              ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke();
             }
           }
-          ctx.globalCompositeOperation = "lighter";
-          for (const o of orbs) {
-            const x = o.position.x, y = o.position.y, r = o._r;
-            const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-            g.addColorStop(0, o._color);
-            g.addColorStop(1, "rgba(178,58,46,0)");
-            ctx.shadowBlur = 20; ctx.shadowColor = o._color;
-            ctx.fillStyle = g;
-            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-          }
-          ctx.shadowBlur = 0;
-          ctx.globalCompositeOperation = "source-over";
-        };
+        }
 
-        let last = performance.now();
-        const loop = (now: number) => {
-          const dt = Math.min(33, now - last); last = now;
-          repel();
-          M.Engine.update(engine, dt);
-          draw();
-          raf = requestAnimationFrame(loop);
-        };
-        raf = requestAnimationFrame(loop);
+        // --- node dots (brighter where disturbed) ---
+        for (const n of L.nodes) {
+          const disp = Math.hypot(n.x - n.hx, n.y - n.hy);
+          const glow = Math.min(0.3, disp * 0.006);
+          ctx.fillStyle = `rgba(${L.rgb},${(L.dotAlpha + glow).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(n.x, n.y, L.dotR, 0, Math.PI * 2); ctx.fill();
+        }
+      }
 
-        cleanup = () => {
-          cancelAnimationFrame(raf);
-          window.removeEventListener("resize", onResize);
-          canvas.removeEventListener("mousedown", onDown);
-          canvas.removeEventListener("click", onClick);
-          M.World.clear(engine.world, false);
-          M.Engine.clear(engine);
-        };
-      })
-      .catch((err) => console.error("[hero-physics] Matter load failed:", err));
+      // --- faint glowing core that follows the cursor (ripple centre) ---
+      if (mouse.active) {
+        const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, R);
+        g.addColorStop(0, "rgba(232,176,75,0.10)");
+        g.addColorStop(1, "rgba(232,176,75,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(mouse.x, mouse.y, R, 0, Math.PI * 2); ctx.fill();
+      }
+    };
 
-    return () => cleanup();
+    build();
+
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      const r = canvas.getBoundingClientRect();
+      const p = "touches" in e ? e.touches[0] : e;
+      if (!p) return;
+      mouse.x = p.clientX - r.left;
+      mouse.y = p.clientY - r.top;
+      mouse.active = true;
+      // ripple relaxes when the cursor goes still.
+      if (idleTimer) window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => { mouse.active = false; }, 140);
+    };
+    const onLeave = () => { mouse.active = false; };
+    const onResize = () => { dpr = Math.min(window.devicePixelRatio || 1, 2); build(); };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("mouseout", (e) => { if (!e.relatedTarget) onLeave(); });
+    window.addEventListener("resize", onResize);
+
+    if (reduce) {
+      // CSS hides .hero-physics under reduced motion; draw one calm frame.
+      stepAndDraw(0);
+      return () => {
+        if (idleTimer) window.clearTimeout(idleTimer);
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("touchmove", onMove);
+        window.removeEventListener("mouseout", onLeave);
+        window.removeEventListener("resize", onResize);
+      };
+    }
+
+    const loop = (now: number) => {
+      stepAndDraw(now);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      if (idleTimer) window.clearTimeout(idleTimer);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("mouseout", onLeave);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return <canvas ref={canvasRef} className={className} aria-hidden="true" />;
