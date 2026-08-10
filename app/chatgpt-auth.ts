@@ -19,7 +19,36 @@ const CALLBACK_PATH = "/callback";
 export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
   const requestHeaders = await headers();
   const email = requestHeaders.get(USER_EMAIL_HEADER);
-  if (!email) return null;
+  if (email) {
+    const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
+    const fullName =
+      encodedFullName &&
+      requestHeaders.get(USER_FULL_NAME_ENCODING_HEADER) === PERCENT_ENCODED_UTF8
+        ? safeDecodeURIComponent(encodedFullName)
+        : null;
+    return {
+      displayName: fullName ?? email,
+      email,
+      fullName,
+    };
+  }
+
+  // Local-preview bypass: the ChatGPT/Codex runtime injects the authenticated
+  // user header above. Outside that environment (e.g. `npm run dev` on a
+  // laptop) there is no header, so fall back to a dev user when explicitly
+  // enabled. Production never enables this because NODE_ENV is "production"
+  // and DEV_USER_EMAIL is not set there.
+  const isDev = process.env.NODE_ENV !== "production";
+  const devEmail = process.env.DEV_USER_EMAIL || (isDev ? "dev@local" : "");
+  if (isDev && devEmail) {
+    return {
+      displayName: devEmail,
+      email: devEmail,
+      fullName: null,
+    };
+  }
+
+  return null;
 
   const encodedFullName = requestHeaders.get(USER_FULL_NAME_HEADER);
   const fullName =
