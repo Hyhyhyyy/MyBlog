@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { archiveCards, campusRoles } from "../content";
 import { PublicShell, PageHeading } from "../components/public-shell";
 import { TimelineScrubber } from "../components/interactions";
-import { Reveal } from "../components/motion";
+import { Reveal, TiltCard } from "../components/motion";
 import { eq, desc } from "drizzle-orm";
 import { getDb } from "../../db";
 import { records } from "../../db/schema";
@@ -115,11 +115,13 @@ function renderSection(section: string, dbRecords: any[] = []) {
               阅读项目档案 →
             </Link>
           </div>
-          <div className="project-poster">
-            <small>PROJECT FILE / 001</small>
-            <strong>GA</strong>
-            <span>IDEA → SYSTEM</span>
-          </div>
+          <TiltCard className="poster-tilt">
+            <div className="project-poster">
+              <small>PROJECT FILE / 001</small>
+              <strong>GA</strong>
+              <span>IDEA → SYSTEM</span>
+            </div>
+          </TiltCard>
         </Reveal>
         <Reveal as="section" className="project-grid">
           <article>

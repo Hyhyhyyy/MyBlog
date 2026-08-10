@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 export function PublicUtilities({ isAdmin }: { isAdmin: boolean }) {
   const [language, setLanguage] = useState<"zh" | "en">("zh");
@@ -265,11 +266,43 @@ export function VoiceRecorder({ compact = false, onSaved }: { compact?: boolean;
   </section>;
 }
 
+const BURST_COLORS = ["#d8583d", "#c8761f", "#e8b04b", "#13253a", "#a9ada3"];
+
+// Burst — a small celebratory particle pop when a task is completed.
+// Containment-safe: absolutely positioned inside the task row, auto-removed.
+function Burst({ seed }: { seed: number }) {
+  const reduce = useReducedMotion();
+  if (reduce) return null;
+  const parts = Array.from({ length: 10 }, (_, i) => {
+    const angle = (i / 10) * Math.PI * 2 + (seed % 7) * 0.3;
+    const dist = 24 + ((seed + i) % 5) * 7;
+    return {
+      x: Math.cos(angle) * dist,
+      y: Math.sin(angle) * dist,
+      color: BURST_COLORS[i % BURST_COLORS.length],
+    };
+  });
+  return (
+    <span className="task-burst" aria-hidden="true">
+      {parts.map((p, i) => (
+        <motion.span
+          key={i}
+          style={{ background: p.color }}
+          initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          animate={{ opacity: 0, x: p.x, y: p.y, scale: 0.2 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export function TodayChecklist() {
   type Task = { id: number; title: string; durationMinutes: number; completed: boolean };
   const [tasks, setTasks] = useState<Task[]>([]);
   const [sync, setSync] = useState<"loading" | "synced" | "saving" | "error">("loading");
   const [newTitle, setNewTitle] = useState("");
+  const [bursts, setBursts] = useState<Record<number, number>>({});
 
   useEffect(() => {
     fetch("/api/tasks").then(async (response) => {
@@ -281,6 +314,17 @@ export function TodayChecklist() {
   const toggle = async (task: Task) => {
     const completed = !task.completed;
     setTasks((current) => current.map((item) => item.id === task.id ? { ...item, completed } : item));
+    if (completed) {
+      const seed = Date.now() + task.id;
+      setBursts((current) => ({ ...current, [task.id]: seed }));
+      window.setTimeout(() => {
+        setBursts((current) => {
+          const next = { ...current };
+          delete next[task.id];
+          return next;
+        });
+      }, 750);
+    }
     setSync("saving");
     try {
       const response = await fetch("/api/tasks", {
@@ -323,7 +367,7 @@ export function TodayChecklist() {
 
   return <div className="checklist">
     <div className={`sync-indicator ${sync}`}><i />{sync === "loading" ? "正在读取云端计划" : sync === "saving" ? "正在同步" : sync === "synced" ? "已跨设备同步" : "同步暂时失败"}</div>
-    {tasks.map((task) => <label className={task.completed ? "done" : ""} key={task.id}><input type="checkbox" checked={task.completed} onChange={() => toggle(task)} /><span>{task.title}</span><em>{task.durationMinutes} min</em><button className="row-delete" aria-label={`删除${task.title}`} onClick={(event) => { event.preventDefault(); removeTask(task); }}>×</button></label>)}
+    {tasks.map((task) => <label className={task.completed ? "done" : ""} key={task.id}><input type="checkbox" checked={task.completed} onChange={() => toggle(task)} /><span>{task.title}{bursts[task.id] !== undefined && <Burst key={bursts[task.id]} seed={bursts[task.id]} />}</span><em>{task.durationMinutes} min</em><button className="row-delete" aria-label={`删除${task.title}`} onClick={(event) => { event.preventDefault(); removeTask(task); }}>×</button></label>)}
     <div className="task-add"><input value={newTitle} onChange={(event) => setNewTitle(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") addTask(); }} placeholder="添加一项今日任务…" /><button onClick={addTask} disabled={!newTitle.trim()}>加入计划</button></div>
     {sync === "error" && tasks.length === 0 && <div className="sync-empty">暂时无法读取计划，请刷新重试。</div>}
   </div>;

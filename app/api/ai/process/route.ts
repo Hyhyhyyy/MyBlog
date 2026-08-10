@@ -3,7 +3,7 @@ import { getChatGPTUser } from "../../../chatgpt-auth";
 import { getDb } from "../../../../db";
 import { aiJobs, assets } from "../../../../db/schema";
 import { bailianProvider, transcribeAudio } from "../../../../lib/ai/bailian";
-import { AiProviderUnavailableError } from "../../../../lib/ai/provider";
+import { AiAction, AiProviderUnavailableError } from "../../../../lib/ai/provider";
 
 // POST /api/ai/process — drain this user's `waiting_for_provider` jobs.
 //
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
         if (!bailianProvider.isConfigured()) throw new AiProviderUnavailableError();
         const input = safeParse(job.inputJson);
         const result = await bailianProvider.run({
-          action: job.action,
+          action: job.action as AiAction,
           ownerEmail: user.email,
           input,
           locale: "zh-CN",
@@ -80,11 +80,12 @@ async function runTranscription(job: typeof aiJobs.$inferSelect, _ownerEmail: st
   if (!bailianProvider.isConfigured()) throw new AiProviderUnavailableError();
   const key = process.env.AI_API_KEY || process.env.ALIYUN_DASHSCOPE_API_KEY || "";
   const input = safeParse(job.inputJson) as { assetId?: number };
-  if (!Number.isInteger(input.assetId)) throw new Error("transcription job missing assetId");
+  const assetId = input.assetId;
+  if (typeof assetId !== "number") throw new Error("transcription job missing assetId");
 
   const db = await getDb();
-  const [asset] = await db.select().from(assets).where(eq(assets.id, input.assetId)).limit(1);
-  if (!asset) throw new Error(`asset ${input.assetId} not found`);
+  const [asset] = await db.select().from(assets).where(eq(assets.id, assetId)).limit(1);
+  if (!asset) throw new Error(`asset ${assetId} not found`);
 
   const { env } = await import("cloudflare:workers");
   const object = await env.BUCKET.get(asset.objectKey);

@@ -27,11 +27,62 @@
 
 /* Reading progress bar already fixed via Framer; ensure it stays on top. */
 
+/* ---- New interactive layer (大气活泼) ---- */
+/* Stat band — count-up numbers with a calm card grid. */
+.stat-band {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+  max-width: 1190px; margin: 0 auto 110px; padding: 0 26px;
+}
+.stat {
+  background: var(--raised, #fffdf7); border: 1px solid var(--line, #e2d8c3);
+  border-radius: 14px; padding: 30px 26px; display: flex; flex-direction: column;
+  align-items: flex-start; box-shadow: 6px 8px 0 rgba(216, 88, 61, .04), 0 8px 18px rgba(24, 30, 35, .05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.stat:hover { transform: translateY(-4px); box-shadow: 8px 12px 0 rgba(216, 88, 61, .06), 0 14px 26px rgba(24, 30, 35, .08); }
+.stat-value { font: 500 56px/1 var(--display, Georgia, serif); color: var(--red, #d8583d); letter-spacing: -.01em; }
+.stat-label { margin-top: 12px; font: 600 14px/1.4 var(--serif, serif); color: var(--ink, #13253a); }
+
+/* Card sheen — a light sweep across archive cards on hover. */
+.card-sheen {
+  position: absolute; inset: 0; pointer-events: none; border-radius: 2px;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%);
+  transform: translateX(-130%); opacity: 0; mix-blend-mode: soft-light;
+}
+.archive-card:hover .card-sheen { animation: sheen .9s ease; }
+@keyframes sheen {
+  0% { transform: translateX(-130%); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateX(130%); opacity: 0; }
+}
+
+/* Project grid sheen (uses :before; :after is the UNWRITTEN label). */
+.project-grid article:before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 4px;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .5) 50%, transparent 65%);
+  transform: translateX(-130%); opacity: 0; mix-blend-mode: soft-light;
+}
+.project-grid article:hover:before { animation: sheen .95s ease; }
+
+/* Task-completion burst — particles pop from the start of the title. */
+.checklist label > span { position: relative; display: inline-block; }
+.task-burst { position: absolute; left: 0; top: 50%; width: 0; height: 0; pointer-events: none; }
+.task-burst > span {
+  position: absolute; left: 0; top: 0; width: 7px; height: 7px; border-radius: 50%;
+  margin: -3.5px 0 0 -3.5px;
+}
+
+/* Featured-project poster tilt glue (TiltCard is the grid cell). */
+.featured-project > .poster-tilt { display: flex; transform-style: preserve-3d; }
+.poster-tilt > .project-poster { flex: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-physics { display: none !important; }
   .archive-object { animation: none !important; }
   .reveal-1, .reveal-2 { opacity: 1 !important; transform: none !important; }
   * { scroll-behavior: auto !important; }
+  .card-sheen, .project-grid article:before { animation: none !important; opacity: 0 !important; }
+  .stat:hover { transform: none !important; }
 }
 
 /* ---- Studio: records CRUD ---- */

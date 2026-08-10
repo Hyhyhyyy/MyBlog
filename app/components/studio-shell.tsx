@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { studioNav } from "../content";
 import { MobileDock, QuickCapture } from "./interactions";
+import { Magnetic } from "./motion";
 
 export function StudioShell({ children, active = "" }: { children: React.ReactNode; active?: string }) {
   return <div className="studio-app">
@@ -29,5 +30,5 @@ export function StudioHeading({ kicker, title, intro, action }: { kicker: string
     "设置": "Settings",
     "使用指南": "Guide & Trial Manual",
   };
-  return <header className="studio-heading"><div><p className="eyebrow">{kicker}</p><h1 className="studio-bilingual-title"><span>{title}</span><small>{translations[title] ?? title}</small></h1><p>{intro}</p></div>{action && <button className="ink-button">{action} <span>＋</span></button>}</header>;
+  return <header className="studio-heading"><div><p className="eyebrow">{kicker}</p><h1 className="studio-bilingual-title"><span>{title}</span><small>{translations[title] ?? title}</small></h1><p>{intro}</p></div>{action && <Magnetic><button className="ink-button">{action} <span>＋</span></button></Magnetic>}</header>;
 }

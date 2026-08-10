@@ -13,12 +13,15 @@ import {
   useSpring,
   useTransform,
   useMotionValue,
+  animate,
   AnimatePresence,
   type HTMLMotionProps,
   type Variants,
 } from "framer-motion";
 import {
   useRef,
+  useState,
+  useEffect,
   type ReactNode,
   type CSSProperties,
 } from "react";
@@ -307,6 +310,45 @@ export function ScrollProgress() {
       }}
     />
   );
+}
+
+// ---------------------------------------------------------------------------
+// AnimatedNumber — count-up that springs from 0 to `value` on mount.
+// Grand, lively touch for stat bands; shows the final value instantly under
+// prefers-reduced-motion.
+// ---------------------------------------------------------------------------
+export function AnimatedNumber({
+  value,
+  duration = 1.1,
+  className,
+  prefix = "",
+  suffix = "",
+}: {
+  value: number;
+  duration?: number;
+  className?: string;
+  prefix?: string;
+  suffix?: string;
+}) {
+  const reduce = useReducedMotion();
+  const mv = useMotionValue(0);
+  const [display, setDisplay] = useState(reduce ? value : 0);
+
+  useEffect(() => {
+    if (reduce) {
+      setDisplay(value);
+      return;
+    }
+    const controls = animate(mv, value, {
+      duration,
+      ease: [0.22, 0.7, 0.2, 1],
+      onUpdate: (latest) => setDisplay(latest),
+    });
+    return () => controls.stop();
+  }, [value, duration, reduce, mv]);
+
+  const text = `${prefix}${Math.round(display)}${suffix}`;
+  return <span className={className}>{text}</span>;
 }
 
 export { AnimatePresence, useScroll, useTransform, type CSSProperties, type HTMLMotionProps };
