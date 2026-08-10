@@ -1,0 +1,10 @@
+# Local AI provider secrets for `npm run dev` (Miniflare reads .dev.vars).
+# Copy this file to `.dev.vars` and fill in your key, then it is picked up
+# automatically. `.dev.vars` is gitignored — never commit a real key.
+#
+# Aliyun Bailian / DashScope (OpenAI-compatible). Get a key at:
+# https://dashscope.console.aliyun.com/
+AI_API_KEY=sk-your-dashscope-key-here
+
+# Optional: override the OpenAI-compatible base URL (defaults to DashScope).
+# AI_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1

@@ -446,7 +446,50 @@ export function EvidenceManager() {
 }
 
 export function AiIntegrationStatus() {
-  return <div className="ai-integration-status"><span className="status waiting">INTERFACE READY</span><div><b>AI 尚未启用</b><small>已预留百炼兼容接口：qwen3.7-plus / max / flash / omni。当前全部核心数据可手动管理。</small></div></div>;
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
+  const [status, setStatus] = useState<{
+    configured: boolean;
+    provider: string | null;
+    jobs: { waiting: number; processing: number; completed: number; failed: number; blocked: number };
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/ai/status")
+      .then(async (response) => {
+        if (!response.ok) throw new Error();
+        return response.json();
+      })
+      .then((data) => {
+        setStatus(data);
+        setState("ready");
+      })
+      .catch(() => setState("error"));
+  }, []);
+
+  if (state === "loading") {
+    return <div className="ai-integration-status"><span className="status waiting">CHECKING…</span><div><b>正在读取 AI 接口状态</b><small>连接后端中。</small></div></div>;
+  }
+  if (state === "error" || !status) {
+    return <div className="ai-integration-status"><span className="status waiting">INTERFACE READY</span><div><b>AI 尚未启用</b><small>已预留百炼兼容接口。当前全部核心数据可手动管理。</small></div></div>;
+  }
+
+  const { configured, provider, jobs } = status;
+  const total = jobs.waiting + jobs.processing + jobs.completed + jobs.failed + jobs.blocked;
+  return (
+    <div className="ai-integration-status">
+      <span className={configured ? "status active" : "status waiting"}>
+        {configured ? "PROVIDER CONNECTED" : "INTERFACE READY"}
+      </span>
+      <div>
+        <b>{configured ? `AI 已连接 · ${provider ?? "aliyun-bailian"}` : "AI 尚未启用"}</b>
+        <small>
+          {configured
+            ? `已完成 ${jobs.completed} 个任务，待处理 ${jobs.waiting + jobs.processing} 个。`
+            : `已预留百炼兼容接口：qwen3.7-plus / max / flash / omni。配置 AI_API_KEY 后启用（当前 ${total} 个任务，未配置显示为 blocked）。`}
+        </small>
+      </div>
+    </div>
+  );
 }
 
 type GrowthRecord = {

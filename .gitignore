@@ -28,6 +28,9 @@ yarn-error.log*
 .pnpm-debug.log*
 .dev.log
 
+# Miniflare/Wrangler local secrets (never commit real keys)
+.dev.vars
+
 # env files (can opt-in for committing if needed)
 .env*
 
@@ -41,3 +44,6 @@ next-env.d.ts
 /.sites-runtime/
 /outputs/
 /work/
+
+# tsc incremental build info
+*.tsbuildinfo
