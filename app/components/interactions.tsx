@@ -128,7 +128,7 @@ export function InteractiveIndexTabs() {
             onClick={() => setActive(active === index ? null : index)}
             key={tab.label}
           >
-            <span>{tab.label}</span><small>{String(index + 1).padStart(2, "0")}</small>
+            <span>{tab.label}</span>
           </button>
         ))}
       </div>

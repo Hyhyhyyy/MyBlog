@@ -73,14 +73,12 @@
 .index-tab-system .index-tabs{position:static;display:flex;flex-direction:column;gap:7px}
 .index-tab-system .index-tabs button{position:relative;width:96px;height:41px;padding:0 10px 0 16px;border:1px solid #cfc3b2;background:linear-gradient(102deg,#e3dacd 0%,#f4eee4 70%,#d8cdbd 100%);box-shadow:3px 4px 8px rgba(24,30,35,.13),inset 0 1px rgba(255,255,255,.75);clip-path:polygon(0 8%,88% 0,100% 14%,97% 88%,86% 100%,3% 94%);display:flex;align-items:center;justify-content:space-between;color:#4e4a43;font:700 12px var(--serif);white-space:nowrap;transform:translateX(0) rotate(var(--tab-rotate,0deg));transform-origin:left center;transition:transform .28s cubic-bezier(.2,.8,.2,1),color .2s,filter .2s;cursor:pointer}
 .index-tab-system .index-tabs button:before{content:"";position:absolute;inset:5px 7px;border-top:1px solid rgba(98,84,68,.12);pointer-events:none}
-.index-tab-system .index-tabs button small{font:7px var(--display);letter-spacing:.08em;color:#998b78;writing-mode:vertical-rl;opacity:0;transition:opacity .2s}
 .index-tab-system .index-tabs button:nth-child(1){--tab-rotate:-1.7deg}
 .index-tab-system .index-tabs button:nth-child(2){--tab-rotate:.9deg}
 .index-tab-system .index-tabs button:nth-child(3){--tab-rotate:-.7deg}
 .index-tab-system .index-tabs button:nth-child(4){--tab-rotate:1.3deg}
 .index-tab-system .index-tabs button:hover,.index-tab-system .index-tabs button:focus-visible{transform:translateX(14px) rotate(0);color:var(--red-dark);filter:brightness(1.03)}
 .index-tab-system .index-tabs button.active{transform:translateX(28px) rotate(.4deg);color:var(--red-dark);box-shadow:7px 7px 13px rgba(24,30,35,.17);z-index:3}
-.index-tab-system .index-tabs button.active small{opacity:1}
 .index-tab-preview{position:absolute;right:103px;top:7px;width:178px;min-height:132px;padding:20px 18px;background:linear-gradient(135deg,#f5efe4,#e9dfd0);border:1px solid #cfc2af;box-shadow:0 10px 23px rgba(34,29,24,.15);opacity:0;pointer-events:none;transform:translateX(28px) rotate(-2deg) scale(.96);transform-origin:right center;transition:.34s cubic-bezier(.2,.8,.2,1)}
 .index-tab-preview:before{content:"";position:absolute;right:-13px;top:23px;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:13px solid #e8dece}
 .index-tab-preview:after{content:"";position:absolute;inset:8px;border:1px solid rgba(100,80,60,.1);pointer-events:none}
