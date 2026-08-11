@@ -1,6 +1,199 @@
 {
-  "generatedAt": null,
+  "generatedAt": "2026-08-11T05:14:17.109Z",
   "user": "Hyhyhyyy",
-  "projects": [],
-  "note": "Empty until populated. Run `node scripts/fetch-projects.mjs` (optionally with GITHUB_TOKEN) to snapshot public repos from https://github.com/Hyhyhyyy. The snapshot is committed so the site renders without a runtime API call."
+  "projects": [
+    {
+      "slug": "MLP-2048",
+      "name": "MLP-2048",
+      "description": "2048! AND MyLittlePony version!",
+      "url": "https://github.com/Hyhyhyyy/MLP-2048",
+      "homepage": "",
+      "language": "C++",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-08-11T03:00:15Z",
+      "updatedAt": "2026-08-11T04:39:59Z"
+    },
+    {
+      "slug": "README-beautifier2.0",
+      "name": "README-beautifier2.0",
+      "description": "📌README 美化技能✨🎨。基于纯 SMIL 动画横幅（每仓手绘、零预设复用）一键美化 GitHub 仓库首页；方法平台无关，任何能绘图并推送 GitHub 的 Agent / 工具均可复用。支持批量生成动画 Hero、主题图标与着陆页，帮助开源项目快速拥有统一视觉风格与更专业的首页呈现，也便于批量维护多个仓库的视觉一致性。",
+      "url": "https://github.com/Hyhyhyyy/README-beautifier2.0",
+      "homepage": "",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-08-11T00:37:21Z",
+      "updatedAt": "2026-08-11T04:03:24Z"
+    },
+    {
+      "slug": "Token_Saver",
+      "name": "Token_Saver",
+      "description": "📌Token 节省框架💰🤖。SkillForge · Token Saver 基于 FastAPI + SQLite + Docker，提供 Prompt 压缩、语义缓存复用、调用用量统计与可视化看板，并内置技能解析与成本估算；帮助 Agent 在高频调用大模型时显著降低 Token 消耗与 API 成本，已用于实际 SkillForge 工作流的 token 优化实践。",
+      "url": "https://github.com/Hyhyhyyy/Token_Saver",
+      "homepage": "",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-08-06T18:01:12Z",
+      "updatedAt": "2026-08-11T03:41:51Z"
+    },
+    {
+      "slug": "Qwen3-VL-Med",
+      "name": "Qwen3-VL-Med",
+      "description": "Qwen3-VL fine-tuning in specialized domains",
+      "url": "https://github.com/Hyhyhyyy/Qwen3-VL-Med",
+      "homepage": "",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-08-11T02:38:35Z",
+      "updatedAt": "2026-08-11T03:36:30Z"
+    },
+    {
+      "slug": "Hyhyhyyy",
+      "name": "Hyhyhyyy",
+      "description": "📌个人成长档案主页📊🌱。汇总项目、学习与校园经历的开源 Profile，由真实 GitHub 数据生成贡献热力图与统计卡片，仅含公开信息、无任何访客追踪；以持续生长的「成长档案」为定位，记录一名软件学院学生在大模型、AI Agent 与前端工程上的探索轨迹。",
+      "url": "https://github.com/Hyhyhyyy/Hyhyhyyy",
+      "homepage": "",
+      "language": "JavaScript",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-07-24T05:50:34Z",
+      "updatedAt": "2026-08-11T03:33:56Z"
+    },
+    {
+      "slug": "DUT-ultimate-website",
+      "name": "DUT-ultimate-website",
+      "description": "📌大连理工大学黑蚁极限飞盘队官网🥏🏫。面向校区飞盘队的前端网站，展示球队介绍、教练与队员、活动动态、比赛战报与招新信息；基于云开发部署，结构清晰、易于更新，既呈现队伍文化与训练日常，也方便新生快速了解并加入团队，是校园体育社团线上展示的轻量实践。",
+      "url": "https://github.com/Hyhyhyyy/DUT-ultimate-website",
+      "homepage": "",
+      "language": "JavaScript",
+      "stars": 2,
+      "forks": 1,
+      "topics": [
+        "cloudbase",
+        "javascript",
+        "ultimate-frisbee",
+        "website"
+      ],
+      "createdAt": "2026-07-26T16:32:34Z",
+      "updatedAt": "2026-08-11T03:33:50Z"
+    },
+    {
+      "slug": "KeLing3.0",
+      "name": "KeLing3.0",
+      "description": "📌课灵多端知识管理学习助手🌱📚。以 Kotlin 为主打造的多端知识管理应用，覆盖笔记、收藏与复习等学习闭环，尝试让记录、整理与学习形成连贯体验；是课灵系列的持续演进版本，在 2.0 基础上进一步优化交互细节、性能与跨端一致性，延续既有的产品思路并补齐更多使用场景。",
+      "url": "https://github.com/Hyhyhyyy/KeLing3.0",
+      "homepage": "",
+      "language": "Kotlin",
+      "stars": 2,
+      "forks": 0,
+      "topics": [
+        "android",
+        "knowledge-management",
+        "kotlin",
+        "monorepo",
+        "react"
+      ],
+      "createdAt": "2026-03-27T05:24:19Z",
+      "updatedAt": "2026-08-11T03:15:23Z"
+    },
+    {
+      "slug": "KeLing2.0",
+      "name": "KeLing2.0",
+      "description": "📌课灵 2.0 知识管理学习助手📚🤖。Kotlin + React 单体仓库，在初代基础上重构工程结构与多端架构，持续打磨 Android 与 Web 场景下的记录、整理与连贯学习体验；内置知识卡片、标签体系与跨端同步，是课灵系列中星标最多的版本，沉淀了较多工程实践，代码结构清晰，可作为 Kotlin 多端项目的参考样例与上手模板。",
+      "url": "https://github.com/Hyhyhyyy/KeLing2.0",
+      "homepage": "",
+      "language": "Kotlin",
+      "stars": 4,
+      "forks": 3,
+      "topics": [
+        "android",
+        "knowledge-management",
+        "kotlin",
+        "monorepo",
+        "react"
+      ],
+      "createdAt": "2026-01-28T11:46:57Z",
+      "updatedAt": "2026-08-11T03:15:14Z"
+    },
+    {
+      "slug": "md-converter",
+      "name": "md-converter",
+      "description": "📌文档格式转换工具📝🔄。轻量前端应用（HTML5 / CSS3 / JavaScript），支持 Markdown 与 PDF / DOCX 互转，保留标题、列表、代码块与基础样式；纯本地运行、界面简洁、无需后端，适合把课堂笔记、技术文档快速导出为常用排版格式，也方便在缺少办公软件的环境下完成格式转换。",
+      "url": "https://github.com/Hyhyhyyy/md-converter",
+      "homepage": "",
+      "language": "JavaScript",
+      "stars": 1,
+      "forks": 0,
+      "topics": [
+        "converter",
+        "frontend",
+        "javascript",
+        "markdown",
+        "pdf"
+      ],
+      "createdAt": "2026-04-19T10:25:00Z",
+      "updatedAt": "2026-08-11T03:14:55Z"
+    },
+    {
+      "slug": "train_guard",
+      "name": "train_guard",
+      "description": "📌大模型训练守护工具包🛡️🚂。本地优先的 LLM / VLM 训练可靠性工具集：训练前做环境、GPU、依赖、模型路径、数据集与切分检查；训练中监控生命周期、日志、损失、GPU、磁盘、检查点与进程；可靠性层负责结构化事件、去重告警、状态持久化与受控恢复；训练后做产出验收、对比、评测与 SHA256 清单。内置 CLI、Python API、Web 看板与 SSH 终端，核心零依赖、可一键发布为单文件。",
+      "url": "https://github.com/Hyhyhyyy/train_guard",
+      "homepage": "",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "topics": [
+        "llm",
+        "machine-learning",
+        "mlops",
+        "python",
+        "reliability",
+        "training"
+      ],
+      "createdAt": "2026-07-24T02:38:05Z",
+      "updatedAt": "2026-08-11T03:14:47Z"
+    },
+    {
+      "slug": "README-beautifier1.0",
+      "name": "README-beautifier1.0",
+      "description": "📌README 美化工具✨🎨。一键生成动画横幅、主题图标与着陆页，提供多种视觉模板与配色，帮助仓库快速拥有统一视觉风格与更专业的首页呈现；降低文档美化的上手成本，让开源项目在列表与主页第一眼更出彩，也便于批量维护多个仓库的视觉一致性。",
+      "url": "https://github.com/Hyhyhyyy/README-beautifier1.0",
+      "homepage": "",
+      "language": "Python",
+      "stars": 1,
+      "forks": 0,
+      "topics": [],
+      "createdAt": "2026-08-08T16:04:47Z",
+      "updatedAt": "2026-08-11T03:14:30Z"
+    },
+    {
+      "slug": "ChainPass",
+      "name": "ChainPass",
+      "description": "📌区块链跨境身份与支付平台🔗🆔。基于 W3C DID 与可验证凭证（VC）技术，用户完全掌控自己的数字身份，无需依赖第三方机构；KYC 认证通过后自动签发可复用 VC 凭证，支持多币种钱包、实时汇率转换与合规风控的跨境支付，并内置账密、OAuth、零知识证明等多元登录方式，打通身份与支付的合规闭环。",
+      "url": "https://github.com/Hyhyhyyy/ChainPass",
+      "homepage": "",
+      "language": "Java",
+      "stars": 1,
+      "forks": 1,
+      "topics": [
+        "blockchain",
+        "cross-border-payment",
+        "did",
+        "spring-boot",
+        "verifiable-credentials",
+        "vue"
+      ],
+      "createdAt": "2026-04-02T06:24:53Z",
+      "updatedAt": "2026-08-11T03:00:03Z"
+    }
+  ]
 }
