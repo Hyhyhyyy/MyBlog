@@ -33,21 +33,21 @@ type Layer = {
   rgb: string;
 };
 
-// Far → near. Dense spacing for fine vertical water lines; all pale/light.
+// Far → near. Dense spacing for fine vertical water lines; deeper, warm tones.
 const LAYER_DEFS = [
-  { spacing: 58, flowAmp: 8, flowSpeed: 0.00040, reactive: 0.55, lineAlpha: 0.020, waveAmp: 5, rgb: "196,190,178" },
-  { spacing: 38, flowAmp: 6, flowSpeed: 0.00062, reactive: 0.8, lineAlpha: 0.036, waveAmp: 7, rgb: "190,156,144" },
-  { spacing: 28, flowAmp: 4, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.058, waveAmp: 9, rgb: "214,142,112" },
+  { spacing: 58, flowAmp: 8, flowSpeed: 0.00040, reactive: 0.6, lineAlpha: 0.030, waveAmp: 5, rgb: "150,140,126" },
+  { spacing: 38, flowAmp: 6, flowSpeed: 0.00062, reactive: 0.85, lineAlpha: 0.055, waveAmp: 7, rgb: "176,132,116" },
+  { spacing: 28, flowAmp: 4, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.085, waveAmp: 9, rgb: "196,108,82" },
 ];
 
 const PAPER = "#f3efe6"; // matches the site paper colour
 const WAVE_K = 0.018; // spatial frequency of the standing wave along each line
 const WAVE_SPEED = 0.0006; // slow drift of the wave
 const RIPPLE_DAMP = 0.94; // wave energy retained per step (settles softly)
-const RIPPLE_GAIN = 0.8; // ripple slope → line displacement (gentle)
-const RIPPLE_INJECT = 0.55; // cursor energy injected per frame (soft reaction)
-const RIPPLE_GLOW = 0.014; // |height| → brightness boost per unit
-const MAXH = 24; // clamp so ripples stay subtle & stable
+const RIPPLE_GAIN = 1.1; // ripple slope → line displacement (clear reaction)
+const RIPPLE_INJECT = 0.9; // cursor energy injected per frame (strong reaction)
+const RIPPLE_GLOW = 0.016; // |height| → brightness boost per unit
+const MAXH = 30; // clamp so ripples stay subtle & stable
 
 export default function HeroPhysics({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -161,16 +161,28 @@ export default function HeroPhysics({ className }: { className?: string }) {
           py[i] = hy + gy * RIPPLE_GAIN;
         }
 
-        // --- VERTICAL lines only (warped by the wave → soft wavy curtain) ---
+        // --- VERTICAL lines only, drawn as smooth curves (soft wavy curtain) ---
         ctx.lineWidth = 1;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
         for (let c = 0; c < cols; c++) {
+          // smooth path through the column's points (quadratic via midpoints)
+          ctx.beginPath();
+          ctx.moveTo(px[c], py[c]);
+          let maxH = Math.abs(h[c]);
           for (let r = 0; r < rows - 1; r++) {
             const i = r * cols + c;
             const m = i + cols;
-            const glow = Math.min(0.20, Math.max(Math.abs(h[i]), Math.abs(h[m])) * RIPPLE_GLOW);
-            ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + glow).toFixed(3)})`;
-            ctx.beginPath(); ctx.moveTo(px[i], py[i]); ctx.lineTo(px[m], py[m]); ctx.stroke();
+            const xc = (px[i] + px[m]) / 2;
+            const yc = (py[i] + py[m]) / 2;
+            ctx.quadraticCurveTo(px[i], py[i], xc, yc);
+            const a = Math.abs(h[i]); if (a > maxH) maxH = a;
           }
+          const last = (rows - 1) * cols + c;
+          ctx.lineTo(px[last], py[last]);
+          const glow = Math.min(0.22, maxH * RIPPLE_GLOW);
+          ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + glow).toFixed(3)})`;
+          ctx.stroke();
         }
       }
     };
