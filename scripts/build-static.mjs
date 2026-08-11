@@ -6,7 +6,7 @@
 // static hosting (or any static host) without the OpenAI Sites / Workers runtime.
 //
 // Run:  node scripts/build-static.mjs
-// Output: dist/ (index.html, notes/, collections/, projects/, about/, styles.css, favicon.svg)
+// Output: out/ (index.html, notes/, collections/, projects/, about/, styles.css, favicon.svg)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -196,18 +196,28 @@ function L(zh, en) {
   return `<span class="translatable"><span lang="zh">${escapeHtml(zh)}</span><span lang="en">${escapeHtml(en)}</span></span>`;
 }
 
+// Link helper: some static hosts (e.g. CloudStudio) do NOT resolve a directory
+// to its index.html and fall back to the root page for clean URLs like
+// `/projects/` or `/notes/slug`. Append `/index.html` so internal links work on
+// every static host (CloudStudio, CloudBase, GitHub Pages, Netlify). Root "/"
+// and absolute http(s) URLs are left untouched.
+function toIndex(u) {
+  if (u === "/" || /^https?:/i.test(u)) return u;
+  return u.replace(/\/+$/, "") + "/index.html";
+}
+
 function navHtml(active) {
   const links = publicNav
     .map(
       ([label, labelEn, href]) =>
-        `<a class="${active === href.slice(1) ? "active" : ""}" href="${href}"><span>${label}</span><small>${labelEn}</small></a>`,
+        `<a class="${active === href.slice(1) ? "active" : ""}" href="${toIndex(href)}"><span>${label}</span><small>${labelEn}</small></a>`,
     )
     .join("");
   return `<header class="public-header"><a class="brand" href="/"><b>HYHY</b><span>/</span><em>Growth Archive</em></a><nav aria-label="公开导航">${links}</nav></header>`;
 }
 
 function footerHtml() {
-  return `<footer class="public-footer"><div><span class="seal">HY</span><b>Hyhyhyyy Growth Archive</b></div><p>把走过的路，编成可翻阅的页。</p><div class="footer-links"><a href="/projects">项目作品</a><a href="/collections">文学书架</a><a href="/about">关于</a></div></footer>`;
+  return `<footer class="public-footer"><div><span class="seal">HY</span><b>Hyhyhyyy Growth Archive</b></div><p>把走过的路，编成可翻阅的页。</p><div class="footer-links"><a href="${toIndex("/projects")}">项目作品</a><a href="${toIndex("/collections")}">文学书架</a><a href="${toIndex("/about")}">关于</a></div></footer>`;
 }
 
 function shell({ active = "", title, description, bodyHtml }) {
@@ -240,7 +250,7 @@ function pageHeading({ eyebrow, title, titleEn, intro, introEn, chapter }) {
 function homePage() {
   const cards = archiveCards
     .map(
-      (c) => `<a class="archive-card" href="${c.href}"><i class="card-sheen" aria-hidden="true"></i><small>NO. ${c.no}</small><div class="card-mark ${c.tone}">${c.mark}</div><div><h3 class="card-bilingual-title"><span>${c.title}</span><small>${c.titleEn}</small></h3><i></i><p>${L(c.body, c.bodyEn)}</p></div><span>→</span></a>`,
+      (c) => `<a class="archive-card" href="${toIndex(c.href)}"><i class="card-sheen" aria-hidden="true"></i><small>NO. ${c.no}</small><div class="card-mark ${c.tone}">${c.mark}</div><div><h3 class="card-bilingual-title"><span>${c.title}</span><small>${c.titleEn}</small></h3><i></i><p>${L(c.body, c.bodyEn)}</p></div><span>→</span></a>`,
     )
     .join("");
   const body = `<main>
@@ -251,7 +261,7 @@ function homePage() {
 <p class="profile-line">大连理工大学计算机类 · 2029</p>
 <i class="red-rule"></i>
 <h2 class="bilingual-hero"><span>敬，真相与自由！</span><small>TO TRUTH AND FREEDOM.</small></h2>
-<a class="vermilion-button" href="/projects">${L("翻阅成长档案", "Explore the Archive")} <span>→</span></a>
+<a class="vermilion-button" href="${toIndex("/projects")}">${L("翻阅成长档案", "Explore the Archive")} <span>→</span></a>
 <p class="hero-footnote">${L("把走过的路，编成可翻阅的页。", "Binding the road travelled into pages worth revisiting.")}</p>
 </div>
 <div class="archive-object" aria-label="私人藏书票视觉装置">
@@ -276,7 +286,7 @@ function notesPage() {
     : "<span>暂无</span>";
   const listHtml = notes
     .map(
-      (p) => `<a class="notes-card" href="/notes/${p.slug}"><p class="eyebrow">${escapeHtml(p.date)}</p><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.excerpt)}</p><small>${p.tags.map(escapeHtml).join(" · ")}</small></a>`,
+      (p) => `<a class="notes-card" href="${toIndex(`/notes/${p.slug}`)}"><p class="eyebrow">${escapeHtml(p.date)}</p><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.excerpt)}</p><small>${p.tags.map(escapeHtml).join(" · ")}</small></a>`,
     )
     .join("");
   const body = `<main class="public-page">
@@ -289,7 +299,7 @@ ${pageHeading({ eyebrow: "NOTEBOOK & ESSAYS", title: "知识笔记", titleEn: "K
 function collectionsPage() {
   const listHtml = collections
     .map(
-      (p) => `<a class="notes-card" href="/collections/${p.slug}"><p class="eyebrow">${escapeHtml(p.date)}</p><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.excerpt)}</p><small>${p.tags.map(escapeHtml).join(" · ")}</small></a>`,
+      (p) => `<a class="notes-card" href="${toIndex(`/collections/${p.slug}`)}"><p class="eyebrow">${escapeHtml(p.date)}</p><h2>${escapeHtml(p.title)}</h2><p>${escapeHtml(p.excerpt)}</p><small>${p.tags.map(escapeHtml).join(" · ")}</small></a>`,
     )
     .join("");
   const body = `<main class="public-page">
@@ -319,12 +329,12 @@ function projectsPage() {
         featured.topics.length > 0
           ? featured.topics.slice(0, 5).map((t) => `<span>${escapeHtml(t)}</span>`).join("")
           : `<span>${escapeHtml(featured.language || "Repository")}</span>`;
-      featuredHtml = `<section class="featured-project"><div><p class="eyebrow">CURRENT PROJECT · ${escapeHtml(featured.language || "REPO")}</p><h2>${escapeHtml(featured.name)}</h2><p>${escapeHtml(featured.description || "暂无描述。")}</p><div class="paper-tags">${topics}</div><a class="text-link" href="/projects/${featured.slug}">阅读项目档案 →</a></div><div class="project-poster-wrap"><div class="project-poster"><small>PROJECT FILE / 001</small><strong>${escapeHtml(repoInitials(featured.name))}</strong><span>${escapeHtml((featured.topics[0] || "REPO").toUpperCase())}</span></div></div></section>`;
+      featuredHtml = `<section class="featured-project"><div><p class="eyebrow">CURRENT PROJECT · ${escapeHtml(featured.language || "REPO")}</p><h2>${escapeHtml(featured.name)}</h2><p>${escapeHtml(featured.description || "暂无描述。")}</p><div class="paper-tags">${topics}</div><a class="text-link" href="${toIndex(`/projects/${featured.slug}`)}">阅读项目档案 →</a></div><div class="project-poster-wrap"><div class="project-poster"><small>PROJECT FILE / 001</small><strong>${escapeHtml(repoInitials(featured.name))}</strong><span>${escapeHtml((featured.topics[0] || "REPO").toUpperCase())}</span></div></div></section>`;
     }
     const gridHtml = rest.length
       ? `<section class="project-grid">${rest
           .map(
-            (p) => `<article><span class="status private">${escapeHtml(p.language || "REPO")}</span><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.description || "暂无描述。")}</p><a class="text-link" href="/projects/${p.slug}">查看档案 →</a></article>`,
+            (p) => `<article><span class="status private">${escapeHtml(p.language || "REPO")}</span><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.description || "暂无描述。")}</p><a class="text-link" href="${toIndex(`/projects/${p.slug}`)}">查看档案 →</a></article>`,
           )
           .join("")}</section>`
       : "";
@@ -344,7 +354,7 @@ ${snap}
 function aboutPage() {
   const cards = archiveCards
     .map(
-      (c) => `<a href="${c.href}"><small>${c.no}</small><b>${c.title}</b><span>→</span></a>`,
+      (c) => `<a href="${toIndex(c.href)}"><small>${c.no}</small><b>${c.title}</b><span>→</span></a>`,
     )
     .join("");
   const body = `<main class="public-page">
@@ -360,7 +370,7 @@ function articlePage(post) {
   const backHref = post.category === "notes" ? "/notes" : "/collections";
   const backLabel = post.category === "notes" ? "返回知识笔记" : "返回文学书架";
   const meta = [post.date, ...post.tags].filter(Boolean).join("　·　");
-  const body = `<main class="public-page"><article class="post-article"><a class="back-link" href="${backHref}">← ${backLabel}</a><p class="eyebrow">${escapeHtml(meta)}</p><h1>${escapeHtml(post.title)}</h1><div class="post-body">${post.html}</div></article></main>`;
+  const body = `<main class="public-page"><article class="post-article"><a class="back-link" href="${toIndex(backHref)}">← ${backLabel}</a><p class="eyebrow">${escapeHtml(meta)}</p><h1>${escapeHtml(post.title)}</h1><div class="post-body">${post.html}</div></article></main>`;
   return shell({ active: post.category === "notes" ? "notes" : "collections", title: `${post.title} · Hyhyhyyy Growth Archive`, description: post.excerpt, bodyHtml: body });
 }
 
@@ -370,7 +380,7 @@ function projectDetailPage(project) {
     project.topics.length > 0
       ? `<section class="project-story"><aside><p>TOPICS</p><span>${project.topics.length} 个标签</span></aside><div><h2>技术栈与主题</h2><div class="paper-tags">${project.topics.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>${project.homepage ? `<p><a class="text-link" href="${escapeHtml(project.homepage)}" target="_blank" rel="noopener noreferrer">访问项目主页 →</a></p>` : ""}</div></section>`
       : "";
-  const body = `<main class="public-page project-detail"><a class="back-link" href="/projects">← 返回项目</a><header><p class="eyebrow">PROJECT FILE · ${escapeHtml(project.language || "REPO")}</p><h1>${escapeHtml(project.name)}</h1><p>${escapeHtml(project.description || "暂无描述。")}</p></header><section class="project-meta"><div><small>REPO</small><b><a href="${escapeHtml(project.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(project.name)}</a></b></div><div><small>LANGUAGE</small><b>${escapeHtml(project.language || "—")}</b></div><div><small>STARS</small><b>${project.stars}</b></div><div><small>FORKS</small><b>${project.forks}</b></div></section>${topicsSection}<section class="project-scenes"><article class="done"><span>01</span><h3>仓库</h3><p>公开仓库，源码与提交历史可在 GitHub 查看。</p></article><article class="done"><span>02</span><h3>主题</h3><p>${project.topics.length ? escapeHtml(project.topics.join("、")) : "未标注主题"}</p></article><article class="done"><span>03</span><h3>活跃</h3><p>最近更新 ${updated}</p></article></section></main>`;
+  const body = `<main class="public-page project-detail"><a class="back-link" href="${toIndex("/projects")}">← 返回项目</a><header><p class="eyebrow">PROJECT FILE · ${escapeHtml(project.language || "REPO")}</p><h1>${escapeHtml(project.name)}</h1><p>${escapeHtml(project.description || "暂无描述。")}</p></header><section class="project-meta"><div><small>REPO</small><b><a href="${escapeHtml(project.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(project.name)}</a></b></div><div><small>LANGUAGE</small><b>${escapeHtml(project.language || "—")}</b></div><div><small>STARS</small><b>${project.stars}</b></div><div><small>FORKS</small><b>${project.forks}</b></div></section>${topicsSection}<section class="project-scenes"><article class="done"><span>01</span><h3>仓库</h3><p>公开仓库，源码与提交历史可在 GitHub 查看。</p></article><article class="done"><span>02</span><h3>主题</h3><p>${project.topics.length ? escapeHtml(project.topics.join("、")) : "未标注主题"}</p></article><article class="done"><span>03</span><h3>活跃</h3><p>最近更新 ${updated}</p></article></section></main>`;
   return shell({ active: "projects", title: `${project.name} · Hyhyhyyy Growth Archive`, description: project.description || project.name, bodyHtml: body });
 }
 
