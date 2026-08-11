@@ -34,17 +34,17 @@ type Layer = {
 
 // Far → near. Dense spacing for a fine water-line mesh; all pale/light.
 const LAYER_DEFS = [
-  { spacing: 58, flowAmp: 8, flowSpeed: 0.00040, reactive: 0.55, lineAlpha: 0.022, rgb: "196,190,178" },
-  { spacing: 38, flowAmp: 6, flowSpeed: 0.00062, reactive: 0.8, lineAlpha: 0.040, rgb: "190,156,144" },
-  { spacing: 28, flowAmp: 4, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.064, rgb: "214,142,112" },
+  { spacing: 58, flowAmp: 12, flowSpeed: 0.00040, reactive: 0.55, lineAlpha: 0.022, rgb: "196,190,178" },
+  { spacing: 38, flowAmp: 9, flowSpeed: 0.00062, reactive: 0.8, lineAlpha: 0.040, rgb: "190,156,144" },
+  { spacing: 28, flowAmp: 6, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.064, rgb: "214,142,112" },
 ];
 
 const PAPER = "#f3efe6"; // matches the site paper colour
-const RIPPLE_DAMP = 0.95; // wave energy retained per step (water-like, travels)
-const RIPPLE_GAIN = 0.7; // wave slope → line displacement
-const RIPPLE_INJECT = 0.7; // cursor energy injected per frame (visible on a light pass)
-const RIPPLE_GLOW = 0.013; // |height| → brightness boost per unit
-const MAXH = 28; // clamp so ripples stay subtle & stable
+const RIPPLE_DAMP = 0.96; // wave energy retained per step (water-like, travels far)
+const RIPPLE_GAIN = 1.15; // wave slope → line displacement (bigger warp = clearer waves)
+const RIPPLE_INJECT = 0.95; // cursor energy injected per frame (visible on a light pass)
+const RIPPLE_GLOW = 0.020; // |height| → brightness boost per unit
+const MAXH = 36; // clamp so ripples stay subtle & stable
 
 export default function HeroPhysics({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
