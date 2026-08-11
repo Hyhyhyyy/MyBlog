@@ -419,10 +419,10 @@ html.reading-focus .public-page,html.reading-focus .home-hero,html.reading-focus
 .record-editor{width:min(600px,100%);background:var(--raised);padding:30px;position:relative;box-shadow:0 20px 60px rgba(10,20,30,.25)}.record-editor h2{font:600 30px var(--serif)}.record-editor>label,.record-editor>div label{display:flex;flex-direction:column;gap:7px;font-size:11px;color:var(--muted);margin-top:13px}.record-editor input,.record-editor textarea{border:1px solid var(--line);background:#faf7f0;padding:11px;font:14px var(--serif);color:var(--ink)}.record-editor textarea{min-height:120px;resize:vertical}.record-editor>div{display:grid;grid-template-columns:1fr 1fr;gap:12px}.record-editor>.primary{width:100%;margin-top:18px;border:0;background:var(--oxblood);color:#fff;padding:12px}
 @media(max-width:680px){.record-list{grid-template-columns:1fr}.record-editor>div{grid-template-columns:1fr}.record-editor{padding:25px 18px}}
 
-/* Archive card size adjustment: make the three homepage cards more compact. */
-.archive-index{align-items:start;gap:20px}
-.archive-card{min-height:150px;padding:20px 24px;grid-template-columns:60px 1fr 22px;gap:16px}
-.card-mark{width:52px;height:52px;font:30px var(--display)}
-.archive-card h3{font-size:22px}
-.archive-card p{font-size:13px}
-.archive-card>span{font-size:20px}
+/* Archive cards: flat horizontal bars (wide, short), side by side in one row. */
+.archive-index{align-items:stretch;gap:20px}
+.archive-card{min-height:104px;padding:16px 24px;grid-template-columns:56px 1fr 22px;gap:16px;align-items:center}
+.card-mark{width:48px;height:48px;font:26px var(--display)}
+.archive-card h3{font-size:21px}
+.archive-card p{font-size:12.5px;line-height:1.5}
+.archive-card>span{font-size:18px}
