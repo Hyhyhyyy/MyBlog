@@ -2,7 +2,7 @@ import Link from "next/link";
 import { archiveCards } from "./content";
 import { Localized, PublicShell } from "./components/public-shell";
 import { InteractiveIndexTabs, PullBookmark, QuoteDrawer } from "./components/interactions";
-import { Reveal, Magnetic, ScrollProgress, Spotlight, TextGenerate, AnimatedNumber } from "./components/motion";
+import { Reveal, Magnetic, ScrollProgress, Spotlight, TextGenerate } from "./components/motion";
 
 export default function Home() {
   return (
@@ -81,24 +81,6 @@ export default function Home() {
           <p>
             公开页面呈现已经确认的作品、经历与思考；未完成的目标、学习进度与私人复盘留在工作台。每一条记录都能在未来成为项目时间线、文章素材或阶段成果。
           </p>
-        </Reveal>
-        <Reveal as="section" className="stat-band">
-          <div className="stat">
-            <AnimatedNumber className="stat-value" value={5} />
-            <span className="stat-label">成长档案章节</span>
-          </div>
-          <div className="stat">
-            <AnimatedNumber className="stat-value" value={2029} />
-            <span className="stat-label">书写起点</span>
-          </div>
-          <div className="stat">
-            <AnimatedNumber className="stat-value" value={100} suffix="%" />
-            <span className="stat-label">原始数据保留</span>
-          </div>
-          <div className="stat">
-            <span className="stat-value">∞</span>
-            <span className="stat-label">持续书写</span>
-          </div>
         </Reveal>
       </main>
     </PublicShell>
