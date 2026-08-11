@@ -1,15 +1,15 @@
 "use client";
 
-// hero-physics.tsx — pale, dense, line-only water-ripple grid that reacts to
-// the cursor. Rendered once from the root layout so it sits behind EVERY page.
+// hero-physics.tsx — soft, pale, VERTICAL wavy lines that react to the cursor.
+// Rendered once from the root layout so it sits behind EVERY page.
 //
-// Physics: each grid layer is a 2D wave field (height h, previous hp). A slow
-// sine "drift" keeps the mesh breathing on its own when idle; the cursor
-// injects energy into the wave field, which then propagates as expanding
-// concentric ripples drawn as warped grid lines. No dots — just lines. Three
-// pale layers at different (dense) spacing give a soft sense of depth. The
-// canvas paints the paper colour itself so it works as a global background.
-// Honors prefers-reduced-motion by drawing one calm static frame.
+// Each vertical line carries a gentle standing sine wave (slowly drifting) so
+// the background reads as a soft curtain of waves even at rest. A 2D wave
+// field (height h, previous hp) is injected by the cursor and propagates as
+// ripples that perturb the lines. No horizontal lines, no dots — only soft
+// vertical waves. Three pale layers at different density give depth. The
+// canvas paints the paper colour itself. Honors prefers-reduced-motion with a
+// calm static frame.
 
 import { useEffect, useRef } from "react";
 
@@ -19,7 +19,7 @@ type Layer = {
   nh: Float32Array; // scratch buffer
   bx: Float32Array; // base grid x
   by: Float32Array; // base grid y
-  px: Float32Array; // rendered x (drift + ripple)
+  px: Float32Array; // rendered x (wave + ripple)
   py: Float32Array; // rendered y (drift + ripple)
   phase: Float32Array; // per-node drift phase
   cols: number;
@@ -29,22 +29,25 @@ type Layer = {
   flowSpeed: number;
   reactive: number;
   lineAlpha: number;
+  waveAmp: number; // amplitude of the standing sine wave on each vertical line
   rgb: string;
 };
 
-// Far → near. Dense spacing for a fine water-line mesh; all pale/light.
+// Far → near. Dense spacing for fine vertical water lines; all pale/light.
 const LAYER_DEFS = [
-  { spacing: 58, flowAmp: 12, flowSpeed: 0.00040, reactive: 0.55, lineAlpha: 0.022, rgb: "196,190,178" },
-  { spacing: 38, flowAmp: 9, flowSpeed: 0.00062, reactive: 0.8, lineAlpha: 0.040, rgb: "190,156,144" },
-  { spacing: 28, flowAmp: 6, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.064, rgb: "214,142,112" },
+  { spacing: 58, flowAmp: 8, flowSpeed: 0.00040, reactive: 0.55, lineAlpha: 0.020, waveAmp: 5, rgb: "196,190,178" },
+  { spacing: 38, flowAmp: 6, flowSpeed: 0.00062, reactive: 0.8, lineAlpha: 0.036, waveAmp: 7, rgb: "190,156,144" },
+  { spacing: 28, flowAmp: 4, flowSpeed: 0.00095, reactive: 1.0, lineAlpha: 0.058, waveAmp: 9, rgb: "214,142,112" },
 ];
 
 const PAPER = "#f3efe6"; // matches the site paper colour
-const RIPPLE_DAMP = 0.96; // wave energy retained per step (water-like, travels far)
-const RIPPLE_GAIN = 1.15; // wave slope → line displacement (bigger warp = clearer waves)
-const RIPPLE_INJECT = 0.95; // cursor energy injected per frame (visible on a light pass)
-const RIPPLE_GLOW = 0.020; // |height| → brightness boost per unit
-const MAXH = 36; // clamp so ripples stay subtle & stable
+const WAVE_K = 0.018; // spatial frequency of the standing wave along each line
+const WAVE_SPEED = 0.0006; // slow drift of the wave
+const RIPPLE_DAMP = 0.94; // wave energy retained per step (settles softly)
+const RIPPLE_GAIN = 0.8; // ripple slope → line displacement (gentle)
+const RIPPLE_INJECT = 0.55; // cursor energy injected per frame (soft reaction)
+const RIPPLE_GLOW = 0.014; // |height| → brightness boost per unit
+const MAXH = 24; // clamp so ripples stay subtle & stable
 
 export default function HeroPhysics({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -135,7 +138,8 @@ export default function HeroPhysics({ className }: { className?: string }) {
         }
         for (let i = 0; i < n; i++) { hp[i] = h[i]; h[i] = nh[i]; }
 
-        // --- compute rendered positions: slow self-flow + ripple warp ---
+        // --- compute rendered positions: soft sine wave on each vertical line
+        //     + slow drift + ripple warp ---
         for (let i = 0; i < n; i++) {
           const c = i % cols, r = (i / cols) | 0;
           const l = c > 0 ? i - 1 : i;
@@ -144,34 +148,28 @@ export default function HeroPhysics({ className }: { className?: string }) {
           const d = r < rows - 1 ? i + cols : i;
           const gx = h[l] - h[rt];
           const gy = h[u] - h[d];
+          // gentle standing wave travelling down each column (out of phase per column)
+          const wave = Math.sin(by[i] * WAVE_K + t * WAVE_SPEED + c * 0.6) * L.waveAmp;
           const hx = bx[i]
-            + Math.sin(t * L.flowSpeed + phase[i]) * L.flowAmp
-            + Math.sin(t * L.flowSpeed * 0.6 + phase[i] * 1.7) * L.flowAmp * 0.4;
+            + Math.sin(t * L.flowSpeed + phase[i]) * L.flowAmp * 0.5
+            + Math.sin(t * L.flowSpeed * 0.6 + phase[i] * 1.7) * L.flowAmp * 0.2
+            + wave;
           const hy = by[i]
-            + Math.cos(t * L.flowSpeed * 0.9 + phase[i] * 1.3) * L.flowAmp * 0.7
-            + Math.cos(t * L.flowSpeed * 0.5 + phase[i] * 0.7) * L.flowAmp * 0.3;
+            + Math.cos(t * L.flowSpeed * 0.9 + phase[i] * 1.3) * L.flowAmp * 0.4
+            + Math.cos(t * L.flowSpeed * 0.5 + phase[i] * 0.7) * L.flowAmp * 0.15;
           px[i] = hx + gx * RIPPLE_GAIN;
           py[i] = hy + gy * RIPPLE_GAIN;
         }
 
-        // --- grid LINES only (warped by the ripple → visible rings) ---
+        // --- VERTICAL lines only (warped by the wave → soft wavy curtain) ---
         ctx.lineWidth = 1;
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
+        for (let c = 0; c < cols; c++) {
+          for (let r = 0; r < rows - 1; r++) {
             const i = r * cols + c;
-            const glow = Math.min(0.22, Math.abs(h[i]) * RIPPLE_GLOW);
-            if (c < cols - 1) {
-              const m = i + 1;
-              const g2 = Math.min(0.22, Math.abs(h[m]) * RIPPLE_GLOW);
-              ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + Math.max(glow, g2)).toFixed(3)})`;
-              ctx.beginPath(); ctx.moveTo(px[i], py[i]); ctx.lineTo(px[m], py[m]); ctx.stroke();
-            }
-            if (r < rows - 1) {
-              const m = i + cols;
-              const g2 = Math.min(0.22, Math.abs(h[m]) * RIPPLE_GLOW);
-              ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + Math.max(glow, g2)).toFixed(3)})`;
-              ctx.beginPath(); ctx.moveTo(px[i], py[i]); ctx.lineTo(px[m], py[m]); ctx.stroke();
-            }
+            const m = i + cols;
+            const glow = Math.min(0.20, Math.max(Math.abs(h[i]), Math.abs(h[m])) * RIPPLE_GLOW);
+            ctx.strokeStyle = `rgba(${L.rgb},${(L.lineAlpha + glow).toFixed(3)})`;
+            ctx.beginPath(); ctx.moveTo(px[i], py[i]); ctx.lineTo(px[m], py[m]); ctx.stroke();
           }
         }
       }
@@ -188,7 +186,7 @@ export default function HeroPhysics({ className }: { className?: string }) {
       mouse.active = true;
       // ripple relaxes when the cursor goes still.
       if (idleTimer) window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(() => { mouse.active = false; }, 140);
+      idleTimer = window.setTimeout(() => { mouse.active = false; }, 160);
     };
     const onLeave = () => { mouse.active = false; };
     const onResize = () => { dpr = Math.min(window.devicePixelRatio || 1, 2); build(); };
