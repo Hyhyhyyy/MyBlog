@@ -418,3 +418,11 @@ html.reading-focus .public-page,html.reading-focus .home-hero,html.reading-focus
 .record-list article>div{display:flex;justify-content:space-between}.record-list h3{font:600 20px var(--serif);margin:12px 0 7px}.record-list p{font-size:12px;line-height:1.65;color:var(--muted);min-height:40px}.record-list time{font-size:9px;color:#8c8275}.record-list footer{display:flex;gap:7px;margin-top:14px;padding-top:11px;border-top:1px solid var(--line)}.record-list footer button{border:1px solid var(--line);background:transparent;padding:6px 8px;font-size:9px}.record-list footer .danger{margin-left:auto;color:#8f3a31}
 .record-editor{width:min(600px,100%);background:var(--raised);padding:30px;position:relative;box-shadow:0 20px 60px rgba(10,20,30,.25)}.record-editor h2{font:600 30px var(--serif)}.record-editor>label,.record-editor>div label{display:flex;flex-direction:column;gap:7px;font-size:11px;color:var(--muted);margin-top:13px}.record-editor input,.record-editor textarea{border:1px solid var(--line);background:#faf7f0;padding:11px;font:14px var(--serif);color:var(--ink)}.record-editor textarea{min-height:120px;resize:vertical}.record-editor>div{display:grid;grid-template-columns:1fr 1fr;gap:12px}.record-editor>.primary{width:100%;margin-top:18px;border:0;background:var(--oxblood);color:#fff;padding:12px}
 @media(max-width:680px){.record-list{grid-template-columns:1fr}.record-editor>div{grid-template-columns:1fr}.record-editor{padding:25px 18px}}
+
+/* Archive card size adjustment: make the three homepage cards more compact. */
+.archive-index{align-items:start;gap:20px}
+.archive-card{min-height:150px;padding:20px 24px;grid-template-columns:60px 1fr 22px;gap:16px}
+.card-mark{width:52px;height:52px;font:30px var(--display)}
+.archive-card h3{font-size:22px}
+.archive-card p{font-size:13px}
+.archive-card>span{font-size:20px}
