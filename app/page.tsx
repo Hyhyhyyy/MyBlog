@@ -37,7 +37,6 @@ export default function Home() {
             <div className="paper main-paper">
               <small>GROWTH ARCHIVE<br />PERSONAL LIBRARY</small>
               <strong>HY</strong>
-              <em>EX LIBRIS</em>
               <span className="seal">HY</span>
             </div>
             <PullBookmark />
