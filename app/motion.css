@@ -126,4 +126,3 @@
 }
 .record-actions button.danger { color: #b23a2e; border-color: #e6b3ad; }
 .record-empty { color: var(--muted, #7a7064); padding: 18px; border: 1px dashed var(--line, #e2d8c3); border-radius: 12px; }
-.studio-notice { color: var(--muted, #7a7064); padding: 18px; background: var(--card, #fffdf7); border-radius: 12px; border: 1px solid var(--line, #e2d8c3); }

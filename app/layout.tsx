@@ -3,6 +3,7 @@ import { PwaRuntime } from "./components/pwa-runtime";
 import HeroPhysics from "./components/hero-physics";
 import "./globals.css";
 import "./motion.css";
+import "./blog.css";
 
 export const metadata: Metadata = {
   title: "Hyhyhyyy · Growth Archive",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "HYHY 工作台", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "HYHY 成长档案", statusBarStyle: "black-translucent" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

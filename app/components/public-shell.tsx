@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { publicNav } from "../content";
-import { getChatGPTUser } from "../chatgpt-auth";
 import { PublicUtilities } from "./interactions";
 
 export async function PublicShell({ children, active = "" }: { children: React.ReactNode; active?: string }) {
-  const user = await getChatGPTUser();
   return (
     <div className="paper-site">
       <header className="public-header">
@@ -13,12 +11,12 @@ export async function PublicShell({ children, active = "" }: { children: React.R
           {publicNav.map(([label, labelEn, href]) => <Link key={href} className={active === href.slice(1) ? "active" : ""} href={href}><span>{label}</span><small>{labelEn}</small></Link>)}
         </nav>
       </header>
-      <PublicUtilities isAdmin={Boolean(user)} />
+      <PublicUtilities />
       {children}
       <footer className="public-footer">
         <div><span className="seal">HY</span><b>Hyhyhyyy Growth Archive</b></div>
         <p>把走过的路，编成可翻阅的页。</p>
-        <div className="footer-links"><Link href="/timeline">时间线</Link><Link href="/collections">文学书架</Link><Link href="/about">关于</Link></div>
+        <div className="footer-links"><Link href="/projects">项目作品</Link><Link href="/collections">文学书架</Link><Link href="/about">关于</Link></div>
       </footer>
     </div>
   );

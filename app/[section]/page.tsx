@@ -1,95 +1,37 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { archiveCards, campusRoles } from "../content";
+import { archiveCards } from "../content";
 import { PublicShell, PageHeading } from "../components/public-shell";
-import { TimelineScrubber } from "../components/interactions";
 import { Reveal, TiltCard } from "../components/motion";
-import { eq, desc } from "drizzle-orm";
-import { getDb } from "../../db";
-import { records } from "../../db/schema";
+import { getPosts } from "../../lib/posts";
+import { getProjects, getGeneratedAt } from "../../lib/projects";
 
-const valid = ["timeline", "projects", "notes", "collections", "about"];
+const valid = ["projects", "notes", "collections", "about"];
 
-const CATEGORY_LABEL: Record<string, string> = {
-  goal: "目标", study: "学习", project: "项目", experience: "经历", achievement: "成果", review: "复盘",
-};
+function repoInitials(name: string): string {
+  const parts = name.split(/[-_\s]/).filter(Boolean);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
 
 export default async function SectionPage({ params }: { params: Promise<{ section: string }> }) {
   const { section } = await params;
   if (!valid.includes(section)) notFound();
 
-  let dbRecords: any[] = [];
-  if (section === "timeline") {
-    try {
-      const db = await getDb();
-      dbRecords = await db
-        .select()
-        .from(records)
-        .where(eq(records.visibility, "public"))
-        .orderBy(desc(records.startedAt));
-    } catch {
-      dbRecords = [];
-    }
-  }
-
+  const content = await renderSection(section);
   return (
     <PublicShell active={section}>
-      <main className="public-page">{renderSection(section, dbRecords)}</main>
+      <main className="public-page">{content}</main>
     </PublicShell>
   );
 }
 
-function renderSection(section: string, dbRecords: any[] = []) {
-  if (section === "timeline") {
-    const items = dbRecords.length
-      ? dbRecords.map((r) => (
-          <Reveal as="article" key={r.id}>
-            <div>
-              <span>RECORD</span>
-              <b>{r.startedAt || "时间待补充"}</b>
-            </div>
-            <div>
-              <p className="eyebrow">{(CATEGORY_LABEL[r.category] || r.category).toUpperCase()}</p>
-              <h2>{r.title}</h2>
-              <p>{r.description}</p>
-              <div className="paper-tags">
-                <span>{r.category}</span>
-                <span>{r.status}</span>
-              </div>
-            </div>
-          </Reveal>
-        ))
-      : null;
-    return (
-      <>
-        <PageHeading
-          eyebrow="ACTS & SCENES · PUBLIC ARCHIVE"
-          title="成长时间线"
-          titleEn="Growth Timeline"
-          intro="把校园、项目与思考放回发生的时间中。拖动章节轴，预览每一幕留下的痕迹。"
-          introEn="Campus life, projects and reflections returned to the moments in which they happened."
-          chapter="01"
-        />
-        <TimelineScrubber />
-        <section className="timeline-list">
-          {items}
-          <article className="timeline-empty">
-            <div>
-              <span>NEXT</span>
-              <b>未完待续</b>
-            </div>
-            <div>
-              <p className="eyebrow">THE NEXT SCENE</p>
-              <h2>下一幕尚未写下</h2>
-              <p>新的项目、活动、阅读与阶段成果将在管理员确认后进入这里。</p>
-            </div>
-          </article>
-        </section>
-      </>
-    );
-  }
-
-  if (section === "projects")
+async function renderSection(section: string) {
+  if (section === "projects") {
+    const projects = await getProjects();
+    const generatedAt = await getGeneratedAt();
+    const featured = projects[0];
+    const rest = projects.slice(1);
     return (
       <>
         <PageHeading
@@ -100,47 +42,79 @@ function renderSection(section: string, dbRecords: any[] = []) {
           introEn="Projects are creative records of questions, choices, iteration and validation—not merely finished results."
           chapter="02"
         />
-        <Reveal as="section" className="featured-project">
-          <div>
-            <p className="eyebrow">CURRENT PROJECT · IN PROGRESS</p>
-            <h2>Hyhyhyyy Growth Archive</h2>
-            <p>一个同时服务长期成长、日常学习、项目成果与公开表达的个人系统。当前正在完成信息架构与全站 UI。</p>
-            <div className="paper-tags">
-              <span>TypeScript</span>
-              <span>PWA</span>
-              <span>AI-assisted</span>
-              <span>Personal OS</span>
-            </div>
-            <Link className="text-link" href="/projects/growth-archive">
-              阅读项目档案 →
-            </Link>
-          </div>
-          <TiltCard className="poster-tilt">
-            <div className="project-poster">
-              <small>PROJECT FILE / 001</small>
-              <strong>GA</strong>
-              <span>IDEA → SYSTEM</span>
-            </div>
-          </TiltCard>
-        </Reveal>
-        <Reveal as="section" className="project-grid">
-          <article>
-            <span className="status private">PRIVATE DRAFT</span>
-            <h3>技术项目档案位</h3>
-            <p>从成长收件箱关联项目后，日报、材料与成果会自动汇入这里。</p>
-            <button>等待首次记录</button>
-          </article>
-          <article>
-            <span className="status private">PRIVATE DRAFT</span>
-            <h3>竞赛与作品档案位</h3>
-            <p>项目参加竞赛或形成实习成果时，将用途作为小标题同步展示。</p>
-            <button>等待首次记录</button>
-          </article>
-        </Reveal>
+        {projects.length === 0 ? (
+          <Reveal as="section" className="project-empty">
+            <p className="eyebrow">SNAPSHOT · 待填充</p>
+            <h2>公开仓库信息将在刷新后自动出现</h2>
+            <p>
+              本项目从{" "}
+              <a href="https://github.com/Hyhyhyyy" target="_blank" rel="noopener noreferrer">
+                github.com/Hyhyhyyy
+              </a>{" "}
+              的公开仓库读取数据，以静态快照形式呈现，不依赖运行时接口。
+            </p>
+            <p className="project-refresh">
+              在仓库根目录运行 <code>node scripts/fetch-projects.mjs</code>（可选设置{" "}
+              <code>GITHUB_TOKEN</code> 提高额度）即可生成 <code>data/projects.json</code>，提交后这里会展示真实仓库。
+            </p>
+            <a className="text-link" href="https://github.com/Hyhyhyyy" target="_blank" rel="noopener noreferrer">
+              前往 GitHub 主页 →
+            </a>
+          </Reveal>
+        ) : (
+          <>
+            {featured && (
+              <Reveal as="section" className="featured-project">
+                <div>
+                  <p className="eyebrow">CURRENT PROJECT · {featured.language || "REPO"}</p>
+                  <h2>{featured.name}</h2>
+                  <p>{featured.description || "暂无描述。"}</p>
+                  <div className="paper-tags">
+                    {featured.topics.length
+                      ? featured.topics.slice(0, 5).map((t) => <span key={t}>{t}</span>)
+                      : <span>{featured.language || "Repository"}</span>}
+                  </div>
+                  <Link className="text-link" href={`/projects/${featured.slug}`}>
+                    阅读项目档案 →
+                  </Link>
+                </div>
+                <TiltCard className="poster-tilt">
+                  <div className="project-poster">
+                    <small>PROJECT FILE / 001</small>
+                    <strong>{repoInitials(featured.name)}</strong>
+                    <span>{(featured.topics[0] || "REPO").toUpperCase()}</span>
+                  </div>
+                </TiltCard>
+              </Reveal>
+            )}
+            {rest.length > 0 && (
+              <Reveal as="section" className="project-grid">
+                {rest.map((p) => (
+                  <article key={p.slug}>
+                    <span className="status private">{p.language || "REPO"}</span>
+                    <h3>{p.name}</h3>
+                    <p>{p.description || "暂无描述。"}</p>
+                    <Link className="text-link" href={`/projects/${p.slug}`}>
+                      查看档案 →
+                    </Link>
+                  </article>
+                ))}
+              </Reveal>
+            )}
+          </>
+        )}
+        {generatedAt && (
+          <p className="project-snapshot-time">
+            数据快照生成于 {new Date(generatedAt).toLocaleDateString("zh-CN")}
+          </p>
+        )}
       </>
     );
+  }
 
-  if (section === "notes")
+  if (section === "notes") {
+    const posts = await getPosts("notes");
+    const tags = Array.from(new Set(posts.flatMap((p) => p.tags)));
     return (
       <>
         <PageHeading
@@ -154,30 +128,35 @@ function renderSection(section: string, dbRecords: any[] = []) {
         <Reveal as="section" className="note-layout">
           <aside>
             <p className="eyebrow">INDEX</p>
-            {["全部笔记", "计算机基础", "项目开发", "阅读批注", "思考片段"].map((x, i) => (
-              <button className={i === 0 ? "active" : ""} key={x}>
-                {String(i + 1).padStart(2, "0")}　{x}
-              </button>
-            ))}
+            <h3>标签</h3>
+            <div className="paper-tags">
+              {tags.length ? tags.map((t) => <span key={t}>{t}</span>) : <span>暂无</span>}
+            </div>
           </aside>
           <div className="notes-list">
-            <article>
-              <p className="eyebrow">PINNED · PERSONAL NOTE</p>
-              <h2>为什么要建立一份成长档案？</h2>
-              <p>不是为了把生活量化成漂亮数字，而是减少遗忘，让长期目标能够被每天真实发生的行动支撑。</p>
-              <small>设计札记 · 5 分钟阅读</small>
-            </article>
-            <article className="empty-note">
-              <span>＋</span>
-              <h3>第一篇公开知识笔记尚待写下</h3>
-              <p>AI 整理的内容会先进入私密草稿，确认后才会出现在这里。</p>
-            </article>
+            {posts.length === 0 && (
+              <article className="empty-note">
+                <span>＋</span>
+                <h3>第一篇公开知识笔记尚待写下</h3>
+                <p>在 content/posts 中以 Markdown 添加，构建时会自动生成这里。</p>
+              </article>
+            )}
+            {posts.map((post) => (
+              <Link className="notes-card" href={`/notes/${post.slug}`} key={post.slug}>
+                <p className="eyebrow">{post.date}</p>
+                <h2>{post.title}</h2>
+                <p>{post.excerpt}</p>
+                <small>{post.tags.join(" · ")}</small>
+              </Link>
+            ))}
           </div>
         </Reveal>
       </>
     );
+  }
 
-  if (section === "collections")
+  if (section === "collections") {
+    const posts = await getPosts("collections");
     return (
       <>
         <PageHeading
@@ -197,27 +176,29 @@ function renderSection(section: string, dbRecords: any[] = []) {
           <div>
             <h2>收藏作品，也收藏被作品照亮的瞬间。</h2>
             <p>这里不复制长篇文本、剧照或受保护的角色素材。每条收藏记录作品信息、短摘录、个人批注、发生时间与公开权限。</p>
-            <button className="outline-button">查看收藏规则</button>
+            <button className="outline-button" type="button">查看收藏规则</button>
           </div>
         </Reveal>
-        <Reveal as="section" className="shelves">
-          {[
-            ["小说 · NOVELS", "中英文小说阅读记录"],
-            ["戏剧 · THEATRE", "剧本、舞台与音乐剧体验"],
-            ["影视 · SCREEN", "电视剧与影像叙事"],
-            ["句段 · EXCERPTS", "短摘录与个人批注"],
-          ].map(([title, body]) => (
-            <article key={title}>
-              <span className="book-spine" />
-              <p className="eyebrow">SHELF</p>
-              <h3>{title}</h3>
-              <p>{body}</p>
-              <small>等待添加第一条收藏</small>
+        <Reveal as="section" className="notes-list collection-list">
+          {posts.length === 0 && (
+            <article className="empty-note">
+              <span>＋</span>
+              <h3>第一条收藏尚待写下</h3>
+              <p>在 content/posts 中以 category: collections 添加，构建时会自动生成这里。</p>
             </article>
+          )}
+          {posts.map((post) => (
+            <Link className="notes-card" href={`/collections/${post.slug}`} key={post.slug}>
+              <p className="eyebrow">{post.date}</p>
+              <h2>{post.title}</h2>
+              <p>{post.excerpt}</p>
+              <small>{post.tags.join(" · ")}</small>
+            </Link>
           ))}
         </Reveal>
       </>
     );
+  }
 
   return (
     <>
@@ -267,7 +248,7 @@ function renderSection(section: string, dbRecords: any[] = []) {
         <div>
           <span>此前</span>
           <h3>北京市十一学校</h3>
-          <p>初高中成长经历 · 是否公开可在工作台调整</p>
+          <p>初高中成长经历 · 内容已整理后公开</p>
         </div>
       </Reveal>
       <Reveal as="section" className="about-index">

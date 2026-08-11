@@ -21,7 +21,7 @@ export default function Home() {
                 <small>TO TRUTH AND FREEDOM.</small>
               </h2>
               <Magnetic>
-                <Link className="vermilion-button" href="/timeline">
+                <Link className="vermilion-button" href="/projects">
                   <Localized zh="翻阅成长档案" en="Explore the Archive" /> <span>→</span>
                 </Link>
               </Magnetic>
@@ -78,9 +78,9 @@ export default function Home() {
             <p className="eyebrow">ACT I · SCENE 01</p>
             <h2>成长不是一张完成表，<br />而是一部仍在书写的长篇。</h2>
           </div>
-          <p>
-            公开页面呈现已经确认的作品、经历与思考；未完成的目标、学习进度与私人复盘留在工作台。每一条记录都能在未来成为项目时间线、文章素材或阶段成果。
-          </p>
+            <p>
+              公开页面呈现已经确认的作品、经历与思考；其余草稿与私人复盘在本地整理。每一条记录都能在未来成为项目、文章素材或阶段成果。
+            </p>
         </Reveal>
       </main>
     </PublicShell>

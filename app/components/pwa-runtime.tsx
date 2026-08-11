@@ -38,6 +38,6 @@ export function PwaRuntime() {
 
   return <>
     {!online && <div className="offline-banner">当前离线：页面和草稿可继续查看，恢复网络后再同步记录与材料。</div>}
-    {installPrompt && <button className="pwa-install-toast" onClick={install}><b>安装 HYHY 工作台</b><span>添加到手机主屏幕　→</span></button>}
+    {installPrompt && <button className="pwa-install-toast" onClick={install}><b>安装 HYHY 成长档案</b><span>添加到手机主屏幕　→</span></button>}
   </>;
 }

@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Hyhyhyyy · 成长工作台",
-    short_name: "HYHY 工作台",
-    description: "目标、学习、项目、经历与成长记录的私人工作台。",
-    start_url: "/studio/today",
+    name: "Hyhyhyyy · 成长档案",
+    short_name: "HYHY 档案",
+    description: "一份可翻阅的个人成长档案：项目、笔记、文学书架与关于。",
+    start_url: "/",
     scope: "/",
     display: "standalone",
     background_color: "#eee9df",
@@ -17,9 +17,9 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/favicon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
     ],
     shortcuts: [
-      { name: "今日计划", short_name: "今日", url: "/studio/today" },
-      { name: "快速记录", short_name: "记录", url: "/studio/inbox" },
-      { name: "材料库", short_name: "材料", url: "/studio/archive" },
+      { name: "项目作品", short_name: "项目", url: "/projects" },
+      { name: "知识笔记", short_name: "笔记", url: "/notes" },
+      { name: "文学书架", short_name: "书架", url: "/collections" },
     ],
   };
 }

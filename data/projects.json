@@ -1,0 +1,6 @@
+{
+  "generatedAt": null,
+  "user": "Hyhyhyyy",
+  "projects": [],
+  "note": "Empty until populated. Run `node scripts/fetch-projects.mjs` (optionally with GITHUB_TOKEN) to snapshot public repos from https://github.com/Hyhyhyyy. The snapshot is committed so the site renders without a runtime API call."
+}
