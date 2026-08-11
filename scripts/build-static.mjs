@@ -229,7 +229,7 @@ function shell({ active = "", title, description, bodyHtml }) {
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(description)}" />
 <link rel="icon" href="/favicon.svg" />
-<link rel="stylesheet" href="/styles.css" />
+<link rel="stylesheet" href="/styles.css?v=${Date.now()}" />
 </head>
 <body>
 <div class="paper-site">
