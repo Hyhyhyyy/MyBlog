@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PwaRuntime } from "./components/pwa-runtime";
+import HeroPhysics from "./components/hero-physics";
 import "./globals.css";
 import "./motion.css";
 
@@ -15,7 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN">
-      <body>{children}<PwaRuntime /></body>
+      <body>
+        <HeroPhysics className="site-physics" />
+        {children}
+        <PwaRuntime />
+      </body>
     </html>
   );
 }

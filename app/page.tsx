@@ -2,7 +2,6 @@ import Link from "next/link";
 import { archiveCards } from "./content";
 import { Localized, PublicShell } from "./components/public-shell";
 import { InteractiveIndexTabs, PullBookmark, QuoteDrawer } from "./components/interactions";
-import HeroPhysics from "./components/hero-physics";
 import { Reveal, Magnetic, ScrollProgress, Spotlight, TextGenerate, AnimatedNumber } from "./components/motion";
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
       <ScrollProgress />
       <main>
         <section className="home-hero">
-          <HeroPhysics className="hero-physics" />
           <div className="hero-copy reveal-1">
             <Spotlight className="hero-spotlight">
               <p className="eyebrow">PERSONAL GROWTH ARCHIVE · 2029</p>
