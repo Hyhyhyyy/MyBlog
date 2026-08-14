@@ -1,0 +1,95 @@
+/* ============================================================
+   FlowingMenu — React Bits 组件原生移植（JS + CSS，无 React）
+   每行一个番茄系配色；悬停时番茄色跑马灯从最近边滑入。
+   依赖：gsap（已本地引入 gsap.min.js）
+   ============================================================ */
+
+/* 容器：固定高度、不透明白底，盖在 PixelBlast 像素背景之上保证可读 */
+.flowing-section{
+  position:relative;
+  z-index:1;
+  height:360px;            /* 普通页（关于页）占固定高度，四行各 ~90px */
+  background:#fff;
+  border-bottom:4px solid #000;
+  overflow:hidden;
+}
+/* 关键：#flowing-menu 是 JS 注入的容器 div，必须撑满 section，
+   否则 .menu-wrap/.menu 的 height:100% 整条链断裂，四行只能按内容高度挤成一团 */
+#flowing-menu{ height:100%; }
+/* 仅首页单屏布局、且桌面端时，为右上角固定的 Lanyard 身份卡预留右侧空间。
+   普通页（关于页）没有 Lanyard，不应留空。 */
+@media(min-width:1024px){
+  body.home .flowing-section{ padding-right:min(40vw,420px); }
+}
+
+.menu-wrap{ width:100%; height:100%; overflow:hidden; }
+.menu{ display:flex; flex-direction:column; height:100%; margin:0; padding:0; }
+
+.menu__item{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+  border-top:2px solid;     /* borderColor 由 JS 按每行番茄色注入 */
+}
+.menu__item:first-child{ border-top:none; }
+
+.menu__item-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  position:relative;
+  cursor:pointer;
+  text-transform:uppercase;
+  text-decoration:none;
+  white-space:nowrap;
+  font-family:var(--heavy);
+  font-weight:900;
+  font-size:clamp(26px,4.4vh,46px);
+  letter-spacing:-.01em;
+  /* 静止文字颜色 = 该行番茄色（由 JS 注入） */
+}
+.menu__item-link:hover{ color:inherit; }
+.menu__item-link:focus:not(:focus-visible){ color:inherit; }
+
+/* 悬停时滑入的跑马灯遮罩层 */
+.marquee{
+  position:absolute; top:0; left:0;
+  overflow:hidden;
+  width:100%; height:100%;
+  pointer-events:none;
+  visibility:hidden;                /* 初始隐藏，避免 JS 定位前闪现；gsap 接管后改为 visible */
+  /* backgroundColor = 该行番茄色（由 JS 注入） */
+}
+.marquee__inner-wrap{ height:100%; width:100%; overflow:hidden; }
+.marquee__inner{
+  display:flex; align-items:center;
+  position:relative; height:100%; width:fit-content;
+  will-change:transform;
+}
+.marquee__part{ display:flex; align-items:center; flex-shrink:0; }
+.marquee span{
+  white-space:nowrap;
+  text-transform:uppercase;
+  font-family:var(--heavy);
+  font-weight:900;
+  font-size:clamp(26px,4.4vh,46px);
+  letter-spacing:-.01em;
+  line-height:1;
+  padding:0 1vw;
+  /* color = 跑马灯文字色（由 JS 注入，浅底用深字 / 深底用白字） */
+}
+.marquee__img{
+  width:160px; height:6vh;
+  margin:0 2vw;
+  border-radius:4px;
+  background-size:cover; background-position:50% 50%;
+  border:2px solid rgba(0,0,0,.25);
+  /* backgroundImage = 番茄系渐变（由 JS 注入，免外网请求） */
+}
+
+/* 动效降级：尊重系统“减弱动态”偏好 */
+@media(prefers-reduced-motion:reduce){
+  .marquee{ display:none; }
+}

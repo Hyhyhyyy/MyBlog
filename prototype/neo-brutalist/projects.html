@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>项目 / PROJECTS — HYHY</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="gooey-nav.css" />
+  <style>
+    /* 单屏布局：body 不滚动，仅 ALL REPOSITORIES 列表内部滚动 */
+    body.projects-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+    .projects-page .section{ flex:1; min-height:0; display:flex; flex-direction:column; padding-top:18px; padding-bottom:18px; }
+    .projects-page .section-inner{ flex:1; min-height:0; display:flex; flex-direction:column; max-width:none; margin:0; padding-left:24px; padding-right:24px; }
+    .projects-page .eyebrow{ margin-bottom:4px; }
+    .projects-page h2{ margin:0 0 14px; font-size:clamp(28px,4vw,48px); }
+
+    .projects-layout{ flex:1; min-height:0; display:flex; gap:24px; overflow:hidden; }
+
+    /* 左侧：可滚动的 ALL REPOSITORIES */
+    .repo-sidebar{
+      width:42%; min-width:320px; max-width:560px;
+      display:flex; flex-direction:column;
+      border:4px solid #000; background:#fff; box-shadow:8px 8px 0 #000;
+    }
+    .repo-sidebar-head{
+      padding:12px 16px; border-bottom:4px solid #000;
+      font-family:var(--heavy); font-weight:900; font-size:16px; letter-spacing:.04em;
+      background:var(--red); color:#fff;
+    }
+    .all-list{
+      flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;
+      margin-top:0; padding:14px;
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px;
+    }
+    .all-list a{
+      display:block; border:3px solid #000; box-shadow:5px 5px 0 #000; background:#fff;
+      padding:12px; font-family:var(--mono); font-size:12px; transition:all .15s ease-out;
+    }
+    .all-list a:hover{ box-shadow:none; transform:translate(2px,2px); }
+    .all-list b{ font-family:var(--heavy); font-weight:900; font-size:15px; display:block; margin-bottom:4px; line-height:1.15; }
+
+    /* 右侧：堆叠卡片 */
+    .swap-wrap{ flex:1; position:relative; min-width:0; height:100%; margin:0; }
+    .swap-stage{ position:relative; width:100%; height:100%; }
+    .card-swap-container{
+      position:absolute; top:33%; left:36%;
+      width:680px; height:864px;
+      transform:translate(-50%,-50%) scale(min(1, calc((100vh - 180px) / 864)));
+      transform-origin:center center;
+      perspective:1100px;
+    }
+
+    .card{
+      position:absolute; top:50%; left:50%;
+      border:8px solid #000; background:#fff; box-shadow:16px 16px 0 #000;
+      padding:40px; overflow:hidden;
+      transform-style:preserve-3d; will-change:transform;
+      backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    }
+    .card .no{ font-family:var(--mono); font-size:24px; font-weight:700; letter-spacing:.14em; margin-bottom:24px; }
+    .card h3{ font-family:var(--heavy); font-weight:900; font-size:50px; margin:0; line-height:1.05; }
+    .card .meta{ font-family:var(--mono); font-size:24px; font-weight:700; margin-top:20px; display:flex; gap:14px; flex-wrap:wrap; }
+    .card .badge{ border:3px solid #000; padding:4px 14px; background:#fff; font-size:20px; }
+    .card .body{ font-family:var(--mono); font-size:26px; line-height:1.5; margin-top:26px; max-height:560px; overflow:auto; }
+    .card .body > :first-child{ margin-top:0; }
+    .card .body > :last-child{ margin-bottom:0; }
+    .card .body h1,.card .body h2,.card .body h3,.card .body h4{ font-family:var(--heavy); font-weight:900; line-height:1.15; margin:14px 0 8px; }
+    .card .body h1{ font-size:30px; }
+    .card .body h2{ font-size:25px; }
+    .card .body h3{ font-size:21px; }
+    .card .body h4{ font-size:18px; }
+    .card .body p{ margin:10px 0; }
+    .card .body ul,.card .body ol{ margin:10px 0; padding-left:28px; }
+    .card .body li{ margin:6px 0; }
+    .card .body code{ font-family:var(--mono); font-size:20px; background:rgba(0,0,0,.08); border:2px solid #000; padding:1px 6px; }
+    .card .body pre{ background:#000; color:#fff; border:3px solid #000; padding:14px; overflow:auto; margin:12px 0; }
+    .card .body pre code{ background:none; color:#fff; border:none; padding:0; font-size:18px; }
+    .card .body a{ color:inherit; text-decoration:underline; font-weight:700; }
+    .card .body strong{ font-weight:900; }
+    .card .body hr{ border:none; border-top:4px solid #000; margin:14px 0; }
+    .card .body img{ max-width:100%; height:auto; display:block; margin:12px 0; border:3px solid #000; background:#fff; }
+    .card .body svg{ max-width:100%; height:auto; display:block; margin:12px 0; }
+    .card--red{ background:var(--red); }
+    .card--green{ background:var(--green); }
+    .card--ink{ background:var(--black); color:#fff; }
+    .card--ink .badge{ background:#000; color:#fff; }
+    .card--ink .body code{ background:rgba(255,255,255,.16); }
+    .card--yellow{ background:var(--yellow); }
+
+    /* 单屏模式下隐藏页脚，避免出滚动条 */
+    .projects-page .footer{ display:none; }
+
+    @media(max-width:900px){
+      .projects-layout{ flex-direction:column; }
+      .repo-sidebar{ width:100%; max-width:none; min-width:auto; height:38%; }
+      .swap-wrap{ height:58%; }
+      .card-swap-container{ transform:translate(-50%,-50%) scale(min(1, calc((62vh - 80px) / 864))); }
+    }
+    @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
+  </style>
+</head>
+<body class="projects-page">
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">HYHY / GROWTH</a>
+      <div class="nav-links" data-gooey-nav></div>
+    </div>
+  </nav>
+
+  <!-- 项目展示 -->
+  <section class="section">
+    <div class="section-inner">
+      <p class="eyebrow">PROJECTS / 项目展示</p>
+      <h2>PROJECT SHOWCASE</h2>
+
+      <div class="projects-layout">
+        <aside class="repo-sidebar">
+          <div class="repo-sidebar-head">ALL REPOSITORIES</div>
+          <div class="all-list" id="all-list"></div>
+        </aside>
+
+        <div class="swap-wrap">
+          <div class="swap-stage">
+            <div class="card-swap-container" id="swap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <span class="logo">HYHY / GROWTH</span>
+        <p class="tag">持续书写的成长档案。</p>
+      </div>
+      <div>
+        <h4>导航</h4>
+        <ul>
+          <li><a href="index.html">首页</a></li>
+          <li><a href="projects.html">项目</a></li>
+          <li><a href="index.html">关于</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>联系</h4>
+        <ul>
+          <li><a href="https://github.com/Hyhyhyyy" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="gsap.min.js"></script>
+  <script src="gooey-nav.js"></script>
+  <script src="marked.min.js"></script>
+  <script src="data.js"></script>
+  <script src="projects.js"></script>
+</body>
+</html>

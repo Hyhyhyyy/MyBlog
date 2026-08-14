@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENTERTAINMENT / 娱乐合集 — HYHY</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="gooey-nav.css" />
+  <link rel="stylesheet" href="drift-wall.css" />
+  <style>
+    /* 单屏布局：整页禁止下滑，仅 DriftWall 自身为全屏交互 */
+    html, body{ height:100%; }
+    body.collections-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+    .collections-page .nav{ flex:0 0 auto; }
+    .drift-page{ flex:1 1 auto; min-height:0; position:relative; }
+    /* 覆盖原 .drift-section 的 100vh，改为填满父容器（单屏） */
+    .collections-page .drift-section{
+      position:relative; height:100%; overflow:hidden;
+      background:#000; border-top:4px solid #000; border-bottom:4px solid #000;
+      flex:1 1 auto; min-height:0;
+    }
+    .collections-page .footer{ display:none; }
+    @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
+  </style>
+</head>
+<body class="collections-page">
+
+  <!-- 导航 -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">HYHY / GROWTH</a>
+      <div class="nav-links" data-gooey-nav></div>
+    </div>
+  </nav>
+
+  <div class="drift-page">
+    <!-- 合集（全屏 DriftWall：番茄色块占位 + 上传封面随机永久占位） -->
+    <section class="drift-section" id="collections">
+      <div class="drift-head">
+        <p class="eyebrow">COLLECTIONS / 娱乐合集</p>
+        <h2>ENTERTAINMENT</h2>
+      </div>
+      <div class="drift-wall" id="dw"></div>
+      <!-- 添加合集功能已移除：仅开发者可通过控制台 window.__collections 维护 -->
+    </section>
+  </div>
+
+  <script src="gooey-nav.js"></script>
+  <script src="drift-wall.js"></script>
+  <script src="collections.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+/* ============================================================
+   TargetCursor (React Bits) — vanilla port, LIGHT MODE / GREEN
+   全站鼠标特效：绿色圆点 + 四角括号，悬停可交互元素时锁定四角。
+   颜色用品牌绿 #1FD17B（覆盖默认白），并去掉 mix-blend-mode 让绿色如实呈现。
+   依赖：全局 window.gsap（gsap.min.js）。
+   ============================================================ */
+
+.target-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9999;
+  /* 不使用 mix-blend-mode：保证绿色如实显示（覆盖白底）而不会反色成粉 */
+}
+
+.target-cursor-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: #1FD17B; /* 由 JS 用 cursorColor 以内联样式覆盖 */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.target-cursor-corner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border: 3px solid #1FD17B; /* 由 JS 用 cursorColor 以内联样式覆盖 */
+  will-change: transform;
+}
+
+.corner-tl {
+  transform: translate(-150%, -150%);
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-tr {
+  transform: translate(50%, -150%);
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-br {
+  transform: translate(50%, 50%);
+  border-left: none;
+  border-top: none;
+}
+
+.corner-bl {
+  transform: translate(-150%, 50%);
+  border-right: none;
+  border-top: none;
+}
+
+/* 减少动效偏好：仍保留圆点跟随，但关闭旋转/括号动画外的额外运动已足够克制 */
+@media (prefers-reduced-motion: reduce) {
+  .target-cursor-wrapper { display: none; }
+}

@@ -1,0 +1,48 @@
+/* ============================================================
+   Nav — 基础页面切换（最基础，无动效）
+   当前页：番茄红底白字；其余：黑字；hover：变红。
+   没有任何 transition / animation / 滤镜 / 粒子。
+   ============================================================ */
+
+.gooey-nav-container {
+  position: relative;
+}
+
+.gooey-nav-container nav {
+  display: flex;
+}
+
+.gooey-nav-container nav ul {
+  display: flex;
+  gap: 0.4em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--black);
+}
+
+.gooey-nav-container nav ul li {
+  position: relative;
+  cursor: pointer;
+  border-radius: 100vw;
+}
+
+.gooey-nav-container nav ul li a {
+  display: inline-block;
+  padding: 0.55em 1em;
+  font-family: var(--heavy);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  text-decoration: none;
+  border-radius: 100vw;
+}
+
+.gooey-nav-container nav ul li a:hover {
+  color: var(--red);
+}
+
+.gooey-nav-container nav ul li.active a {
+  color: #fff;
+  background: var(--red);
+}
