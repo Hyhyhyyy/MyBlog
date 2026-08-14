@@ -60,7 +60,20 @@
       flex: 1 1 auto;
       min-height: 0;
       width: 100%;
+      overflow: hidden; /* 裁剪等大阴影，避免溢出盖住标题/右栏 */
     }
+    /* 球面阴影装饰：等大的黑色圆，位于球右下后方（behind canvas） */
+    #infinite-menu-root .globe-shadow {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 0; height: 0;
+      border-radius: 50%;
+      background: #000;
+      z-index: 0;
+      pointer-events: none;
+      will-change: width, height, transform;
+    }
+    #infinite-menu-root canvas { position: relative; z-index: 1; }
     /* 右侧 1/6 留白页（用户另行设计） */
     .study-right {
       flex: 1 1 0;
@@ -104,7 +117,7 @@
           <p class="eyebrow">STUDY / 学习与感悟</p>
           <h2>LEARNING &amp; REFLECTION</h2>
         </header>
-        <div id="infinite-menu-root"></div>
+        <div id="infinite-menu-root"><div class="globe-shadow" id="globe-shadow"></div></div>
       </div>
       <!-- 右 1/6：三个文件夹（资料 / 笔记 / 感悟），点击展开白色文件 -->
       <aside class="study-right">
@@ -197,6 +210,10 @@
           return;
         }
         window.InfiniteMenuInit(root, STUDY_ITEMS, 1.0);
+        // 球面阴影装饰（等大的黑色圆，位于球右下后方）—— 由 sizeShadow 计算尺寸
+        sizeShadow();
+        setTimeout(sizeShadow, 200);
+        setTimeout(sizeShadow, 600);
 
         // 开发者入口：无限添加笔记（封面循环复用静物池）
         window.__study = {
@@ -233,6 +250,20 @@
           if (fq && fq.q) sk.control.orientation = fq.q;
           return true;
         };
+
+        // 球面阴影：等大的黑色圆，置于球右下后方（behind canvas）
+        function sizeShadow() {
+          var el = document.getElementById('globe-shadow');
+          if (!el || typeof window.__getGlobeScreenRadius !== 'function') return;
+          var r = window.__getGlobeScreenRadius();
+          if (!r || !isFinite(r)) return;
+          var d = r * 2 + 14;            // 等大（球心球直径）+ 少量余量容纳圆盘外延
+          var off = r * 0.33;            // 向右下偏移，落在球的右下后方（偏移足够大才会透出阴影而非铺满）
+          el.style.width = d + 'px';
+          el.style.height = d + 'px';
+          el.style.transform = 'translate(-50%, -50%) translate(' + off + 'px, ' + off + 'px)';
+        }
+        window.addEventListener('resize', sizeShadow);
       }
 
       if (document.readyState === 'loading') {

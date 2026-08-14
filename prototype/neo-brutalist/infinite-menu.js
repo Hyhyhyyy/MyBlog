@@ -738,6 +738,35 @@ void main() {
     sketch = new InfiniteGridMenu(canvas, items, handleActiveItem, handleMovement, function (sk) { sk.run(); }, scale || 1.0);
     window.__infiniteMenuSketch = sketch; // 开发者入口 addNote 需要引用
 
+    // 暴露：球心球在屏幕上的半径（px），供外部装饰阴影「等大」定位使用。
+    // 球心在原点、相机看向原点 → 投影后屏幕中心即球心；取所有圆盘中心到屏幕中心的最大距离。
+    window.__getGlobeScreenRadius = function () {
+      var sk = window.__infiniteMenuSketch;
+      if (!sk || !sk.instancePositions || !sk.camera) return null;
+      var proj = sk.camera.matrices.projection;
+      var view = sk.camera.matrices.view;
+      var w = sk.canvas.clientWidth, h = sk.canvas.clientHeight;
+      if (!w || !h) return null;
+      var vp = glMatrix.mat4.create();
+      glMatrix.mat4.multiply(vp, proj, view);
+      var maxR = 0;
+      var pos = sk.instancePositions;
+      for (var i = 0; i < pos.length; i++) {
+        var p = pos[i];
+        var v = glMatrix.vec4.fromValues(p[0], p[1], p[2], 1);
+        glMatrix.vec4.transformMat4(v, v, vp);
+        if (v[3] <= 1e-6) continue;
+        var ndcX = v[0] / v[3];
+        var ndcY = v[1] / v[3];
+        var sx = (ndcX + 1) * 0.5 * w;
+        var sy = (1 - (ndcY + 1) * 0.5) * h;
+        var dx = sx - w * 0.5, dy = sy - h * 0.5;
+        var r = Math.sqrt(dx * dx + dy * dy);
+        if (r > maxR) maxR = r;
+      }
+      return maxR;
+    };
+
     // 让首条真实笔记（实例 0 = 408 学习页）落在"可见侧"正对相机：因圆盘绘制在顶点对侧，
     // 需把实例 0 的顶点旋到 -snapDirection，其圆盘才会停在 +z 可见位置，与活动笔记严格对应。
     if (sketch && sketch.control && sketch.instancePositions) {
