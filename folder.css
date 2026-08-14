@@ -1,0 +1,146 @@
+/* ============================================================
+   Folder (React Bits) — vanilla port
+   用于学习页右侧 1/6 栏：三个桌面文件夹（绿/黄/红），
+   点击展开 -> 白色文件扇出。无内容卡片，仅动效。
+   ============================================================ */
+
+:root {
+  --paper-1: #e9e9e9;
+  --paper-2: #f4f4f4;
+  --paper-3: #ffffff;
+}
+
+.folder {
+  transition: transform 0.25s ease-in;
+  cursor: pointer;
+  width: 100px;
+  height: 80px;
+}
+
+.folder.open {
+  transform: translateY(-8px);
+}
+
+/* 颜色变体：主色 + 暗 8% 的背色（与首页 PixelBlast 配色一致） */
+.folder--green  { --folder-color: #1FD17B; --folder-back-color: #1CC071; }
+.folder--yellow { --folder-color: #FFD600; --folder-back-color: #EAC400; }
+.folder--red    { --folder-color: #FF4438; --folder-back-color: #EA3E33; }
+
+.folder__back {
+  position: relative;
+  width: 100px;
+  height: 80px;
+  background: var(--folder-back-color);
+  border-radius: 0px 10px 10px 10px;
+}
+
+.folder__back::after {
+  position: absolute;
+  z-index: 0;
+  bottom: 98%;
+  left: 0;
+  content: '';
+  width: 30px;
+  height: 10px;
+  background: var(--folder-back-color);
+  border-radius: 5px 5px 0 0;
+}
+
+.paper {
+  position: absolute;
+  z-index: 2;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  width: 70%;
+  height: 80%;
+  background: var(--paper-1);
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease-in-out;
+}
+
+.paper:nth-child(2) {
+  background: var(--paper-2);
+  width: 80%;
+  height: 70%;
+}
+
+.paper:nth-child(3) {
+  background: var(--paper-3);
+  width: 90%;
+  height: 60%;
+}
+
+.folder.open .paper:nth-child(1) {
+  transform: translate(-120%, -70%) rotateZ(-15deg);
+}
+.folder.open .paper:nth-child(1):hover {
+  transform: translate(-120%, -70%) rotateZ(-15deg) scale(1.08);
+}
+.folder.open .paper:nth-child(2) {
+  transform: translate(10%, -70%) rotateZ(15deg);
+  height: 80%;
+}
+.folder.open .paper:nth-child(2):hover {
+  transform: translate(10%, -70%) rotateZ(15deg) scale(1.08);
+}
+.folder.open .paper:nth-child(3) {
+  transform: translate(-50%, -100%) rotateZ(5deg);
+  height: 80%;
+}
+.folder.open .paper:nth-child(3):hover {
+  transform: translate(-50%, -100%) rotateZ(5deg) scale(1.08);
+}
+
+.folder__front {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background: var(--folder-color);
+  border-radius: 5px 10px 10px 10px;
+  transform-origin: bottom;
+  transition: transform 0.3s ease-in-out;
+}
+
+.folder.open .folder__front {
+  transform: skew(15deg) scaleY(0.6);
+}
+.folder.open .folder__front.right {
+  transform: skew(-15deg) scaleY(0.6);
+}
+
+.folder:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+/* 缩放容器：固定布局尺寸 = 缩放后尺寸，避免溢出重叠 */
+.folder-scale {
+  width: 150px;
+  height: 120px;
+  transform: scale(1.5);
+  transform-origin: top left;
+}
+
+/* 右侧栏内单个文件夹 + 标签 */
+.side-folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.side-folder__label {
+  font-family: var(--heavy);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--black);
+}
+
+@media (max-width: 900px) {
+  .folder-scale { width: 110px; height: 88px; transform: scale(1.1); }
+  .side-folder__label { font-size: 16px; }
+}

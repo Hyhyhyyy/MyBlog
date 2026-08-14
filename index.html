@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYHY · Growth Archive — Neo-Brutalist Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="drift-wall.css" />
+  <link rel="stylesheet" href="magic-bento.css" />
+  <link rel="stylesheet" href="gooey-nav.css" />
+  <link rel="stylesheet" href="lanyard.css" />
+  <link rel="stylesheet" href="target-cursor.css" />
+</head>
+<body class="home">
+
+  <!-- ===== PixelBlast 主页背景（WebGL2，红/绿/黄 随机生成） ===== -->
+  <canvas id="pixelblast-bg" aria-hidden="true"></canvas>
+
+  <!-- ===== 导航（保留博客架构） ===== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">HYHY / GROWTH</a>
+      <div class="nav-links" data-gooey-nav></div>
+    </div>
+  </nav>
+
+  <div class="main">
+
+  <!-- ===== 交互档案（MagicBento） ===== -->
+  <section class="section">
+    <div class="section-inner">
+      <div id="bento"></div>
+    </div>
+  </section>
+
+  <!-- ===== Hero 身份卡（物理引擎 Lanyard，完整可拉伸绳子） ===== -->
+  <section class="hero">
+    <!-- Lanyard 物理名片（React Bits 物理版）：Rapier + Three.js 渲染完整可拉伸绳子 -->
+    <div class="lanyard-slot">
+      <div id="lanyard-root"></div>
+    </div>
+  </section>
+
+  </div><!-- /.main -->
+
+  <script src="gsap.min.js"></script>
+  <script src="gooey-nav.js"></script>
+  <script src="pixel-blast.js"></script>
+  <script src="magic-bento.js"></script>
+  <!-- Lanyard 物理引擎 wasm 的 base：必须在加载 lanyard.js 之前设置。
+       相对当前页面解析到 ./lanyard-dist/assets/，适配任意 http 主机/端口。 -->
+  <script>window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;</script>
+  <script src="lanyard-dist/assets/lanyard.js"></script>
+  <script>
+    // 主页背景：PixelBlast（红/绿/黄 随机生成，示例灵感参数）
+    (function () {
+      'use strict';
+      function boot() {
+        var c = document.getElementById('pixelblast-bg');
+        if (!c || typeof window.PixelBlastInit !== 'function') return;
+        window.PixelBlastInit(c, {
+          variant: 'circle',
+          pixelSize: 85,
+          patternScale: 3,
+          patternDensity: 1.2,
+          pixelSizeJitter: 0.5,
+          enableRipples: true,
+          rippleSpeed: 0.4,
+          rippleThickness: 0.12,
+          rippleIntensityScale: 1.5,
+          liquid: true,
+          liquidStrength: 0.12,
+          liquidWobbleSpeed: 5,
+          speed: 0.6,
+          edgeFade: 0,
+          transparent: true
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else { boot(); }
+    })();
+  </script>
+
+  <!-- 全站绿色鼠标特效（React Bits TargetCursor 原生移植） -->
+  <script src="target-cursor.js"></script>
+  <script>
+    if (typeof window.TargetCursorInit === 'function') {
+      window.TargetCursorInit({ cursorColor: '#1FD17B', hideDefaultCursor: true, spinDuration: 2 });
+    }
+  </script>
+
+</body>
+</html>
