@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="gooey-nav.css" />
   <link rel="stylesheet" href="flowing-menu.css" />
   <link rel="stylesheet" href="text-pressure.css" />
+  <style>
+    /* 整页锁定：不可上下滑动，仅 .about-main 内部模块可滚动 */
+    html, body{ height:100%; }
+    body.about-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; background:var(--white); }
+    .about-page .nav{ flex:0 0 auto; }
+    .about-main{ flex:1 1 auto; min-height:0; overflow:auto; display:flex; flex-direction:column; }
+    .about-page .footer{ flex:0 0 auto; }
+    @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
+  </style>
 </head>
 <body class="about-page">
 
