@@ -118,11 +118,13 @@
   function initList() {
     const wrap = document.getElementById('all-list');
     if (!wrap) return;
-    ALL.forEach((p) => {
+    const spinePalette = ['#E02820', '#109654', '#000000', '#F2B705', '#1E6FB8', '#7A3FB5'];
+    ALL.forEach((p, i) => {
       const a = document.createElement('a');
       a.href = p.url || '#';
       a.target = '_blank';
       a.rel = 'noopener';
+      a.style.borderLeftColor = spinePalette[i % spinePalette.length];
       let html = '<b>' + escapeHtml(p.name) + '</b>';
       if (p.lang) html += '<span class="lang">' + escapeHtml(p.lang) + '</span>';
       html += '<div class="desc">' + escapeHtml((p.desc || '').slice(0, 80)) + '</div>';
