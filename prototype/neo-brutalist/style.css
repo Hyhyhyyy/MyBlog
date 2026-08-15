@@ -228,26 +228,13 @@ body.home .home-footer .footer-inner{ gap:20px; }
 }
 
 /* ============================================================
-   主页背景：纸张质感（暖白纸基 + 细颗粒噪声 + 轻微明暗晕影）
-   取代原 PixelBlast 彩色圆点背景。
+   主页背景：纯白（沿用 body 的 var(--white)，无纹理、无彩色圆）
    ============================================================ */
-body.home{
-  background-color:#F3EFE4;   /* 暖白纸基 */
-  background-image:
-    /* 细颗粒噪声（grayscale fractalNoise，multiply 叠加出纸面"齿感"） */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"),
-    /* 顶部偏亮、四周略深的暖色晕影，增加纸面层次 */
-    radial-gradient(130% 120% at 50% 0%, rgba(255,255,255,0.45), rgba(120,110,90,0.05) 65%, rgba(90,80,60,0.12));
-  background-size:200px 200px, 100% 100%;
-  background-repeat:repeat, no-repeat;
-  background-blend-mode:multiply, normal;
-  background-attachment:fixed, fixed;
-}
-/* 内容层抬到背景之上：导航/主区/页脚均盖在像素背景上 */
+/* 内容层抬到背景之上：导航/主区/页脚均盖在背景上 */
 body.home .nav{ z-index:50; position:sticky; }
 body.home .main{ position:relative; z-index:1; }
 body.home .home-footer{ position:relative; z-index:2; }
-/* 卡片/区块背景保持透明或浅色，让像素透出来 */
+/* 卡片/区块背景保持透明，露出纯白底 */
 body.home .section{ background:transparent; border-bottom:2px solid var(--black); }
 @media(min-width:768px){ body.home .section{ border-bottom-width:4px; } }
 /* 首页 bento 区：拉长占满左侧，右缘直达 Lanyard 名片左缘（卡片所在区域），
@@ -268,7 +255,7 @@ body.home .section{ background:transparent; border-bottom:2px solid var(--black)
   body.home .section:first-of-type #bento{ width:100%; }
 }
 body.home .hero{
-  background:transparent;     /* 身份卡叠在纸张背景上 */
+  background:transparent;     /* 身份卡叠在纯白背景上 */
 }
 
 /* ---------- 合集 DriftWall 全屏区 ---------- */
