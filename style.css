@@ -228,13 +228,14 @@ body.home .home-footer .footer-inner{ gap:20px; }
 }
 
 /* ============================================================
-   主页背景：纯白（沿用 body 的 var(--white)，无纹理、无彩色圆）
+   主页背景：DotField 点阵（见 DotField.css / DotField.js）
+   底色沿用 body 的纯白 var(--white)；点阵 canvas 在其上绘制。
    ============================================================ */
-/* 内容层抬到背景之上：导航/主区/页脚均盖在背景上 */
+/* 内容层抬到背景之上：导航/主区/页脚均盖在点阵之上（点阵 z-index:0） */
 body.home .nav{ z-index:50; position:sticky; }
 body.home .main{ position:relative; z-index:1; }
 body.home .home-footer{ position:relative; z-index:2; }
-/* 卡片/区块背景保持透明，露出纯白底 */
+/* 卡片/区块背景保持透明，露出点阵底 */
 body.home .section{ background:transparent; border-bottom:2px solid var(--black); }
 @media(min-width:768px){ body.home .section{ border-bottom-width:4px; } }
 /* 首页 bento 区：拉长占满左侧，右缘直达 Lanyard 名片左缘（卡片所在区域），
