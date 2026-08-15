@@ -11,8 +11,12 @@
   <link rel="stylesheet" href="gooey-nav.css" />
   <link rel="stylesheet" href="lanyard.css" />
   <link rel="stylesheet" href="target-cursor.css" />
+  <link rel="stylesheet" href="DotField.css" />
 </head>
 <body class="home">
+
+  <!-- ===== 主页背景：DotField 点阵（固定铺满视口，置于内容之下） ===== -->
+  <div class="dot-field-bg" id="dot-field-bg" aria-hidden="true"></div>
 
   <!-- ===== 导航（保留博客架构） ===== -->
   <nav class="nav">
@@ -44,6 +48,31 @@
   <script src="gsap.min.js"></script>
   <script src="gooey-nav.js"></script>
   <script src="magic-bento.js"></script>
+  <!-- 主页背景：DotField 点阵（React Bits 原生移植，取代纯白底；
+       鼠标附近点向外凸起 + 微光跟随，静止时回落为静态点阵） -->
+  <script src="DotField.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      function boot() {
+        var c = document.getElementById('dot-field-bg');
+        if (!c || typeof window.DotFieldInit !== 'function') return;
+        window.DotFieldInit(c, {
+          dotRadius: 1.5,
+          dotSpacing: 14,
+          cursorRadius: 500,
+          bulgeStrength: 67,
+          glowRadius: 160,
+          gradientFrom: 'rgba(255,68,56,0.35)',   /* 番茄红 */
+          gradientTo: 'rgba(31,209,123,0.35)',    /* 绿 */
+          glowColor: 'rgba(0,0,0,0.08)'
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else { boot(); }
+    })();
+  </script>
   <!-- Lanyard 物理引擎 wasm 的 base：必须在加载 lanyard.js 之前设置。
        相对当前页面解析到 ./lanyard-dist/assets/，适配任意 http 主机/端口。 -->
   <script>window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;</script>
