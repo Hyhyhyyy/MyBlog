@@ -228,16 +228,20 @@ body.home .home-footer .footer-inner{ gap:20px; }
 }
 
 /* ============================================================
-   主页 PixelBlast 背景（WebGL2 全屏，红/绿/黄 随机生成）
+   主页背景：纸张质感（暖白纸基 + 细颗粒噪声 + 轻微明暗晕影）
+   取代原 PixelBlast 彩色圆点背景。
    ============================================================ */
-#pixelblast-bg{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:0;                 /* 最底层 */
-  pointer-events:none;       /* 不拦截交互；点击涟漪由 window 监听转发 */
-  display:block;
+body.home{
+  background-color:#F3EFE4;   /* 暖白纸基 */
+  background-image:
+    /* 细颗粒噪声（grayscale fractalNoise，multiply 叠加出纸面"齿感"） */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"),
+    /* 顶部偏亮、四周略深的暖色晕影，增加纸面层次 */
+    radial-gradient(130% 120% at 50% 0%, rgba(255,255,255,0.45), rgba(120,110,90,0.05) 65%, rgba(90,80,60,0.12));
+  background-size:200px 200px, 100% 100%;
+  background-repeat:repeat, no-repeat;
+  background-blend-mode:multiply, normal;
+  background-attachment:fixed, fixed;
 }
 /* 内容层抬到背景之上：导航/主区/页脚均盖在像素背景上 */
 body.home .nav{ z-index:50; position:sticky; }
@@ -264,7 +268,7 @@ body.home .section{ background:transparent; border-bottom:2px solid var(--black)
   body.home .section:first-of-type #bento{ width:100%; }
 }
 body.home .hero{
-  background:transparent;     /* 身份卡叠在像素背景上 */
+  background:transparent;     /* 身份卡叠在纸张背景上 */
 }
 
 /* ---------- 合集 DriftWall 全屏区 ---------- */
