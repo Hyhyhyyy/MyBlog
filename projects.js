@@ -124,8 +124,8 @@
       a.target = '_blank';
       a.rel = 'noopener';
       let html = '<b>' + escapeHtml(p.name) + '</b>';
-      if (p.lang) html += '<br>' + escapeHtml(p.lang);
-      html += '<br>' + escapeHtml((p.desc || '').slice(0, 60));
+      if (p.lang) html += '<span class="lang">' + escapeHtml(p.lang) + '</span>';
+      html += '<div class="desc">' + escapeHtml((p.desc || '').slice(0, 80)) + '</div>';
       a.innerHTML = html;
       wrap.appendChild(a);
     });
