@@ -90,7 +90,7 @@
     }
     .hero__poster{
       width:100%;
-      max-width:360px;
+      max-width:clamp(320px, 88vw, 480px);
       height:auto;
       filter:drop-shadow(0 24px 60px rgba(18,11,4,.42));
       border:8px solid var(--ink);
@@ -287,7 +287,7 @@
 
   <main>
     <header class="hero">
-      <img class="hero__poster" src="hamilton-cover.svg" alt="Hamilton 汉密尔顿 复古戏剧风海报" />
+      <img class="hero__poster" src="hamilton-cover.jpg" alt="Hamilton 汉密尔顿 官方海报" />
       <p class="hero__caption">“America then, as told by America now.”</p>
       <p class="hero__scroll">SCROLL TO OPEN THE PLAYBILL</p>
     </header>
