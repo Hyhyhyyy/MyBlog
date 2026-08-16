@@ -11,7 +11,7 @@ const PLACEHOLDER_COUNT = 49; // 7 columns x ~7 → a dense, fully-filled wall
 
 function makePlaceholders() {
   const items = [{
-    image: 'hamilton-cover.svg',
+    image: 'hamilton-tile.svg',
     href: 'hamilton.html',
     title: 'Hamilton 汉密尔顿'
   }];
