@@ -135,8 +135,10 @@ function initDriftWall(container, props = {}) {
     if (item.href) {
       tile = document.createElement('a');
       tile.href = item.href;
-      tile.target = '_blank';
       tile.rel = 'noreferrer noopener';
+      // 预览面板多以 iframe 内嵌，弹窗(_blank)会被浏览器拦截导致"点击无反应"；
+      // 内嵌时改为同窗口跳转，独立浏览器中仍开新标签。
+      tile.target = (window.self !== window.top) ? '_self' : '_blank';
     } else {
       tile = document.createElement('div');
       tile.tabIndex = 0;
