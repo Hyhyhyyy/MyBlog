@@ -63,15 +63,15 @@
       z-index:2147483647; isolation:isolate;
     }
     .swap-hero .swap-stage{ position:absolute; inset:0; z-index:1; }
-    .swap-hero .card-swap-container{ top:18%; left:14%; }
+    .swap-hero .card-swap-container{ top:18%; left:50%; }
 
     /* 卡片堆叠相关（projects.js 依赖，原样保留） */
     .swap-wrap{ flex:1; position:relative; min-width:0; height:100%; margin:0; }
     .swap-stage{ position:relative; width:100%; height:100%; }
     .card-swap-container{
-      position:absolute; top:18%; left:14%;
+      position:absolute; top:18%; left:50%;
       width:680px; height:864px;
-      transform:translate(-50%,-50%) scale(min(1, calc((100vh - 200px) / 864)));
+      transform:translate(-50%,-50%) scale(min(2, calc(2 * (100vh - 200px) / 864)));
       transform-origin:center center;
       perspective:1100px;
       /* 模块本身也置于最高层，并建立独立层叠上下文，确保内部卡片不被任何同级块遮挡 */
