@@ -23,7 +23,7 @@ function initDriftWall(container, props = {}) {
     lift = 70,
     fade = 0.55,
     dim = 0.5,
-    planeScale = 1.28,
+    planeScale = 1.5,
     grayscale = false,
     overlayColor = '#240A07',
     className = '',
@@ -79,6 +79,16 @@ function initDriftWall(container, props = {}) {
   let lastTs = null;
   let raf = null;
   let containerHeight = container.clientHeight || window.innerHeight || 800;
+
+  // Responsive plane scale: guarantee the tilted plane always covers the full
+  // viewport width so no black gutters appear at the sides. Falls back to the
+  // caller-supplied planeScale when the viewport is narrow.
+  let planeScaleEff = planeScale;
+  function computePlaneScale() {
+    const planeBaseW = columns * (tileWidth + gap);
+    const needW = container.clientWidth / planeBaseW * 1.12;
+    planeScaleEff = Math.max(planeScale, needW);
+  }
 
   // Column assignment.
   // - Items WITHOUT a `col` field (placeholder blocks) are round-robined across
@@ -192,6 +202,7 @@ function initDriftWall(container, props = {}) {
       // fixed, non-drifting category label for columns that carry a category
       const cat = col.find(it => it.category);
       if (cat) {
+        colEl.classList.add('drift-wall__col--labeled');
         const label = document.createElement('div');
         label.className = 'drift-wall__col-label';
         label.textContent = cat.category;
@@ -212,7 +223,10 @@ function initDriftWall(container, props = {}) {
     offsets.length = 0;
     velocities.length = 0;
     meta.forEach((mm, c) => {
-      offsets[c] = mm.copyHeight * ((c * 0.37) % 1);
+      // Columns that carry a real content tile start at offset 0 so the cover
+      // is visible at a glance on load (instead of being scrolled out of view).
+      const hasContent = col.some(it => it.href && it.image);
+      offsets[c] = hasContent ? 0 : mm.copyHeight * ((c * 0.37) % 1);
       velocities[c] = 0;
     });
   }
@@ -220,6 +234,7 @@ function initDriftWall(container, props = {}) {
   function rebuild() {
     columnItems = splitColumns(itemsArr, columns);
     meta = computeMeta();
+    computePlaneScale();
     baseVelocities = computeVelocities();
     render();
   }
@@ -236,7 +251,7 @@ function initDriftWall(container, props = {}) {
     pointerDamped.x += (targetX - pointerDamped.x) * damp;
     pointerDamped.y += (targetY - pointerDamped.y) * damp;
     plane.style.transform =
-      `translate(-50%, -50%) scale(${planeScale}) ` +
+      `translate(-50%, -50%) scale(${planeScaleEff}) ` +
       `rotateX(${tilt + pointerDamped.y}deg) rotateY(${turn + pointerDamped.x}deg) rotateZ(${roll}deg) ` +
       `translateZ(${-depth}px)`;
 
@@ -296,6 +311,7 @@ function initDriftWall(container, props = {}) {
   const ro = new ResizeObserver(([entry]) => {
     containerHeight = entry.contentRect.height || containerHeight;
     meta = computeMeta();
+    computePlaneScale();
     render();
   });
   ro.observe(container);
