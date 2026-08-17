@@ -18,21 +18,10 @@
   --dw-gray: 0;
   --dw-overlay: #000000;
   --dw-edge: 45%;
-  /* Dark charcoal background with a subtle grid so any gaps between tiles
-     read as part of the design rather than as "black voids". */
-  background:
-    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
-    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.04) 0%, transparent 25%),
-    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.04) 0%, transparent 25%),
-    #18181d;
-  background-size: 44px 44px, 44px 44px, 88px 88px, 88px 88px, 100% 100%;
-  /* Only fade the top/bottom edges; radial masks were creating a dark hole in
-     the middle-left of the tilted plane. */
   -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    radial-gradient(ellipse 120% 120% at 50% 50%, #000 60%, transparent 100%);
   mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    radial-gradient(ellipse 120% 120% at 50% 50%, #000 60%, transparent 100%);
 }
 
 .drift-wall__plane {
@@ -51,12 +40,6 @@
   position: relative;
   width: calc(var(--dw-tile-w) + var(--dw-gap));
   transform-style: preserve-3d;
-}
-
-/* When a column carries a fixed category label, reserve space at the top so the
-   label never overlaps the (content) tile that leads the column. */
-.drift-wall__col--labeled {
-  padding-top: 38px;
 }
 
 /* Fixed category label pinned to the top of a column that carries a category
@@ -135,35 +118,9 @@
   position: absolute;
   inset: 0;
   background: var(--dw-overlay);
-  opacity: 0.18;
+  opacity: 0.42;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Real collection tiles (images with links) are always bright and never dimmed,
-   so they visually lead the wall and are easy to spot among placeholders. */
-.drift-wall__tile--content .drift-wall__inner {
-  opacity: 1;
-  border: 3px solid #ffffff;
-  box-shadow:
-    0 0 0 2px #141414,
-    0 18px 50px -12px rgba(0, 0, 0, 0.85);
-}
-
-.drift-wall__tile--content .drift-wall__overlay {
-  opacity: 0.1;
-}
-
-.drift-wall__tile--content img {
-  filter: grayscale(0) saturate(1.08);
-}
-
-.drift-wall__tile--content.is-active .drift-wall__inner,
-.drift-wall__tile--content:focus-visible .drift-wall__inner {
-  transform: translateZ(calc(var(--dw-lift) + 12px));
-  box-shadow:
-    0 0 0 2px #141414,
-    0 30px 70px -20px rgba(0, 0, 0, 0.9);
 }
 
 .drift-wall__tile.is-active .drift-wall__inner,
