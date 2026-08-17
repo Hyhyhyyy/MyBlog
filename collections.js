@@ -3,7 +3,7 @@
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v7';
+const STORAGE_KEY = 'hyhy_collections_v8';
 
 // Tomato-related palette for the placeholder blocks: reds + green + yellow.
 const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
@@ -13,15 +13,21 @@ function makePlaceholders() {
   const items = [{
     image: 'hamilton-tile.jpg',
     href: 'hamilton.html',
-    title: 'Hamilton 汉密尔顿'
+    title: 'Hamilton 汉密尔顿',
+    category: '音乐剧',
+    col: 3
   }, {
     image: 'woyu-ditan-tile.jpg',
     href: 'woyu-ditan.html',
-    title: '我与地坛 史铁生'
+    title: '我与地坛 史铁生',
+    category: '文学',
+    col: 2
   }, {
     image: 'legally-blonde-tile.jpg',
     href: 'legally-blonde.html',
-    title: '律政俏佳人 Legally Blonde'
+    title: '律政俏佳人 Legally Blonde',
+    category: '音乐剧',
+    col: 3
   }];
   for (let i = 0; i < PLACEHOLDER_COUNT; i++) {
     items.push({
