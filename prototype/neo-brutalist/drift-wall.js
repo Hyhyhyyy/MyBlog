@@ -23,6 +23,7 @@ function initDriftWall(container, props = {}) {
     lift = 70,
     fade = 0.55,
     dim = 0.5,
+    planeScale = 1.28,
     grayscale = false,
     overlayColor = '#240A07',
     className = '',
@@ -235,7 +236,7 @@ function initDriftWall(container, props = {}) {
     pointerDamped.x += (targetX - pointerDamped.x) * damp;
     pointerDamped.y += (targetY - pointerDamped.y) * damp;
     plane.style.transform =
-      `translate(-50%, -50%) scale(1.18) ` +
+      `translate(-50%, -50%) scale(${planeScale}) ` +
       `rotateX(${tilt + pointerDamped.y}deg) rotateY(${turn + pointerDamped.x}deg) rotateZ(${roll}deg) ` +
       `translateZ(${-depth}px)`;
 
