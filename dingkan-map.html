@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>顶刊顶会地图</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Patrick+Hand&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { --ink:#2c2c2c; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+    /* 纸张纹理：极淡的点状交叉，非渐变 */
+    background-color:#f5f0e8;
+    background-image:
+      radial-gradient(rgba(44,44,44,0.04) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .hand { font-family:'Patrick Hand','Ma Shan Zheng',cursive; }
+  .cn-hand { font-family:'Ma Shan Zheng','Patrick Hand',cursive; }
+  .filter-btn { background:#faf5ed; color:#2c2c2c; }
+  .filter-btn.active { background:#2c2c2c; color:#f5f0e8; }
+  /* 手绘阴影：硬偏移，模拟铅笔 */
+  .sk-shadow { box-shadow:2px 2px 0px rgba(44,44,44,0.3); }
+  .sk-shadow-sm { box-shadow:1px 1px 0px rgba(44,44,44,0.3); }
+  a.venue-link:hover { opacity:0.9; }
+  @media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
+</style>
+</head>
+
+<body class="bg-[#f5f0e8] text-[#2c2c2c]">
+
+  <!-- 导航栏 -->
+  <nav class="bg-[#f5f0e8] text-[#2c2c2c] border-b-2 border-dashed border-[#2c2c2c] px-4 md:px-6 lg:px-10 sticky top-0 z-20">
+    <div class="flex items-center justify-between max-w-6xl mx-auto gap-3 md:gap-5 py-3">
+      <a href="#top" class="cn-hand font-semibold text-xl md:text-2xl">📌 顶刊顶会地图</a>
+      <div class="flex gap-3 md:gap-5 text-xs md:text-sm font-semibold">
+        <a href="#sec-vlm" class="hover:opacity-90">多模态/VLM</a>
+        <a href="#sec-se" class="hover:opacity-90">软件工程</a>
+        <a href="#sec-ml" class="hover:opacity-90">通用AI/ML</a>
+        <a href="#sec-infra" class="hover:opacity-90">AI 基础设施</a>
+        <a href="#sec-tips" class="hover:opacity-90">投稿建议</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="top" class="bg-[#e8e2d8] py-12 md:py-20 px-4 md:px-6 lg:px-10 border-b-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="cn-hand text-3xl md:text-5xl lg:text-6xl font-semibold">顶刊顶会地图</h1>
+      <svg class="w-48 h-5 mx-auto mt-2" viewBox="0 0 200 20" fill="none" aria-hidden="true">
+        <path d="M2 12 Q 20 2 40 12 T 80 12 T 120 12 T 160 12 T 198 12" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <p class="font-sans text-sm md:text-base text-[#5a5a5a] max-w-xl mx-auto mt-4">
+        围绕三条主线整理：<b>多模态视觉语言模型（VLM）/ 医学影像</b>、<b>LLM + 软件工程 / 代码审查</b>，以及 <b>AI 基础设施（训练系统 / 体系结构 / 分布式）</b>。
+        以下为长期有效的官网入口，按研究方向分区、按 CCF 等级分级。
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="#sec-vlm" class="rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-4 py-2 text-sm hover:opacity-90 active:opacity-80">多模态 / VLM</a>
+        <a href="#sec-se" class="rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-4 py-2 text-sm hover:opacity-90 active:opacity-80">软件工程</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 说明 + 过滤器 -->
+  <section class="bg-[#f5f0e8] px-4 md:px-6 lg:px-10 py-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#faf5ed] sk-shadow-sm p-4 md:p-6 mb-6">
+        <p class="text-xs md:text-sm text-[#5a5a5a]">
+          📌 <b>CCF 等级</b> 依据《中国计算机学会推荐国际学术会议和期刊目录（2022）》：
+          <span class="font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-0.5 ml-1">CCF-A</span> 最高，
+          <span class="font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5 ml-1">CCF-B</span> 次高，
+          <span class="font-semibold bg-[#faf5ed] text-[#5a5a5a] border-2 border-dashed border-[#8a8a8a] rounded-sm px-2 py-0.5 ml-1">未列入</span> 为行业公认但暂未进入 CCF 主目录（如 MIDL / IPMI / TMLR）。
+          少数 venue（如 ICLR、EMNLP）的 CCF 归类存在版本差异，以官网最新目录为准。
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2 md:gap-3 mb-2">
+        <button class="filter-btn rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold px-3 py-1.5 text-sm active" data-filter="all">全部</button>
+        <button class="filter-btn rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold px-3 py-1.5 text-sm" data-filter="A">仅 CCF-A</button>
+        <button class="filter-btn rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold px-3 py-1.5 text-sm" data-filter="B">仅 CCF-B</button>
+        <button class="filter-btn rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold px-3 py-1.5 text-sm" data-filter="N">仅未列入</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分区一：多模态 / VLM / 医学影像 -->
+  <section id="sec-vlm" class="bg-[#f5f0e8] px-4 md:px-6 lg:px-10 py-10 md:py-16 border-t-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="cn-hand text-xl md:text-2xl font-semibold">① 多模态 / 视觉语言模型 / 医学影像</span>
+      </div>
+      <p class="text-sm md:text-base text-[#5a5a5a] mb-6">Qwen3-VL-4B 全参 SFT（WSI 医学域）这条线的主场。</p>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级会议</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 mb-8">
+        <!-- CVPR -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">CVPR</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">计算机视觉 · VLM 视觉侧最密集投稿地</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://cvpr.thecvf.com/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ICCV -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ICCV</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">计算机视觉 · 两年一届</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://iccv.thecvf.com/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ECCV -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ECCV</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">计算机视觉 · 两年一届</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://eccv.ecva.net/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- MICCAI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">MICCAI</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">医学图像计算 · WSI/医学域最对口</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://www.miccai.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- MIDL -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="N">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">MIDL</h3>
+            <span class="text-xs font-semibold bg-[#faf5ed] text-[#5a5a5a] border-2 border-dashed border-[#8a8a8a] rounded-sm px-2 py-1">未列入</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">医学成像 · 偏方法，小型顶会</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://midl.io/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- IPMI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="N">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">IPMI</h3>
+            <span class="text-xs font-semibold bg-[#faf5ed] text-[#5a5a5a] border-2 border-dashed border-[#8a8a8a] rounded-sm px-2 py-1">未列入</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">医学成像 · 偏方法，双年会</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://ipmi-school.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级期刊</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+        <!-- TPAMI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TPAMI</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">视觉/模式识别最高刊（IEEE）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=34" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- IJCV -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">IJCV</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">计算机视觉（Springer）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.springer.com/journal/11263" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- MIA -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">MIA</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Medical Image Analysis（Elsevier）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.sciencedirect.com/journal/medical-image-analysis" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TMI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TMI</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">IEEE Trans. Medical Imaging</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=42" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分区二：LLM + 软件工程 / 代码审查 -->
+  <section id="sec-se" class="bg-[#f5f0e8] px-4 md:px-6 lg:px-10 py-10 md:py-16 border-t-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="cn-hand text-xl md:text-2xl font-semibold">② LLM + 软件工程 / 代码审查</span>
+      </div>
+      <p class="text-sm md:text-base text-[#5a5a5a] mb-6">DSH Reviewer Bot（DeepSeek Harness 代码审查插件）这条线的主场。</p>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级会议</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 mb-8">
+        <!-- ICSE -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ICSE</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">软件工程旗舰会议</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/ICSE" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- FSE -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">FSE</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">软件工程基础 · 实证/工具</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/FSE" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ASE -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ASE</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">自动化软件工程</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/ASE" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ISSTA -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ISSTA</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">程序分析 / 测试 / 缺陷检测</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/ISSTA" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- MSR -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">MSR</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">软件仓库挖掘 · 代码审查实证</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/MSR" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- SANER -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">SANER</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">软件分析 / 演化 / 逆向</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/SANER" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ICSME -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ICSME</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">软件维护与演化</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://conf.researchr.org/series/ICSME" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级期刊</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+        <!-- TSE -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TSE</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">IEEE Trans. Software Engineering（SE 最高刊）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=32" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TOSEM -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TOSEM</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">ACM Trans. Software Engineering and Methodology</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://dl.acm.org/journal/tosem" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- EMSE -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">EMSE</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Empirical Software Engineering（Springer）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.springer.com/journal/10664" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ASE Journal -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ASE Journal</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Automated Software Engineering（Elsevier）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.sciencedirect.com/journal/automated-software-engineering" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- JSS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">JSS</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Journal of Systems and Software（Elsevier）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.sciencedirect.com/journal/journal-of-systems-and-software" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- IST -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">IST</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Information and Software Technology（Elsevier）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://www.sciencedirect.com/journal/information-and-software-technology" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分区三：通用 AI / ML 顶会（交叉投稿备选） -->
+  <section id="sec-ml" class="bg-[#f5f0e8] px-4 md:px-6 lg:px-10 py-10 md:py-16 border-t-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="cn-hand text-xl md:text-2xl font-semibold">③ 通用 AI / ML 顶会（交叉投稿备选）</span>
+      </div>
+      <p class="text-sm md:text-base text-[#5a5a5a] mb-6">方法创新、LLM 训练、Code-LLM 等大量交叉工作也投这里。</p>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级会议</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 mb-8">
+        <!-- NeurIPS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">NeurIPS</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">机器学习方法 / 理论</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://neurips.cc/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ICML -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ICML</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">机器学习 · 训练策略 / 优化</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://icml.cc/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ICLR -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ICLR</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">深度学习 · 开放投稿 / 方法创新</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://iclr.cc/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- AAAI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">AAAI</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">综合人工智能</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://aaai.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- IJCAI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">IJCAI</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">综合人工智能</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://ijcai.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ACL -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ACL</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">NLP / LLM · 语言侧</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://www.aclweb.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- EMNLP -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">EMNLP</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">NLP / LLM · 实证 / 评测</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://aclanthology.org/venues/emnlp/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级期刊</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+        <!-- JMLR -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">JMLR</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Journal of Machine Learning Research</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://jmlr.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TMLR -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="N">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TMLR</h3>
+            <span class="text-xs font-semibold bg-[#faf5ed] text-[#5a5a5a] border-2 border-dashed border-[#8a8a8a] rounded-sm px-2 py-1">未列入</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Transactions on Machine Learning Research（新刊）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://jmlr.org/tmlr/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TACL -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TACL</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">Transactions of the ACL（语言侧）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://transacl.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分区四：AI 基础设施（训练系统 / 体系结构 / 分布式） -->
+  <section id="sec-infra" class="bg-[#f5f0e8] px-4 md:px-6 lg:px-10 py-10 md:py-16 border-t-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="cn-hand text-xl md:text-2xl font-semibold">④ AI 基础设施（训练系统 / 体系结构 / 分布式）</span>
+      </div>
+      <p class="text-sm md:text-base text-[#5a5a5a] mb-6">LLaMA-Factory 训练、A100 分布式训练、ML 加速器与调度这条线的主场。</p>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级会议</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 mb-8">
+        <!-- MLSys -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="N">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">MLSys</h3>
+            <span class="text-xs font-semibold bg-[#faf5ed] text-[#5a5a5a] border-2 border-dashed border-[#8a8a8a] rounded-sm px-2 py-1">未列入</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">机器学习系统旗舰会议 · 最对口</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://mlsys.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- OSDI -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">OSDI</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">操作系统设计与实现 · 分布式训练系统</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://www.usenix.org/conferences/byname/925" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- SOSP -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">SOSP</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">操作系统原理 · 系统</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://sigops.org/s/conferences/sosp/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ATC -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">USENIX ATC</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">USENIX 年度技术会议 · 系统</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://www.usenix.org/conferences/byname/17" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ASPLOS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ASPLOS</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">体系结构 + 系统 · ML 加速器</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://asplos-conference.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- ISCA -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">ISCA</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">计算机体系结构 · 加速器</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://iscaconf.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- SC -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">SC</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">超算 / 高性能计算（HPC）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://sc-conference.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- EuroSys -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">EuroSys</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">欧洲系统会议</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">会议</span>
+          <div class="mt-4">
+            <a href="https://www.eurosys.org/" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="hand text-lg md:text-xl font-semibold mb-3">📍 顶级期刊</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+        <!-- TPDS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TPDS</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">IEEE Trans. Parallel and Distributed Systems</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=71" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TC -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TC</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">IEEE Trans. Computers（计算机）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=12" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TOCS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[1deg]" data-grade="A">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TOCS</h3>
+            <span class="text-xs font-semibold bg-[#2c2c2c] text-[#f5f0e8] rounded-sm px-2 py-1">CCF-A</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">ACM Trans. Computer Systems（计算机系统）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://dl.acm.org/journal/tocs" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+        <!-- TOS -->
+        <div class="venue-card rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow p-4 md:p-6 hover:opacity-90 transition-opacity duration-200 rotate-[-1deg]" data-grade="B">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <h3 class="hand font-semibold text-lg md:text-xl">TOS</h3>
+            <span class="text-xs font-semibold bg-[#e8e2d8] text-[#2c2c2c] border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-1">CCF-B</span>
+          </div>
+          <p class="text-sm text-[#5a5a5a] mb-3">ACM Trans. Storage（存储系统）</p>
+          <span class="text-xs font-semibold border-2 border-dashed border-[#2c2c2c] rounded-sm px-2 py-0.5">期刊</span>
+          <div class="mt-4">
+            <a href="https://dl.acm.org/journal/tos" target="_blank" rel="noopener" class="venue-link inline-block rounded-sm border-2 border-dashed border-[#2c2c2c] transition-opacity duration-200 font-semibold bg-[#2c2c2c] text-[#f5f0e8] px-3 py-1.5 text-sm">前往官网 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 投稿建议 -->
+  <section id="sec-tips" class="bg-[#e8e2d8] px-4 md:px-6 lg:px-10 py-10 md:py-16 border-t-2 border-dashed border-[#2c2c2c]">
+    <div class="max-w-4xl mx-auto">
+      <span class="cn-hand text-xl md:text-2xl font-semibold">📝 怎么选（实用建议）</span>
+      <div class="mt-4 space-y-3">
+        <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow-sm p-4">
+          <p class="text-sm md:text-base"><b>偏方法 / 训练创新</b>（VLM 架构、微调策略）→ NeurIPS / ICML / ICLR / ACL</p>
+        </div>
+        <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow-sm p-4">
+          <p class="text-sm md:text-base"><b>偏视觉 / 医学落地</b>（WSI 诊断、视觉编码）→ CVPR / ICCV / MICCAI / MIDL</p>
+        </div>
+        <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow-sm p-4">
+          <p class="text-sm md:text-base"><b>偏代码审查工具 / 实证</b>（DSH Reviewer Bot 评测、Agent 效果）→ ICSE / FSE / ASE / TSE</p>
+        </div>
+        <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow-sm p-4">
+          <p class="text-sm md:text-base"><b>偏训练系统 / 加速器 / 分布式</b>（LLaMA-Factory、A100 训练、调度）→ MLSys / OSDI / ATC / SC / ASPLOS / ISCA</p>
+        </div>
+        <div class="rounded-sm border-2 border-dashed border-[#2c2c2c] bg-[#f5f0e8] sk-shadow-sm p-4">
+          <p class="text-sm md:text-base"><b>先读后投</b>：在最新 proceedings 里搜 <code>vision-language model</code> / <code>code review</code> / <code>LLM agent SE</code> / <code>ML systems</code>，确认对口 track 与审稿口味再定目标 venue。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="bg-[#2c2c2c] text-[#f5f0e8] py-10 md:py-16 px-4 md:px-6 lg:px-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
+        <div>
+          <span class="cn-hand text-xl md:text-2xl">📌 顶刊顶会地图</span>
+          <p class="text-xs md:text-sm text-[#e8e2d8] mt-2">围绕 VLM / 医学影像、AI4SE 与 AI 基础设施（训练系统 / 体系结构 / 分布式）三条研究主线整理的长期导航。</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-lg">分区入口</h4>
+          <ul class="text-xs md:text-sm mt-2 space-y-1">
+            <li><a href="#sec-vlm" class="hover:opacity-90 underline decoration-dashed">① 多模态 / VLM</a></li>
+            <li><a href="#sec-se" class="hover:opacity-90 underline decoration-dashed">② 软件工程</a></li>
+            <li><a href="#sec-ml" class="hover:opacity-90 underline decoration-dashed">③ 通用 AI/ML</a></li>
+            <li><a href="#sec-infra" class="hover:opacity-90 underline decoration-dashed">④ AI 基础设施</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-lg">说明</h4>
+          <p class="text-xs md:text-sm text-[#e8e2d8] mt-2">链接均指向学会 / 系列官方站，长期有效；CCF 等级以官网最新目录为准。</p>
+        </div>
+      </div>
+      <p class="text-xs text-[#a0a0a0] mt-8">手绘风导航 · 自包含 HTML · 仅作个人研究参考</p>
+    </div>
+  </footer>
+
+  <script>
+    const btns = document.querySelectorAll('[data-filter]');
+    const cards = document.querySelectorAll('.venue-card');
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        const f = b.getAttribute('data-filter');
+        cards.forEach(function (c) {
+          const g = c.getAttribute('data-grade');
+          c.style.display = (f === 'all' || g === f) ? '' : 'none';
+        });
+        btns.forEach(function (x) { x.classList.remove('active'); });
+        b.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
