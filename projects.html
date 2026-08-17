@@ -110,6 +110,16 @@
     .card .body hr{ border:none; border-top:4px solid #000; margin:14px 0; }
     .card .body img{ max-width:100%; height:auto; display:block; margin:12px 0; border:3px solid #000; background:#fff; }
     .card .body svg{ max-width:100%; height:auto; display:block; margin:12px 0; }
+
+    /* 把 readme 里的 shields 徽章（独占一个 <p> 的 <img> 或 <a><img>）缩小并排到同一横行 */
+    .card .body p:has(> img:only-child),
+    .card .body p:has(> a:only-child > img:only-child){
+      display:inline-block; margin:2px 6px 2px 0; vertical-align:middle;
+    }
+    .card .body p:has(> img:only-child) img,
+    .card .body p:has(> a:only-child > img:only-child) img{
+      display:inline-block; height:1.2em; width:auto; vertical-align:middle; border:none; margin:0;
+    }
     .card--red{ background:var(--red); }
     .card--green{ background:var(--green); }
     .card--ink{ background:var(--black); color:#fff; }
