@@ -1,428 +1,375 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hamilton 汉密尔顿 — 复古戏剧风介绍 | HYHY</title>
-  <meta name="description" content="关于音乐剧《汉密尔顿》(Hamilton) 的中文介绍：创作背景、剧情、经典台词、音乐与卡司、舞台艺术与奖项影响。" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --ink:#1c140a;
-      --parchment:#f3e7c9;
-      --parchment-2:#e8d8b0;
-      --parchment-dark:#cdbb96;
-      --cream:#faf3df;
-      --crimson:#7c1d1d;
-      --crimson-light:#a83636;
-      --gold:#b9912f;
-      --gold-light:#e3c56c;
-      --shadow:0 18px 60px rgba(28,20,10,0.28);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>汉密尔顿 · 音乐剧 HAMILTON — 娱乐合集</title>
+<meta name="description" content="关于音乐剧《汉密尔顿》(Hamilton) 的中文介绍：创作背景、剧情、创作团队、角色卡司、按幕曲目、制作年表、奖项与文化影响。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#141414;
+    --gold:#c9a227;
+    --gold-light:#e8c75a;
+    --gold-bg:#f3e7c2;
+    --cream:#f5edd6;
+    --crimson:#7c1d1d;
+    --border:3px solid var(--ink);
+    --shadow:6px 6px 0 var(--ink);
+    --shadow-sm:4px 4px 0 var(--ink);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--cream);color:var(--ink);
+    font-family:"Noto Sans SC","Space Mono",system-ui,sans-serif;line-height:1.75;
+    background-image:radial-gradient(var(--gold-bg) 1.5px, transparent 1.5px);
+    background-size:22px 22px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px 80px;}
 
-    *,*::before,*::after{ box-sizing:border-box; }
+  .topbar{
+    position:sticky;top:0;z-index:20;background:var(--ink);
+    border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;
+    padding:10px 18px;flex-wrap:wrap;gap:8px;
+  }
+  .topbar .brand{font-family:"Archivo Black",sans-serif;color:var(--gold-light);letter-spacing:1px;font-size:15px;}
+  .topbar .nav{display:flex;gap:8px;flex-wrap:wrap;}
+  .topbar .nav a{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:11px;
+    background:var(--cream);color:var(--ink);text-decoration:none;
+    border:2px solid var(--ink);padding:4px 9px;box-shadow:var(--shadow-sm);
+  }
+  .topbar .nav a:hover{background:var(--gold-light);}
 
-    html{
-      scroll-behavior:smooth;
-      background:#1c140a;
-    }
-    body{
-      margin:0;
-      font-family:"Noto Serif SC", "Songti SC", "SimSun", serif;
-      color:var(--ink);
-      line-height:1.85;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.16) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 100%, rgba(124,29,29,.10) 0%, transparent 45%),
-        linear-gradient(180deg, #f3e7c9 0%, #e8d8b0 50%, #d9c8a3 100%);
-      position:relative;
-    }
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none; z-index:0;
-      background:
-        repeating-linear-gradient(0deg, rgba(28,20,10,.04) 0px, rgba(28,20,10,0) 1px, rgba(28,20,10,0) 3px),
-        repeating-linear-gradient(90deg, rgba(28,20,10,.03) 0px, rgba(28,20,10,0) 1px, rgba(28,20,10,0) 3px);
-      mix-blend-mode:multiply;
-    }
-    body::after{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none; z-index:1;
-      background:radial-gradient(ellipse at 50% 35%, transparent 0%, rgba(18,11,4,.18) 100%);
-    }
+  /* hero = the cover / key-art poster */
+  .hero-cover{
+    margin-top:26px;border:var(--border);box-shadow:var(--shadow);background:#fff;
+    padding:14px;display:flex;justify-content:center;
+  }
+  .hero-cover img{
+    display:block;width:100%;max-width:420px;height:auto;
+    border:var(--border);box-shadow:var(--shadow-sm);
+  }
+  .hero__title{
+    margin:26px 0 0;font-family:"Archivo Black",sans-serif;
+    font-size:clamp(40px,10vw,92px);line-height:.95;color:var(--gold);
+    text-shadow:4px 4px 0 var(--ink);letter-spacing:1px;
+  }
+  .hero__sub{
+    margin:8px 0 0;font-weight:700;font-size:clamp(16px,3.4vw,24px);
+    background:var(--ink);color:var(--cream);display:inline-block;padding:4px 12px;
+  }
+  .lede{margin-top:22px;font-size:16px;}
 
-    a{ color:var(--crimson); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s; }
-    a:hover{ border-bottom-color:var(--crimson); }
+  section{margin-top:54px;}
+  .sec__head{
+    display:inline-block;background:var(--gold);color:var(--ink);
+    border:var(--border);box-shadow:var(--shadow-sm);
+    font-family:"Archivo Black",sans-serif;font-size:clamp(20px,4vw,30px);
+    padding:6px 16px;margin:0 0 18px;transform:rotate(-1deg);
+  }
+  .card{
+    background:#fff;border:var(--border);box-shadow:var(--shadow);
+    padding:22px 24px;margin-bottom:22px;
+  }
+  .card.gold{background:var(--gold-bg);}
+  p{margin:0 0 14px;}
+  strong{background:var(--gold-light);padding:0 4px;box-shadow:2px 2px 0 var(--ink);}
+  em{color:var(--crimson);font-style:normal;font-weight:700;}
 
-    /* top nav */
-    .stage-nav{
-      position:sticky; top:0; z-index:50;
-      background:var(--ink);
-      border-bottom:3px solid var(--gold);
-      box-shadow:0 4px 24px rgba(0,0,0,.35);
-    }
-    .stage-nav__inner{
-      max-width:1100px; margin:0 auto; padding:0 24px;
-      display:flex; align-items:center; justify-content:space-between; min-height:56px;
-    }
-    .stage-nav a{ color:var(--gold-light); border-bottom:none; font-family:"Playfair Display", Georgia, serif; letter-spacing:.06em; }
-    .stage-nav a:hover{ color:var(--cream); }
-    .stage-nav__brand{ font-weight:700; font-size:1.1rem; }
-    .stage-nav__links{ display:flex; gap:22px; font-size:.92rem; }
+  /* 基本信息信息卡 */
+  .infobox{border:var(--border);box-shadow:var(--shadow);background:#fff;margin-bottom:22px;overflow:hidden;}
+  .infobox__title{background:var(--ink);color:var(--gold-light);font-family:"Archivo Black",sans-serif;font-size:20px;padding:8px 16px;border-bottom:var(--border);}
+  .facts{width:100%;border-collapse:collapse;}
+  .facts th,.facts td{border:2px solid var(--ink);padding:10px 14px;font-size:14px;vertical-align:top;text-align:left;}
+  .facts th{background:var(--gold);color:var(--ink);font-family:"Space Mono",monospace;font-size:11px;white-space:nowrap;width:1%;}
+  .facts td b{color:var(--crimson);}
 
-    main{ position:relative; z-index:2; }
+  /* 创作团队 */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .team .role{border:var(--border);box-shadow:var(--shadow-sm);background:#fff;padding:14px 16px;}
+  .team .role .k{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;background:var(--ink);color:var(--gold-light);display:inline-block;padding:2px 8px;margin-bottom:8px;}
+  .team .role .v{font-weight:700;font-size:15px;}
+  .team .role .d{font-size:13px;color:#555;margin-top:4px;}
 
-    /* hero */
-    .hero{
-      position:relative;
-      min-height:96vh;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:48px 24px 60px;
-      text-align:center;
-      background:
-        radial-gradient(ellipse at 50% 100%, rgba(124,29,29,.22) 0%, transparent 55%),
-        radial-gradient(circle at 20% 20%, rgba(185,145,47,.10) 0%, transparent 28%),
-        radial-gradient(circle at 80% 20%, rgba(124,29,29,.10) 0%, transparent 28%);
-    }
-    .hero__poster{
-      width:100%;
-      max-width:clamp(320px, 88vw, 480px);
-      height:auto;
-      filter:drop-shadow(0 24px 60px rgba(18,11,4,.42));
-      border:8px solid var(--ink);
-      background:var(--ink);
-    }
-    .hero__caption{
-      margin-top:22px;
-      font-family:"Playfair Display", Georgia, serif;
-      color:var(--crimson);
-      font-style:italic;
-      letter-spacing:.08em;
-      font-size:clamp(1rem,2.2vw,1.25rem);
-    }
-    .hero__scroll{
-      margin-top:34px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.9rem; letter-spacing:.15em; color:var(--ink);
-      opacity:.7; animation:bob 2.4s ease-in-out infinite;
-    }
-    @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(6px); } }
+  /* 角色卡司 */
+  table.casts{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.casts th,table.casts td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.casts th{background:var(--ink);color:var(--gold-light);font-family:"Space Mono",monospace;font-size:11px;}
+  table.casts td.name{font-weight:700;color:var(--crimson);white-space:nowrap;}
 
-    /* content wrapper */
-    .prose{
-      max-width:820px; margin:0 auto; padding:56px 24px 90px;
-    }
-    .prose h2{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(1.8rem,4.6vw,2.7rem);
-      font-weight:800;
-      color:var(--crimson);
-      margin:64px 0 22px;
-      line-height:1.18;
-      letter-spacing:.02em;
-      text-align:center;
-    }
-    .prose h2 span{
-      display:block;
-      font-size:.42em;
-      font-weight:400;
-      letter-spacing:.28em;
-      color:var(--gold);
-      margin-bottom:6px;
-      text-transform:uppercase;
-    }
-    .prose h3{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(1.25rem,3vw,1.55rem);
-      color:var(--ink);
-      margin:38px 0 14px;
-      border-left:5px solid var(--crimson);
-      padding-left:14px;
-    }
-    .prose p{
-      margin:0 0 1.25em;
-      font-size:1.07rem;
-      text-align:justify;
-      text-indent:2em;
-    }
-    .prose p:first-of-type::first-letter{
-      float:left;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:4.2rem; line-height:.78;
-      padding:6px 10px 0 0;
-      color:var(--crimson);
-      font-weight:800;
-    }
-    .prose p.no-indent{ text-indent:0; }
+  /* 按幕曲目 */
+  .song-act{display:inline-block;background:var(--ink);color:var(--gold-light);font-family:"Space Mono",monospace;font-size:11px;padding:2px 9px;margin-bottom:10px;}
+  table.songs{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.songs th,table.songs td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.songs th{background:var(--ink);color:var(--gold-light);font-family:"Space Mono",monospace;font-size:11px;}
+  table.songs td.en{font-weight:700;font-family:"Space Mono",monospace;white-space:nowrap;}
+  table.songs td.cn{color:var(--crimson);font-weight:700;white-space:nowrap;}
 
-    .ornament{
-      display:flex; align-items:center; justify-content:center; gap:18px;
-      margin:40px auto; max-width:420px; color:var(--gold);
-    }
-    .ornament::before,.ornament::after{
-      content:""; flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .ornament i{ font-style:normal; font-size:1.4rem; }
+  /* 制作年表 */
+  .timeline{list-style:none;margin:0;padding:0;border-left:6px solid var(--ink);}
+  .timeline li{position:relative;padding:0 0 18px 28px;}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline li::before{content:"";position:absolute;left:-15px;top:4px;width:18px;height:18px;background:var(--gold);border:3px solid var(--ink);}
+  .timeline .yr{font-family:"Archivo Black",sans-serif;color:var(--crimson);font-size:17px;display:block;line-height:1.2;}
+  .timeline .ev{font-weight:700;}
 
-    /* act label */
-    .act-label{
-      display:inline-block;
-      background:var(--ink); color:var(--gold-light);
-      padding:4px 14px; border-radius:2px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.78rem; letter-spacing:.22em; text-transform:uppercase;
-      margin-bottom:12px;
-    }
+  /* 奖项 */
+  .awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+  .awards .a{border:var(--border);box-shadow:var(--shadow);background:#fff;padding:16px 18px;}
+  .awards .a .yr{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;background:var(--ink);color:var(--gold-light);display:inline-block;padding:2px 8px;margin-bottom:8px;}
+  .awards .a .t{font-weight:700;font-size:15px;}
+  .awards .a ul{margin:8px 0 0;padding-left:18px;font-size:13px;}
+  .awards .a li{margin-bottom:4px;}
 
-    /* pull quotes */
-    .quote{
-      margin:34px 0; padding:22px 26px;
-      border-left:5px solid var(--crimson);
-      background:rgba(250,243,223,.6);
-      box-shadow:var(--shadow);
-      border-radius:1px;
-    }
-    .quote__en{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(1.2rem,3vw,1.55rem);
-      font-style:italic;
-      color:var(--crimson);
-      line-height:1.45;
-      margin:0 0 10px;
-    }
-    .quote__cn{
-      color:var(--ink);
-      font-size:.98rem;
-      opacity:.88;
-      margin:0;
-      text-indent:0;
-    }
-    .quote__src{
-      display:block; margin-top:10px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.82rem; letter-spacing:.1em; color:var(--gold); text-transform:uppercase;
-    }
+  .footer{margin-top:60px;text-align:center;}
+  .footer a{
+    display:inline-block;background:var(--gold);color:var(--ink);text-decoration:none;
+    font-family:"Archivo Black",sans-serif;font-size:18px;padding:12px 26px;
+    border:var(--border);box-shadow:var(--shadow);
+  }
+  .footer a:hover{background:var(--gold-light);}
 
-    /* song list */
-    .song-grid{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px 18px;
-      margin:18px 0 26px; padding:0; list-style:none;
-    }
-    .song-grid li{
-      font-family:"Playfair Display", Georgia, serif;
-      font-style:italic;
-      padding:8px 0 8px 22px;
-      position:relative;
-      border-bottom:1px dashed rgba(28,20,10,.18);
-    }
-    .song-grid li::before{
-      content:"♪"; position:absolute; left:0; color:var(--crimson); font-style:normal;
-    }
-
-    /* cast */
-    .cast-list{
-      columns:2; column-gap:36px; margin:18px 0 28px;
-    }
-    .cast-list li{ break-inside:avoid; margin-bottom:10px; }
-    .cast-list strong{ font-family:"Playfair Display", Georgia, serif; color:var(--crimson); }
-
-    /* awards */
-    .awards{
-      background:rgba(28,20,10,.04);
-      border:2px solid var(--gold);
-      padding:22px 26px;
-      margin:26px 0;
-    }
-    .awards ul{ margin:0; padding-left:22px; }
-    .awards li{ margin-bottom:8px; }
-
-    /* footer */
-    .curtain{
-      position:relative;
-      background:var(--ink);
-      color:var(--cream);
-      padding:70px 24px 90px;
-      text-align:center;
-    }
-    .curtain::before{
-      content:""; position:absolute; top:-36px; left:0; right:0; height:36px;
-      background:linear-gradient(180deg, transparent, var(--ink));
-    }
-    .curtain h2{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(2rem,5vw,3rem);
-      margin:0 0 12px; color:var(--gold-light); letter-spacing:.06em;
-    }
-    .curtain p{ margin:0; opacity:.85; }
-    .curtain__rule{
-      width:120px; height:1px; background:var(--gold);
-      margin:18px auto;
-    }
-    .curtain a{ color:var(--gold-light); }
-
-    @media(max-width:640px){
-      .prose{ padding:40px 18px 70px; }
-      .prose p{ text-align:left; }
-      .cast-list{ columns:1; }
-      .hero{ min-height:auto; padding-top:36px; }
-    }
-  </style>
+  .quote{
+    border-left:8px solid var(--gold);background:#fff;border:var(--border);
+    box-shadow:var(--shadow-sm);padding:16px 18px;margin:18px 0;font-size:17px;font-weight:700;
+  }
+  .quote .src{display:block;margin-top:8px;font-size:12px;color:#888;font-family:"Space Mono",monospace;font-weight:400;}
+  ul.tight{margin:0;padding-left:20px;}
+  ul.tight li{margin-bottom:8px;}
+</style>
 </head>
 <body>
 
-  <nav class="stage-nav" aria-label="返回导航">
-    <div class="stage-nav__inner">
-      <a href="index.html" class="stage-nav__brand">HYHY / GROWTH</a>
-      <div class="stage-nav__links">
-        <a href="collections.html">娱乐合集</a>
-        <a href="projects.html">项目</a>
-        <a href="about.html">关于</a>
+<div class="topbar">
+  <div class="brand">★ ENTERTAINMENT COLLECTION</div>
+  <div class="nav">
+    <a href="collections.html">← 返回合集</a>
+    <a href="#facts">基本信息</a>
+    <a href="#synopsis">剧情</a>
+    <a href="#team">创作团队</a>
+    <a href="#cast">角色卡司</a>
+    <a href="#songs">曲目</a>
+    <a href="#history">年表</a>
+    <a href="#awards">奖项</a>
+    <a href="#impact">影响</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO: 封面 / 海报主视觉 -->
+  <div class="hero-cover">
+    <img src="hamilton-cover.jpg" alt="《汉密尔顿》音乐剧海报主视觉（封面）" />
+  </div>
+  <h1 class="hero__title">HAMILTON</h1>
+  <div class="hero__sub">汉密尔顿 · 音乐剧版</div>
+
+  <p class="lede"><em>《汉密尔顿》（Hamilton: An American Musical）</em>是 2015 年登陆百老汇的现象级原创音乐剧，由林-曼努尔·米兰达（Lin-Manuel Miranda）一人包揽词曲与剧本，改编自罗恩·彻诺（Ron Chernow）2004 年的传记《亚历山大·汉密尔顿》。全剧无对白，以嘻哈、R&B 与传统音乐剧交融的节奏，用多元族裔演员演绎美国开国元勋，把十八世纪的政治风云与今天的街头叙事缝在一起——"当年的美国，由今天的美国来讲述"。</p>
+
+  <!-- 基本信息 -->
+  <section id="facts">
+    <div class="sec__head">基本信息 · FACTS</div>
+    <div class="infobox">
+      <div class="infobox__title">作品档案</div>
+      <table class="facts">
+        <tbody>
+          <tr><th>中文名</th><td>汉密尔顿</td></tr>
+          <tr><th>英文名</th><td>Hamilton: An American Musical</td></tr>
+          <tr><th>类型</th><td>原创音乐剧（Hip-hop / R&amp;B / Pop / 传统音乐剧）· <b>2 幕</b></td></tr>
+          <tr><th>作曲 / 作词 / 剧本</th><td>Lin-Manuel Miranda</td></tr>
+          <tr><th>原著</th><td>Ron Chernow《Alexander Hamilton》（2004 传记）</td></tr>
+          <tr><th>导演</th><td>Thomas Kail</td></tr>
+          <tr><th>编舞</th><td>Andy Blankenbuehler</td></tr>
+          <tr><th>音乐总监 / 编曲</th><td>Alex Lacamoire</td></tr>
+          <tr><th>外百老汇首演</th><td>2015-02-17 · The Public Theater（预演自 2015-01-20）</td></tr>
+          <tr><th>百老汇首演</th><td>2015-08-06 · Richard Rodgers Theatre（26 场预演）</td></tr>
+          <tr><th>百老汇驻演</th><td>2015-08-06 起驻演 Richard Rodgers Theatre，逾 <b>3400 场</b></td></tr>
+          <tr><th>西区首演</th><td>2017-12-21 · Victoria Palace Theatre（伦敦）</td></tr>
+          <tr><th>主要设计</th><td>布景 David Korins / 服装 Paul Tazewell / 灯光 Howell Binkley</td></tr>
+          <tr><th>授权上演</th><td>学生 / 业余版由 Music Theatre International（MTI）全球发行</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 剧情 -->
+  <section id="synopsis">
+    <div class="sec__head">剧情 · SYNOPSIS</div>
+    <div class="card">
+      <p>孤儿移民亚历山大·汉密尔顿（Alexander Hamilton）生于加勒比海小岛尼维斯，幼年失怙，凭一场飓风劫后余生中展露的才华与一笔捐助只身渡海，抵达纽约。他结识劳伦斯、拉斐特与穆里根，立下革命誓言；也在街头遇见聪慧的安吉丽卡、温柔的伊莱扎与佩吉三姐妹。从一文不名到华盛顿的副官、约克镇战役的英雄，再到美国首任财政部长——他的一生被"野心、遗产、历史由谁书写"紧紧缠绕。</p>
+      <p>第二幕里，汉密尔顿与杰斐逊、伯尔在内阁里展开嘻哈式 battle，推进国家银行与债务计划；丧子之痛、桃色丑闻与政治恩怨接踵而至。1804 年，他与政敌亚伦·伯尔（Aaron Burr）在新泽西威霍肯决斗，中弹身亡，年仅四十七岁。终曲把决斗、死亡与"谁来书写你的故事"缝在一起，由伊莱扎用余生守护他的名字。</p>
+      <div class="quote">"I am not throwing away my shot."
+        <span class="src">— My Shot · 我绝不会浪费这唯一的机会。</span>
       </div>
     </div>
-  </nav>
+  </section>
 
-  <main>
-    <header class="hero">
-      <img class="hero__poster" src="hamilton-cover.jpg" alt="Hamilton 汉密尔顿 官方海报" />
-      <p class="hero__caption">“America then, as told by America now.”</p>
-      <p class="hero__scroll">SCROLL TO OPEN THE PLAYBILL</p>
-    </header>
+  <!-- 创作团队 -->
+  <section id="team">
+    <div class="sec__head">创作团队 · CREATIVE TEAM</div>
+    <div class="team">
+      <div class="role"><span class="k">作曲 / 作词 / 剧本</span><div class="v">Lin-Manuel Miranda</div><div class="d">本剧灵魂人物，并亲自饰演汉密尔顿。</div></div>
+      <div class="role"><span class="k">导演</span><div class="v">Thomas Kail</div><div class="d">把控整体节奏，与米兰达长期搭档。</div></div>
+      <div class="role"><span class="k">编舞</span><div class="v">Andy Blankenbuehler</div><div class="d">托尼奖得主，让"运动即叙事"。</div></div>
+      <div class="role"><span class="k">音乐总监 / 编曲</span><div class="v">Alex Lacamoire</div><div class="d">管弦与现场乐队编排的核心。</div></div>
+      <div class="role"><span class="k">布景设计</span><div class="v">David Korins</div><div class="d">标志性旋转木架舞台。</div></div>
+      <div class="role"><span class="k">服装设计</span><div class="v">Paul Tazewell</div><div class="d">以现代剪影重构开国时代。</div></div>
+      <div class="role"><span class="k">灯光设计</span><div class="v">Howell Binkley</div><div class="d">托尼奖得主，冷暖区分冲突与回忆。</div></div>
+    </div>
+  </section>
 
-    <article class="prose">
+  <!-- 角色与卡司 -->
+  <section id="cast">
+    <div class="sec__head">角色与卡司 · CAST</div>
+    <div class="card">
+      <table class="casts">
+        <thead><tr><th>角色</th><th>简介</th><th>百老汇首演</th><th>伦敦首演</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Alexander Hamilton</td><td>孤儿移民，财政部长，全剧核心</td><td>Lin-Manuel Miranda</td><td>Jamael Westman</td></tr>
+          <tr><td class="name">Aaron Burr</td><td>Hamilton 的对手与旁观叙述者</td><td>Leslie Odom Jr.</td><td>Jason Pennycooke</td></tr>
+          <tr><td class="name">Eliza Schuyler Hamilton</td><td>Hamilton 之妻，终曲的守护者</td><td>Phillipa Soo</td><td>Rachelle Ann Go</td></tr>
+          <tr><td class="name">Angelica Schuyler</td><td>Eliza 之姐，聪慧而隐忍成全</td><td>Renée Elise Goldsberry</td><td>Christine Allado</td></tr>
+          <tr><td class="name">Marquis de Lafayette / Thomas Jefferson</td><td>法裔将领 / 第三任总统，一人双面</td><td>Daveed Diggs</td><td>Cleve September</td></tr>
+          <tr><td class="name">George Washington</td><td>总司令、首任总统</td><td>Christopher Jackson</td><td>Obioma Ugoala</td></tr>
+          <tr><td class="name">King George III</td><td>英王，喜剧反派</td><td>Jonathan Groff</td><td>Michael Jibson</td></tr>
+          <tr><td class="name">Hercules Mulligan / James Madison</td><td>理发匠间谍 / 第四任总统</td><td>Okieriete Onaodowan</td><td>Tarinn Callender</td></tr>
+          <tr><td class="name">Peggy Schuyler / Maria Reynolds</td><td>小妹 / 丑闻当事人</td><td>Jasmine Cephas Jones</td><td>Rachel John</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-      <h2><span>Prologue</span>序：历史与嘻哈的相遇</h2>
-      <p>
-        2015 年，一部音乐剧在纽约公共剧院首演，旋即以飓风般的姿态席卷百老汇。它不是传统意义上的历史剧，也不是单纯的嘻哈演唱会——它是《汉密尔顿》（<em>Hamilton: An American Musical</em>），由林-曼努尔·米兰达（Lin-Manuel Miranda）一人包揽词曲与剧本，改编自罗恩·彻诺（Ron Chernow）2004 年的传记《亚历山大·汉密尔顿》。全剧无对白，说唱与演唱首尾相接，用非裔、拉丁裔演员演绎美国开国元勋，把十八世纪末的政治风云和今天的街头节奏缝合在一起。米兰达说，这部戏讲的是“当年的美国，由今天的美国来讲述”。
-      </p>
-      <p>
-        故事主角亚历山大·汉密尔顿生于加勒比海小岛尼维斯，幼年丧父、少年丧母，靠 Hurricane 劫后余生的才华与一笔捐助只身渡海，抵达纽约。他从一无所有爬到国家权力的核心，创办金融体系、起草联邦党人文集，最终却在 1804 年与政敌亚伦·伯尔（Aaron Burr）的决斗中中弹身亡，年仅四十七岁。全剧围绕“野心、遗产、历史的书写权”展开，每一首歌都是一块墓碑，也是一声宣言。
-      </p>
+  <!-- 曲目 -->
+  <section id="songs">
+    <div class="sec__head">曲目 · SONGS</div>
+    <div class="card">
+      <span class="song-act">ACT I</span>
+      <table class="songs">
+        <thead><tr><th>英文曲名</th><th>中文</th><th>情境</th></tr></thead>
+        <tbody>
+          <tr><td class="en">"Alexander Hamilton"</td><td class="cn">亚历山大·汉密尔顿</td><td>Burr 第三人称开场，交代身世</td></tr>
+          <tr><td class="en">"My Shot"</td><td class="cn">我这一枪</td><td>核心誓言，全剧第一声惊雷</td></tr>
+          <tr><td class="en">"The Schuyler Sisters"</td><td class="cn">舒勒三姐妹</td><td>安吉丽卡/伊莱扎/佩吉登场</td></tr>
+          <tr><td class="en">"You'll Be Back"</td><td class="cn">你会回来</td><td>King George III 俏皮威胁</td></tr>
+          <tr><td class="en">"Right Hand Man"</td><td class="cn">得力助手</td><td>任华盛顿副官</td></tr>
+          <tr><td class="en">"Helpless"</td><td class="cn">无法自拔</td><td>Eliza 一见钟情</td></tr>
+          <tr><td class="en">"Satisfied"</td><td class="cn">心满意足</td><td>Angelica 倒叙中的成全</td></tr>
+          <tr><td class="en">"Wait For It"</td><td class="cn">等待</td><td>Burr 的处世哲学</td></tr>
+          <tr><td class="en">"Guns and Ships"</td><td class="cn">枪与船</td><td>Lafayette 带来法国支援</td></tr>
+          <tr><td class="en">"Yorktown (The World Turned Upside Down)"</td><td class="cn">约克镇（天地倒置）</td><td>决战胜利</td></tr>
+          <tr><td class="en">"Dear Theodosia"</td><td class="cn">致西奥多西娅</td><td>Hamilton 与 Burr 对孩子的期许</td></tr>
+          <tr><td class="en">"Non-Stop"</td><td class="cn">永不停歇</td><td>第一幕终，事业起飞</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <span class="song-act">ACT II</span>
+      <table class="songs">
+        <thead><tr><th>英文曲名</th><th>中文</th><th>情境</th></tr></thead>
+        <tbody>
+          <tr><td class="en">"What'd I Miss"</td><td class="cn">我错过了啥</td><td>Jefferson 自法国归来</td></tr>
+          <tr><td class="en">"Cabinet Battle #1"</td><td class="cn">内阁对决 #1</td><td>财政 vs 农业之战</td></tr>
+          <tr><td class="en">"The Room Where It Happens"</td><td class="cn">发生之地</td><td>Burr 觊觎权力核心</td></tr>
+          <tr><td class="en">"One Last Time"</td><td class="cn">最后一次</td><td>Washington 英雄式告别</td></tr>
+          <tr><td class="en">"Hurricane"</td><td class="cn">飓风</td><td>回忆加勒比起点</td></tr>
+          <tr><td class="en">"The Reynolds Pamphlet"</td><td class="cn">雷诺兹小册子</td><td>桃色丑闻曝光</td></tr>
+          <tr><td class="en">"Burn"</td><td class="cn">焚</td><td>Eliza 烧毁情书</td></tr>
+          <tr><td class="en">"It's Quiet Uptown"</td><td class="cn">上城静默</td><td>丧子之痛</td></tr>
+          <tr><td class="en">"The Election of 1800"</td><td class="cn">1800 大选</td><td>与 Jefferson/Burr 的角力</td></tr>
+          <tr><td class="en">"The World Was Wide Enough"</td><td class="cn">世界足够宽广</td><td>决斗与临终</td></tr>
+          <tr><td class="en">"Who Lives, Who Dies, Who Tells Your Story"</td><td class="cn">谁生谁死谁写你的故事</td><td>终曲，谁来书写遗产</td></tr>
+        </tbody>
+      </table>
+      <div class="quote">"Who lives, who dies, who tells your story?"
+        <span class="src">— 终曲 · 历史从不只是事实，更是被记住的方式。</span>
+      </div>
+    </div>
+  </section>
 
-      <div class="ornament"><i>❧</i></div>
-
-      <h2><span>Act I</span>第一幕：崛起与革命</h2>
-      <p><span class="act-label">The Story Begins</span></p>
-      <p>
-        大幕拉开， Aaron Burr 以冷静的第三人称唱出开场曲〈Alexander Hamilton〉：一个孤儿如何在飓风中失去一切，又如何被命运推到新大陆的边缘。汉密尔顿一到纽约，便结识了约翰·劳伦斯（Laurens）、拉斐特（Lafayette）与赫拉克勒斯·穆里根（Mulligan），四人在酒馆高唱〈The Story of Tonight〉，立下革命誓言。与此同时，斯凯勒三姐妹——聪慧过人的安吉丽卡（Angelica）、温柔坚韧的伊莱扎（Eliza）与佩吉（Peggy）——偷溜进城，唱出“Look around, look around, at how lucky we are to be alive right now.”
-      </p>
-      <p>
-        汉密尔顿很快就让伯尔刮目相看，也与他产生根本分歧。〈My Shot〉是全剧第一声惊雷，整首歌的核心是一句反复升腾的誓言：
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“I am not throwing away my shot.”</p>
-        <p class="quote__cn">我绝不会浪费这唯一的机会。——这是他一生的行动准则，也是整部剧的宿命注脚。</p>
-        <span class="quote__src">My Shot</span>
-      </blockquote>
-
-      <p>
-        凭借出色的文笔与计算能力，汉密尔顿成为乔治·华盛顿将军的副官，又在约克镇战役前后升任将军，亲眼目睹“世界颠倒”（〈Yorktown (The World Turned Upside Down)〉）。第一幕结尾，战争结束，他被任命为美国首任财政部长，而妻子伊莱扎在〈Non-Stop〉中唱出对他无尽的包容与期盼。历史的车轮滚滚向前，所有人都以为最好的时代刚刚开始。
-      </p>
-
-      <div class="ornament"><i>✦</i></div>
-
-      <h2><span>Act II</span>第二幕：权力与陨落</h2>
-      <p><span class="act-label">The Room Where It Happens</span></p>
-      <p>
-        第二幕开局即是托马斯·杰斐逊从法国归来，对汉密尔顿推行的国家银行与联邦债务计划嗤之以鼻。两人的内阁辩论被写成嘻哈 Battle〈Cabinet Battle #1〉与〈Cabinet Battle #2〉，政策分歧化作韵脚的刀光剑影。汉密尔顿在华盛顿的支持下推进改革，却也因锋芒过露得罪了伯尔、杰斐逊与麦迪逊。
-      </p>
-      <p>
-        政治高压之下，他失去了最好的朋友劳伦斯，也失去了专注家庭的余裕。〈It's Quiet Uptown〉唱尽了丧子之痛：长子菲利普为维护父亲名誉与人决斗身亡，汉密尔顿与伊莱扎在极度的静默中试图修补裂痕。那首挽歌里有句极轻的句子，却重得让人屏息：
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“Love doesn't discriminate, between the sinners and the saints.”</p>
-        <p class="quote__cn">爱不分善恶，不辨圣愚。——当一切崩塌之后，唯有爱还能把碎片重新拼起。</p>
-        <span class="quote__src">It's Quiet Uptown</span>
-      </blockquote>
-
-      <p>
-        政敌手中握着他的桃色丑闻，最终他以个人丑闻换得政治清白，却名誉扫地。伯尔在长期的嫉恨中走向绝望，1804 年，两人在新泽西威霍肯决斗。汉密尔顿向上空开枪——有人说他故意放弃射击——伯尔的子弹却正中他的腹部。终曲〈The World Was Wide Enough〉与〈Who Lives, Who Dies, Who Tells Your Story〉把决斗、死亡与遗产缝合在一起，伊莱扎用五十年余生整理他的手稿、建立孤儿院、守护他的故事，而所有演员再次聚拢，唱出全剧最后的追问：
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“Who lives, who dies, who tells your story?”</p>
-        <p class="quote__cn">谁存活，谁逝去，谁来书写你的故事？——历史从不只是事实，更是被记住的方式。</p>
-        <span class="quote__src">Who Lives, Who Dies, Who Tells Your Story</span>
-      </blockquote>
-
-      <div class="ornament"><i>❦</i></div>
-
-      <h2><span>Music & Cast</span>音乐与卡司</h2>
-      <p class="no-indent">
-        《汉密尔顿》的曲风横跨嘻哈、R&B、爵士、灵魂乐与传统音乐剧。几场说唱戏的信息密度极高，而抒情段落则像十八世纪的信笺，炽热而克制。以下是几首不可绕过的核心曲目：
-      </p>
-      <ul class="song-grid">
-        <li>Alexander Hamilton</li>
-        <li>My Shot</li>
-        <li>The Schuyler Sisters</li>
-        <li>Wait for It</li>
-        <li>Satisfied</li>
-        <li>Guns and Ships</li>
-        <li>Yorktown (The World Turned Upside Down)</li>
-        <li>What'd I Miss?</li>
-        <li>The Room Where It Happens</li>
-        <li>One Last Time</li>
-        <li>Burn</li>
-        <li>It's Quiet Uptown</li>
+  <!-- 制作年表 -->
+  <section id="history">
+    <div class="sec__head">制作年表 · TIMELINE</div>
+    <div class="card">
+      <ul class="timeline">
+        <li><span class="yr">2009.05</span><span class="ev">白宫初演</span> — 米兰达在白宫诗人与作家之夜即兴表演 Hamilton 雏形。</li>
+        <li><span class="yr">2015.01.20</span><span class="ev">外百老汇预演</span> — The Public Theater 开始预演。</li>
+        <li><span class="yr">2015.02.17</span><span class="ev">外百老汇首演</span> — The Public Theater 正式首演，一票难求。</li>
+        <li><span class="yr">2015.07.13</span><span class="ev">百老汇预演</span> — 转战 Richard Rodgers Theatre 开始预演。</li>
+        <li><span class="yr">2015.08.06</span><span class="ev">百老汇首演</span> — Richard Rodgers Theatre 正式开幕，开启长驻。</li>
+        <li><span class="yr">2016.06</span><span class="ev">托尼 + 普利策</span> — 托尼奖 16 提名 11 获奖；同获普利策戏剧奖。</li>
+        <li><span class="yr">2016.09</span><span class="ev">格莱美 + 巡演</span> — 获格莱美最佳音乐剧专辑；美国首轮巡演启动。</li>
+        <li><span class="yr">2017.12.21</span><span class="ev">西区首演</span> — 伦敦 Victoria Palace Theatre 开幕。</li>
+        <li><span class="yr">2018</span><span class="ev">奥利弗奖 7 项</span> — 伦敦版 7 项提名全部获奖（含最佳新音乐剧）。</li>
+        <li><span class="yr">2020.07.03</span><span class="ev">Disney+ 电影版</span> — 原卡司录制版上线，全球可看。</li>
+        <li><span class="yr">2022</span><span class="ev">多语种制作</span> — 德语汉堡版等陆续推出；卡司录音获 RIAA 钻石认证。</li>
       </ul>
+    </div>
+  </section>
 
-      <p class="no-indent">百老汇原卡司（Original Broadway Cast）中几位演员几乎与角色融为一体：</p>
-      <ul class="cast-list">
-        <li><strong>Lin-Manuel Miranda</strong> 饰 Alexander Hamilton（词曲作者本人）</li>
-        <li><strong>Leslie Odom Jr.</strong> 饰 Aaron Burr，深沉 R&B 唱腔，第 70 届托尼奖最佳男主角</li>
-        <li><strong>Phillipa Soo</strong> 饰 Eliza Schuyler Hamilton，〈Burn〉与终曲的灵魂</li>
-        <li><strong>Renée Elise Goldsberry</strong> 饰 Angelica Schuyler，〈Satisfied〉倒叙名场面</li>
-        <li><strong>Daveed Diggs</strong> 分饰 Lafayette / Thomas Jefferson，一人双面，快嘴炸裂</li>
-        <li><strong>Christopher Jackson</strong> 饰 George Washington，〈One Last Time〉的英雄式告别</li>
-        <li><strong>Jonathan Groff</strong> 饰 King George III，九分钟戏份却凭〈You'll Be Back〉出圈</li>
-      </ul>
-
-      <h2><span>Stagecraft</span>舞台艺术</h2>
-      <p>
-        舞台设计的核心是一台双层旋转舞台与木质脚手架。没有繁复的实景，所有场景都靠旋转、灯光与演员的肢体完成跳转：战场、内阁、酒馆、决斗场在几秒钟内无缝切换。Howell Binkley 的灯光以冷暖色调区分冲突与回忆，追光则像历史的目光始终盯着角色。Andy Blankenbuehler 的编舞融合街舞、爵士与历史舞步，让“运动即叙事”成为这部戏的另一层语言。
-      </p>
-      <p>
-        旋转舞台的“循环感”暗合历史轮回，脚手架的“未完成感”象征一个仍在搭建中的国家。极简不是简陋，而是把所有注意力压向人物与歌词——这正是复古戏剧海报与先锋嘻哈能够在同一部戏里共存的原因。
-      </p>
-
-      <h2><span>Legacy</span>奖项与影响</h2>
-      <div class="awards">
+  <!-- 奖项 -->
+  <section id="awards">
+    <div class="sec__head">奖项与荣誉 · AWARDS</div>
+    <div class="awards">
+      <div class="a">
+        <span class="yr">2016 · 托尼奖</span>
+        <div class="t">11 获奖 / 16 提名</div>
         <ul>
-          <li>2015 年外百老汇首演即一票难求；同年 8 月转上百老汇 Richard Rodgers 剧院。</li>
-          <li>2016 年托尼奖 16 项提名、11 项获奖，包括最佳音乐剧、最佳剧本、最佳词曲。</li>
-          <li>2016 年普利策戏剧奖（Pulitzer Prize for Drama）。</li>
-          <li>2016 年格莱美奖最佳音乐剧专辑（Grammy Award for Best Musical Theater Album）。</li>
-          <li>伦敦西区版 2017 年开演，2018 年奥利弗奖 7 项大奖。</li>
-          <li>2020 年 Disney+ 上线原卡司录制版，让全球观众都能走进那个旋转的历史舞台。</li>
+          <li>最佳音乐剧</li>
+          <li>最佳剧本（Lin-Manuel Miranda）</li>
+          <li>最佳词曲</li>
+          <li>最佳男主（Leslie Odom Jr.）</li>
+          <li>最佳男配（Daveed Diggs）</li>
+          <li>最佳女配（Renée Elise Goldsberry）</li>
         </ul>
       </div>
-      <p>
-        《汉密尔顿》改变的不是某一部音乐剧，而是人们对“音乐剧可以讲什么、由谁来讲”的想象。它把一个白人开国元勋的故事交给有色人种演员，把庄严的历史交给街头节奏，把个人的野心与国家的命运编织成同一首歌。
-      </p>
+      <div class="a">
+        <span class="yr">2016 · 普利策</span>
+        <div class="t">戏剧奖（Pulitzer Prize for Drama）</div>
+        <ul>
+          <li>美国音乐剧罕见的双冠之一</li>
+        </ul>
+      </div>
+      <div class="a">
+        <span class="yr">2016 · 格莱美</span>
+        <div class="t">最佳音乐剧专辑</div>
+        <ul>
+          <li>原卡司录音 2023 获 RIAA 钻石认证（10×白金）</li>
+        </ul>
+      </div>
+      <div class="a">
+        <span class="yr">2018 · 奥利弗奖</span>
+        <div class="t">7 项提名全中</div>
+        <ul>
+          <li>最佳新音乐剧 等</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-      <div class="ornament"><i>✧</i></div>
+  <!-- 文化影响 -->
+  <section id="impact">
+    <div class="sec__head">文化影响 · IMPACT</div>
+    <div class="card gold">
+      <ul class="tight">
+        <li><strong>重新定义音乐剧</strong>：用嘻哈/R&amp;B 讲建国史，让人重新想象"音乐剧可以讲什么、由谁来讲"。</li>
+        <li><strong>多元选角</strong>：有色人种演员演绎白人开国元勋，推动行业代表性与"历史由今天的人讲述"。</li>
+        <li><strong>"My shot" 成流行语</strong>：成为把握机会的文化符号，被广泛引用与二次创作。</li>
+        <li><strong>卡司录音破圈</strong>：原卡司专辑获 RIAA 钻石认证，罕见地以音乐剧原声打入主流榜单。</li>
+        <li><strong>全球上演</strong>：百老汇与西区长驻之外，美、英、德、西语等多语种制作不断；MTI 学生版让校园也能上演。</li>
+        <li><strong>教育溢出</strong>：进入中学历史/音乐课堂，激发一代观众对美国建国史的兴趣。</li>
+      </ul>
+    </div>
+  </section>
 
-      <p style="text-align:center; text-indent:0; font-style:italic; opacity:.9; margin-top:48px;">
-        “When you're gone, who remembers your name? Who keeps your flame?”<br />
-        当你离开，谁还记得你的名字？谁为你守护那束火光？
-      </p>
+  <div class="footer">
+    <a href="collections.html">← 回到娱乐合集</a>
+  </div>
 
-    </article>
-  </main>
-
-  <footer class="curtain">
-    <h2>CURTAIN CALL</h2>
-    <div class="curtain__rule"></div>
-    <p>汉密尔顿的故事到此告一段落，但娱乐合集才刚刚开始。</p>
-    <p style="margin-top:10px;">
-      <a href="collections.html">← 返回娱乐合集</a> · <a href="index.html">回到首页</a>
-    </p>
-  </footer>
-
+</div>
 </body>
 </html>
