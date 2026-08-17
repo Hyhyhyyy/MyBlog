@@ -21,16 +21,18 @@
   /* subtle grid + noise-like texture behind tiles so pure black voids are
      broken up even when the perspective/mask reveals background */
   background:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
-    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.03) 0%, transparent 25%),
-    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.03) 0%, transparent 25%),
-    #07070a;
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.04) 0%, transparent 25%),
+    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.04) 0%, transparent 25%),
+    #0f0f14;
   background-size: 44px 44px, 44px 44px, 88px 88px, 88px 88px, 100% 100%;
+  /* Only fade the top/bottom edges; radial masks were creating a dark hole in
+     the middle-left of the tilted plane. */
   -webkit-mask-image:
-    radial-gradient(ellipse 155% 155% at 50% 50%, #000 72%, transparent 100%);
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
   mask-image:
-    radial-gradient(ellipse 155% 155% at 50% 50%, #000 72%, transparent 100%);
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
 }
 
 .drift-wall__plane {
