@@ -57,14 +57,17 @@
       ? { ease: 'elastic.out(0.6,0.9)', durDrop: 2, durMove: 2, durReturn: 2, promoteOverlap: 0.9, returnDelay: 0.05 }
       : { ease: 'power1.inOut', durDrop: 0.8, durMove: 0.8, durReturn: 0.8, promoteOverlap: 0.45, returnDelay: 0.2 };
 
-    const palette = ['red', 'green', 'ink', 'yellow', 'red', 'green'];
+    // 与娱乐合集一致的「鲜红→鲜黄→鲜绿」渐变（色相 0°→120° 均匀步进）。
+    // 按 index 循环取色（i % 7），后续在 data.js 新增的项目会自动延续该渐变。
+    const palette = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
     const refs = [];
     let order = PROJECTS.map((_, i) => i);
     let tlRef = null, intervalRef = null;
 
     PROJECTS.forEach((p, i) => {
       const el = document.createElement('div');
-      el.className = 'card card--' + palette[i % palette.length];
+      el.className = 'card';
+      el.style.background = palette[i % palette.length];
       el.style.width = width + 'px';
       el.style.height = height + 'px';
       el.innerHTML =
@@ -118,7 +121,9 @@
   function initList() {
     const wrap = document.getElementById('all-list');
     if (!wrap) return;
-    const spinePalette = ['#E02820', '#109654', '#000000', '#F2B705', '#1E6FB8', '#7A3FB5'];
+    // 左侧 ALL REPOSITORIES 列表的竖脊配色：同样采用「鲜红→鲜黄→鲜绿」渐变，
+    // 与轮播卡、娱乐合集统一；按 index 循环，后续新增仓库自动延续。
+    const spinePalette = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
     ALL.forEach((p, i) => {
       const a = document.createElement('a');
       a.href = p.url || '#';
