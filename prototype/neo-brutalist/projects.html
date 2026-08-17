@@ -57,8 +57,10 @@
     .swap-hero{
       position:relative; flex:1 1 auto; min-width:0;
       min-height:0; overflow:hidden;
+      /* 轮播模块置于整页最高层：压过 .nav(z-index:50) 及任何潜在覆盖层 */
+      z-index:2147483647; isolation:isolate;
     }
-    .swap-hero .swap-stage{ position:absolute; inset:0; }
+    .swap-hero .swap-stage{ position:absolute; inset:0; z-index:1; }
     .swap-hero .card-swap-container{ top:18%; left:14%; }
 
     /* 卡片堆叠相关（projects.js 依赖，原样保留） */
@@ -70,6 +72,8 @@
       transform:translate(-50%,-50%) scale(min(1, calc((100vh - 200px) / 864)));
       transform-origin:center center;
       perspective:1100px;
+      /* 模块本身也置于最高层，并建立独立层叠上下文，确保内部卡片不被任何同级块遮挡 */
+      z-index:2147483647; isolation:isolate;
     }
 
     .card{
