@@ -18,21 +18,21 @@
   --dw-gray: 0;
   --dw-overlay: #000000;
   --dw-edge: 45%;
-  /* subtle grid + noise-like texture behind tiles so pure black voids are
-     broken up even when the perspective/mask reveals background */
+  /* Dark charcoal background with a subtle grid so any gaps between tiles
+     read as part of the design rather than as "black voids". */
   background:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
     radial-gradient(circle at 25% 25%, rgba(255,255,255,0.04) 0%, transparent 25%),
     radial-gradient(circle at 75% 75%, rgba(255,255,255,0.04) 0%, transparent 25%),
-    #0f0f14;
+    #18181d;
   background-size: 44px 44px, 44px 44px, 88px 88px, 88px 88px, 100% 100%;
   /* Only fade the top/bottom edges; radial masks were creating a dark hole in
      the middle-left of the tilted plane. */
   -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
   mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+    linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
 .drift-wall__plane {
@@ -135,7 +135,7 @@
   position: absolute;
   inset: 0;
   background: var(--dw-overlay);
-  opacity: 0.28;
+  opacity: 0.18;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
