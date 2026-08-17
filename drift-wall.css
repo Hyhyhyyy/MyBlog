@@ -42,6 +42,28 @@
   transform-style: preserve-3d;
 }
 
+/* Fixed category label pinned to the top of a column that carries a category
+   (musicals / literature etc.). Sits above the drifting tiles, never scrolls. */
+.drift-wall__col-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  text-align: center;
+  padding: 9px 4px 7px;
+  font-family: "Archivo Black", "Space Mono", system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #141414;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 3px solid #141414;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .drift-wall__track {
   display: flex;
   flex-direction: column;
