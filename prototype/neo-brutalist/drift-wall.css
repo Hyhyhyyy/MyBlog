@@ -18,10 +18,19 @@
   --dw-gray: 0;
   --dw-overlay: #000000;
   --dw-edge: 45%;
+  /* subtle grid + noise-like texture behind tiles so pure black voids are
+     broken up even when the perspective/mask reveals background */
+  background:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.03) 0%, transparent 25%),
+    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.03) 0%, transparent 25%),
+    #07070a;
+  background-size: 44px 44px, 44px 44px, 88px 88px, 88px 88px, 100% 100%;
   -webkit-mask-image:
-    radial-gradient(ellipse 120% 120% at 50% 50%, #000 60%, transparent 100%);
+    radial-gradient(ellipse 155% 155% at 50% 50%, #000 72%, transparent 100%);
   mask-image:
-    radial-gradient(ellipse 120% 120% at 50% 50%, #000 60%, transparent 100%);
+    radial-gradient(ellipse 155% 155% at 50% 50%, #000 72%, transparent 100%);
 }
 
 .drift-wall__plane {
@@ -118,9 +127,35 @@
   position: absolute;
   inset: 0;
   background: var(--dw-overlay);
-  opacity: 0.42;
+  opacity: 0.28;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Real collection tiles (images with links) are always bright and never dimmed,
+   so they visually lead the wall and are easy to spot among placeholders. */
+.drift-wall__tile--content .drift-wall__inner {
+  opacity: 1;
+  border: 3px solid #ffffff;
+  box-shadow:
+    0 0 0 2px #141414,
+    0 18px 50px -12px rgba(0, 0, 0, 0.85);
+}
+
+.drift-wall__tile--content .drift-wall__overlay {
+  opacity: 0.1;
+}
+
+.drift-wall__tile--content img {
+  filter: grayscale(0) saturate(1.08);
+}
+
+.drift-wall__tile--content.is-active .drift-wall__inner,
+.drift-wall__tile--content:focus-visible .drift-wall__inner {
+  transform: translateZ(calc(var(--dw-lift) + 12px));
+  box-shadow:
+    0 0 0 2px #141414,
+    0 30px 70px -20px rgba(0, 0, 0, 0.9);
 }
 
 .drift-wall__tile.is-active .drift-wall__inner,
