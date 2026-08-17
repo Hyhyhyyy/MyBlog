@@ -56,7 +56,9 @@
     /* 右侧 CardSwap 展示区 */
     .swap-hero{
       position:relative; flex:1 1 auto; min-width:0;
-      min-height:0; overflow:hidden;
+      min-height:0;
+      /* 允许卡片向上/右/下溢出显示（不被 swap-hero 本身裁切），左侧仍裁剪以保护 sidebar */
+      overflow:visible; clip-path: inset(-100% -100% -100% 0);
       /* 轮播模块置于整页最高层：压过 .nav(z-index:50) 及任何潜在覆盖层 */
       z-index:2147483647; isolation:isolate;
     }
