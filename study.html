@@ -174,21 +174,23 @@
         2: { link: 'https://94252049556049838e24ae8b5e7489a0.app.codebuddy.work/',
              title: '大模型为例的开源起步网页', description: '归类：资料', category: '资料' },
         3: { link: 'https://hyhyhyyy.github.io/MyBlog/dingkan-map.html',
+             image: 'assets/covers/dingkan-map.svg?v=1',
              title: '顶刊顶会地图', description: '归类：资料', category: '资料' }
       };
       for (var i = 1; i <= 42; i++) {
         var imgPath = 'assets/stilllife/cover_' + String(i).padStart(2, '0') + '.jpg?v=4';
         var seed = SEEDED[i];
+        var cover = (seed && seed.image) ? seed.image : imgPath;
         if (seed) {
           STUDY_ITEMS.push({
-            image: imgPath,
+            image: cover,
             link: seed.link,
             title: seed.title,
             description: seed.description,
             category: seed.category
           });
         } else {
-          STUDY_ITEMS.push({ image: imgPath, link: null, title: '', description: '', category: '占位' });
+          STUDY_ITEMS.push({ image: cover, link: null, title: '', description: '', category: '占位' });
         }
       }
 
