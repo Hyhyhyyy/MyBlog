@@ -80,16 +80,6 @@ function initDriftWall(container, props = {}) {
   let raf = null;
   let containerHeight = container.clientHeight || window.innerHeight || 800;
 
-  // Responsive plane scale: guarantee the tilted plane always covers the full
-  // viewport width so no black gutters appear at the sides. Falls back to the
-  // caller-supplied planeScale when the viewport is narrow.
-  let planeScaleEff = planeScale;
-  function computePlaneScale() {
-    const planeBaseW = columns * (tileWidth + gap);
-    const needW = container.clientWidth / planeBaseW * 1.12;
-    planeScaleEff = Math.max(planeScale, needW);
-  }
-
   // Column assignment.
   // - Items WITHOUT a `col` field (placeholder blocks) are round-robined across
   //   every column so the wall stays dense.
@@ -234,7 +224,6 @@ function initDriftWall(container, props = {}) {
   function rebuild() {
     columnItems = splitColumns(itemsArr, columns);
     meta = computeMeta();
-    computePlaneScale();
     baseVelocities = computeVelocities();
     render();
   }
@@ -251,7 +240,7 @@ function initDriftWall(container, props = {}) {
     pointerDamped.x += (targetX - pointerDamped.x) * damp;
     pointerDamped.y += (targetY - pointerDamped.y) * damp;
     plane.style.transform =
-      `translate(-50%, -50%) scale(${planeScaleEff}) ` +
+      `translate(-50%, -50%) scale(${planeScale}) ` +
       `rotateX(${tilt + pointerDamped.y}deg) rotateY(${turn + pointerDamped.x}deg) rotateZ(${roll}deg) ` +
       `translateZ(${-depth}px)`;
 
@@ -311,7 +300,6 @@ function initDriftWall(container, props = {}) {
   const ro = new ResizeObserver(([entry]) => {
     containerHeight = entry.contentRect.height || containerHeight;
     meta = computeMeta();
-    computePlaneScale();
     render();
   });
   ro.observe(container);
