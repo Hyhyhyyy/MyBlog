@@ -98,17 +98,11 @@ function initDriftWall(container, props = {}) {
       const c = Math.max(0, Math.min(cols - 1, Number(it.col) || 0));
       (byCol[c] = byCol[c] || []).push(it);
     });
-    // 3) interleave pinned items into their target column at even intervals
+    // 3) prepend pinned items to the top of their target column so real
+    //    content leads each cycle and is never buried in the middle.
     Object.keys(byCol).forEach(c => {
       c = Number(c);
-      const col = colsArr[c];
-      const pinnedThis = byCol[c];
-      const step = Math.max(1, Math.floor(col.length / (pinnedThis.length + 1)));
-      let idx = step;
-      pinnedThis.forEach(item => {
-        col.splice(Math.min(idx, col.length), 0, item);
-        idx += step + 1;
-      });
+      colsArr[c].unshift(...byCol[c]);
     });
     return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
   }
@@ -173,7 +167,8 @@ function initDriftWall(container, props = {}) {
       tile.setAttribute('role', 'button');
       tile.setAttribute('aria-label', item.title || item.label || 'tile');
     }
-    tile.className = 'drift-wall__tile';
+    const isContent = !!(item.href && item.image);
+    tile.className = 'drift-wall__tile' + (isContent ? ' drift-wall__tile--content' : '');
     tile.dataset.tileId = id;
     tile.dataset.col = String(colIndex);
     tile.appendChild(inner);
