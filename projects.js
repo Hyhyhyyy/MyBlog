@@ -10,6 +10,17 @@
   const PROJECTS = window.PROJECTS || [];
   const ALL = window.ALL || PROJECTS;
 
+  // ===== 项目配色：与娱乐合集一致的「鲜红→鲜黄→鲜绿」渐变（色相 0°→120° 均匀步进）=====
+  // 颜色按项目身份（url）稳定映射，使轮播卡与 ALL REPOSITORIES 列表中同一项目颜色一致（对应关系）；
+  // 同时在 data.js 新增项目时按数组下标循环取色，自动延续该渐变。
+  const palette = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
+  const colorIndexByUrl = {};
+  PROJECTS.forEach((p, i) => { if (p && p.url) colorIndexByUrl[p.url] = i % palette.length; });
+  function colorFor(p, fallbackIdx) {
+    const k = p && p.url != null ? colorIndexByUrl[p.url] : undefined;
+    return palette[(k != null ? k : (fallbackIdx % palette.length))];
+  }
+
   function escapeHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;')
@@ -57,9 +68,7 @@
       ? { ease: 'elastic.out(0.6,0.9)', durDrop: 2, durMove: 2, durReturn: 2, promoteOverlap: 0.9, returnDelay: 0.05 }
       : { ease: 'power1.inOut', durDrop: 0.8, durMove: 0.8, durReturn: 0.8, promoteOverlap: 0.45, returnDelay: 0.2 };
 
-    // 与娱乐合集一致的「鲜红→鲜黄→鲜绿」渐变（色相 0°→120° 均匀步进）。
-    // 按 index 循环取色（i % 7），后续在 data.js 新增的项目会自动延续该渐变。
-    const palette = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
+    // 轮播卡与列表共用模块级 colorFor / palette（见文件顶部），不再在此重复声明。
     const refs = [];
     let order = PROJECTS.map((_, i) => i);
     let tlRef = null, intervalRef = null;
@@ -67,7 +76,7 @@
     PROJECTS.forEach((p, i) => {
       const el = document.createElement('div');
       el.className = 'card';
-      el.style.background = palette[i % palette.length];
+      el.style.background = colorFor(p, i);
       el.style.width = width + 'px';
       el.style.height = height + 'px';
       el.innerHTML =
@@ -121,15 +130,14 @@
   function initList() {
     const wrap = document.getElementById('all-list');
     if (!wrap) return;
-    // 左侧 ALL REPOSITORIES 列表的竖脊配色：同样采用「鲜红→鲜黄→鲜绿」渐变，
-    // 与轮播卡、娱乐合集统一；按 index 循环，后续新增仓库自动延续。
-    const spinePalette = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
+    // 左侧 ALL REPOSITORIES 列表的竖脊配色：复用 colorFor，使同一项目在轮播卡与
+    // 列表中的颜色条完全一致（一一对应）；仅出现在列表、未进轮播的仓库按自身下标取渐变色。
     ALL.forEach((p, i) => {
       const a = document.createElement('a');
       a.href = p.url || '#';
       a.target = '_blank';
       a.rel = 'noopener';
-      a.style.borderLeftColor = spinePalette[i % spinePalette.length];
+      a.style.borderLeftColor = colorFor(p, i);
       let html = '<b>' + escapeHtml(p.name) + '</b>';
       if (p.lang) html += '<span class="lang">' + escapeHtml(p.lang) + '</span>';
       html += '<div class="desc">' + escapeHtml((p.desc || '').slice(0, 80)) + '</div>';
