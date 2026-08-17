@@ -23,7 +23,6 @@ function initDriftWall(container, props = {}) {
     lift = 70,
     fade = 0.55,
     dim = 0.5,
-    planeScale = 1.5,
     grayscale = false,
     overlayColor = '#240A07',
     className = '',
@@ -99,14 +98,20 @@ function initDriftWall(container, props = {}) {
       const c = Math.max(0, Math.min(cols - 1, Number(it.col) || 0));
       (byCol[c] = byCol[c] || []).push(it);
     });
-    // 3) prepend pinned items to the top of their target column so real
-    //    content leads each cycle and is never buried in the middle.
-    Object.keys(byCol).forEach(c => {
-      c = Number(c);
-      colsArr[c].unshift(...byCol[c]);
+  // 3) interleave pinned items into their target column at even intervals
+  Object.keys(byCol).forEach(c => {
+    c = Number(c);
+    const col = colsArr[c];
+    const pinnedThis = byCol[c];
+    const step = Math.max(1, Math.floor(col.length / (pinnedThis.length + 1)));
+    let idx = step;
+    pinnedThis.forEach(item => {
+      col.splice(Math.min(idx, col.length), 0, item);
+      idx += step + 1;
     });
-    return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
-  }
+  });
+  return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
+}
   function computeMeta() {
     const unit = tileHeight + gap;
     return columnItems.map(col => {
@@ -168,8 +173,7 @@ function initDriftWall(container, props = {}) {
       tile.setAttribute('role', 'button');
       tile.setAttribute('aria-label', item.title || item.label || 'tile');
     }
-    const isContent = !!(item.href && item.image);
-    tile.className = 'drift-wall__tile' + (isContent ? ' drift-wall__tile--content' : '');
+    tile.className = 'drift-wall__tile';
     tile.dataset.tileId = id;
     tile.dataset.col = String(colIndex);
     tile.appendChild(inner);
@@ -192,7 +196,6 @@ function initDriftWall(container, props = {}) {
       // fixed, non-drifting category label for columns that carry a category
       const cat = col.find(it => it.category);
       if (cat) {
-        colEl.classList.add('drift-wall__col--labeled');
         const label = document.createElement('div');
         label.className = 'drift-wall__col-label';
         label.textContent = cat.category;
@@ -213,10 +216,7 @@ function initDriftWall(container, props = {}) {
     offsets.length = 0;
     velocities.length = 0;
     meta.forEach((mm, c) => {
-      // Columns that carry a real content tile start at offset 0 so the cover
-      // is visible at a glance on load (instead of being scrolled out of view).
-      const hasContent = col.some(it => it.href && it.image);
-      offsets[c] = hasContent ? 0 : mm.copyHeight * ((c * 0.37) % 1);
+      offsets[c] = mm.copyHeight * ((c * 0.37) % 1);
       velocities[c] = 0;
     });
   }
@@ -240,7 +240,7 @@ function initDriftWall(container, props = {}) {
     pointerDamped.x += (targetX - pointerDamped.x) * damp;
     pointerDamped.y += (targetY - pointerDamped.y) * damp;
     plane.style.transform =
-      `translate(-50%, -50%) scale(${planeScale}) ` +
+      `translate(-50%, -50%) scale(1.18) ` +
       `rotateX(${tilt + pointerDamped.y}deg) rotateY(${turn + pointerDamped.x}deg) rotateZ(${roll}deg) ` +
       `translateZ(${-depth}px)`;
 
