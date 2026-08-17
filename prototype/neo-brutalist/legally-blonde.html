@@ -1,427 +1,361 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Legally Blonde 律政俏佳人 · 音乐剧版 — 新野兽派介绍 | HYHY</title>
-  <meta name="description" content="关于音乐剧《律政俏佳人》(Legally Blonde: The Musical) 的中文介绍：创作背景、剧情、经典曲目、卡司、舞台与服装、奖项与影响。粉色泡泡、硬阴影、无圆角的新野兽派(Neo-Brutalist)页面。" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+SC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --ink:#0a0a0a;
-      --bg:#fff0f5;          /* 泡泡浅粉底 */
-      --bg-2:#ffe3f1;        /* 稍深粉 */
-      --pink:#ff006e;        /* 主粉 */
-      --pink-2:#ff66b2;      /* 亮粉 */
-      --pink-3:#ff1493;      /* 深粉 */
-      --pink-soft:#ffd6e8;   /* 极浅粉卡片 */
-      --pop:#00b3ff;         /* 点缀电光蓝 */
-      --yellow:#ffd600;      /* 点缀黄 */
-      --shadow-sm:4px 4px 0 0 var(--ink);
-      --shadow-md:8px 8px 0 0 var(--ink);
-      --shadow-lg:12px 12px 0 0 var(--ink);
-      --b:3px solid var(--ink);
-      --b-thick:4px solid var(--ink);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>律政俏佳人 · 音乐剧 LEGALLY BLONDE — 娱乐合集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --pink:#ff006e;
+    --pink-soft:#ffd6e7;
+    --pink-bg:#fff0f5;
+    --ink:#141414;
+    --blue:#00b3ff;
+    --yellow:#ffe600;
+    --green:#14d18a;
+    --border:3px solid var(--ink);
+    --shadow:6px 6px 0 var(--ink);
+    --shadow-sm:4px 4px 0 var(--ink);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--pink-bg);
+    color:var(--ink);
+    font-family:"Noto Sans SC","Space Mono",system-ui,sans-serif;
+    line-height:1.75;
+    background-image:radial-gradient(var(--pink-soft) 1.5px, transparent 1.5px);
+    background-size:22px 22px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px 80px;}
 
-    *,*::before,*::after{ box-sizing:border-box; }
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:var(--pink);
+    border-bottom:var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 18px;flex-wrap:wrap;gap:8px;
+  }
+  .topbar .brand{font-family:"Archivo Black",sans-serif;color:#fff;letter-spacing:1px;font-size:15px;}
+  .topbar .nav{display:flex;gap:10px;flex-wrap:wrap;}
+  .topbar .nav a{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    background:#fff;color:var(--ink);text-decoration:none;
+    border:2px solid var(--ink);padding:4px 10px;box-shadow:var(--shadow-sm);
+  }
+  .topbar .nav a:hover{background:var(--yellow);}
 
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family:"Noto Sans SC", system-ui, sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-      line-height:1.8;
-      position:relative;
-    }
-    /* 波点纹理：新野兽派常见的背景肌理 */
-    body::before{
-      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
-      background-image:radial-gradient(var(--ink) 1.4px, transparent 1.5px);
-      background-size:22px 22px;
-      opacity:.07;
-    }
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    border:var(--border);
+    box-shadow:var(--shadow);
+    background:#fff;
+    margin-top:26px;
+    overflow:hidden;
+  }
+  .hero img{
+    display:block;width:100%;height:auto;max-height:78vh;object-fit:cover;object-position:center top;
+  }
+  .hero__badge{
+    position:absolute;top:14px;left:14px;
+    background:var(--yellow);border:var(--border);
+    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    padding:5px 10px;box-shadow:var(--shadow-sm);
+  }
+  .hero__cap{
+    position:absolute;bottom:0;left:0;right:0;
+    background:rgba(20,20,20,.86);color:#fff;
+    padding:10px 14px;font-size:12px;font-family:"Space Mono",monospace;
+  }
+  .hero__title{
+    margin:26px 0 0;
+    font-family:"Archivo Black",sans-serif;
+    font-size:clamp(38px,9vw,84px);
+    line-height:.95;color:var(--pink);
+    text-shadow:4px 4px 0 var(--ink);
+    letter-spacing:1px;
+  }
+  .hero__sub{
+    margin:8px 0 0;font-weight:700;font-size:clamp(16px,3.4vw,24px);
+    background:var(--ink);color:#fff;display:inline-block;padding:4px 12px;
+  }
 
-    a{ color:var(--pink-3); text-decoration:none; }
-    a:hover{ text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:3px; }
+  /* ---------- generic section ---------- */
+  section{margin-top:54px;}
+  .sec__head{
+    display:inline-block;background:var(--blue);color:#fff;
+    border:var(--border);box-shadow:var(--shadow-sm);
+    font-family:"Archivo Black",sans-serif;font-size:clamp(20px,4vw,30px);
+    padding:6px 16px;margin:0 0 18px;transform:rotate(-1deg);
+  }
+  .card{
+    background:#fff;border:var(--border);box-shadow:var(--shadow);
+    padding:22px 24px;margin-bottom:22px;
+  }
+  .card.pink{background:var(--pink-soft);}
+  .card.yellow{background:#fff7c2;}
+  p{margin:0 0 14px;}
+  strong{background:var(--yellow);padding:0 4px;box-shadow:2px 2px 0 var(--ink);}
+  em{color:var(--pink);font-style:normal;font-weight:700;}
 
-    /* ---------- 顶部导航 ---------- */
-    .nav{
-      position:sticky; top:0; z-index:50;
-      background:#fff;
-      border-bottom:var(--b-thick);
-    }
-    .nav__inner{
-      max-width:1120px; margin:0 auto; padding:0 20px;
-      display:flex; align-items:center; justify-content:space-between; min-height:58px;
-      flex-wrap:wrap; gap:8px;
-    }
-    .nav__brand{
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      font-size:1.15rem; color:var(--pink); letter-spacing:.02em;
-    }
-    .nav__links{ display:flex; gap:10px; flex-wrap:wrap; }
-    .nav__links a{
-      font-family:"Space Mono", monospace; font-weight:700;
-      font-size:.82rem; text-transform:uppercase; letter-spacing:.06em;
-      color:var(--ink); border:var(--b); padding:5px 11px; background:#fff;
-      box-shadow:var(--shadow-sm); transition:transform .12s, box-shadow .12s;
-    }
-    .nav__links a:hover{ text-decoration:none; transform:translate(2px,2px); box-shadow:2px 2px 0 0 var(--ink); }
+  /* ---------- type-classification banner ---------- */
+  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:10px;}
+  .type{
+    border:var(--border);box-shadow:var(--shadow-sm);background:#fff;padding:14px 16px;
+  }
+  .type .tag{
+    display:inline-block;font-family:"Space Mono",monospace;font-weight:700;font-size:11px;
+    padding:3px 8px;border:2px solid var(--ink);margin-bottom:8px;
+  }
+  .type.official .tag{background:var(--ink);color:#fff;}
+  .type.prod .tag{background:var(--green);color:#fff;}
+  .type.char .tag{background:var(--blue);color:#fff;}
+  .type h4{margin:0 0 6px;font-size:16px;}
+  .type p{font-size:13px;margin:0;}
 
-    main{ position:relative; z-index:2; }
+  /* ---------- poster note card ---------- */
+  .poster-note{
+    display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+    border:var(--border);box-shadow:var(--shadow);background:#fff;padding:18px 20px;
+  }
+  .poster-note .stamp{
+    flex:0 0 auto;width:120px;height:160px;border:3px dashed var(--ink);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:"Space Mono",monospace;font-size:11px;padding:8px;background:#f3f3f3;
+  }
+  .poster-note .body{flex:1 1 320px;}
+  .poster-note a{color:var(--pink);font-weight:700;text-decoration:underline;word-break:break-all;}
 
-    /* ---------- HERO ---------- */
-    .hero{
-      position:relative;
-      padding:54px 20px 40px;
-      text-align:center;
-      background:
-        repeating-linear-gradient(135deg, rgba(255,0,110,.05) 0 14px, transparent 14px 28px),
-        var(--bg);
-      border-bottom:var(--b-thick);
-      overflow:hidden;
-    }
-    .hero__kicker{
-      display:inline-block;
-      font-family:"Space Mono", monospace; font-weight:700;
-      background:var(--ink); color:var(--yellow);
-      padding:6px 14px; border:var(--b); box-shadow:var(--shadow-sm);
-      letter-spacing:.18em; text-transform:uppercase; font-size:.8rem;
-    }
-    .hero__title{
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      font-size:clamp(3rem, 15vw, 8.5rem); line-height:.86;
-      margin:22px 0 6px; color:var(--pink);
-      text-shadow:6px 6px 0 var(--ink);
-      letter-spacing:-.01em;
-    }
-    .hero__sub{
-      font-family:"Noto Sans SC", sans-serif; font-weight:900;
-      font-size:clamp(1.2rem,4vw,2rem); letter-spacing:.05em;
-      display:inline-block; background:#fff; border:var(--b); padding:4px 16px;
-      box-shadow:var(--shadow-sm); margin-bottom:28px;
-    }
-    .hero__poster{
-      display:block; margin:0 auto;
-      width:100%; max-width:clamp(300px, 80vw, 460px); height:auto;
-      border:6px solid var(--ink); background:var(--ink);
-      box-shadow:var(--shadow-lg);
-    }
-    .hero__bubble{
-      position:absolute; top:30px; right:max(12px, 4vw);
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      background:var(--pop); color:#fff;
-      border:var(--b); box-shadow:var(--shadow-md);
-      padding:10px 16px; font-size:clamp(.9rem,2.6vw,1.25rem);
-      transform:rotate(8deg); max-width:48vw; line-height:1.05;
-    }
-    .hero__tags{
-      display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
-      margin-top:30px;
-    }
-    .chip{
-      font-family:"Space Mono", monospace; font-weight:700; font-size:.8rem;
-      background:var(--pink-soft); border:var(--b); padding:5px 12px;
-      box-shadow:var(--shadow-sm); letter-spacing:.03em;
-    }
-    .chip--pop{ background:var(--pop); color:#fff; }
-    .chip--yellow{ background:var(--yellow); }
+  /* ---------- cast grid ---------- */
+  .cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}
+  .actor{border:var(--border);box-shadow:var(--shadow);background:#fff;overflow:hidden;}
+  .actor img{display:block;width:100%;height:320px;object-fit:cover;object-position:center top;border-bottom:var(--border);}
+  .actor .meta{padding:14px 16px;}
+  .actor .role{font-family:"Archivo Black",sans-serif;font-size:18px;color:var(--pink);}
+  .actor .who{font-weight:700;}
+  .actor .lic{font-family:"Space Mono",monospace;font-size:11px;margin-top:8px;background:var(--pink-soft);border:2px solid var(--ink);padding:3px 6px;display:inline-block;}
+  .actor .kind{font-family:"Space Mono",monospace;font-size:11px;color:#fff;background:var(--blue);border:2px solid var(--ink);padding:3px 6px;display:inline-block;margin-bottom:6px;}
 
-    /* ---------- 通用容器 ---------- */
-    .prose{ max-width:880px; margin:0 auto; padding:56px 20px 40px; }
-    .sec{ display:flex; align-items:baseline; gap:14px; margin:60px 0 22px; flex-wrap:wrap; }
-    .sec__no{
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      background:var(--pink); color:#fff; border:var(--b);
-      padding:4px 14px; font-size:1.1rem; box-shadow:var(--shadow-sm);
-    }
-    .sec__t{
-      font-family:"Noto Sans SC", sans-serif; font-weight:900;
-      font-size:clamp(1.5rem,4.5vw,2.3rem); margin:0; line-height:1.1;
-    }
-    .sec__t small{
-      display:block; font-family:"Space Mono", monospace; font-weight:700;
-      font-size:.6em; letter-spacing:.18em; color:var(--pink-3); text-transform:uppercase; margin-top:4px;
-    }
-    p{ font-size:1.05rem; text-align:justify; }
-    p.lead{ font-size:1.12rem; }
-    .lead::first-letter{
-      float:left; font-family:"Archivo Black", sans-serif; font-weight:400;
-      font-size:3.6rem; line-height:.8; padding:6px 12px 0 0; color:var(--pink);
-    }
+  /* ---------- songs table ---------- */
+  table{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  th,td{border:2px solid var(--ink);padding:10px 12px;text-align:left;font-size:14px;}
+  th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:12px;}
+  td.en{font-weight:700;font-family:"Space Mono",monospace;}
+  td.cn{color:var(--pink);font-weight:700;}
 
-    /* ---------- 卡片 ---------- */
-    .card{
-      background:#fff; border:var(--b); box-shadow:var(--shadow-sm);
-      padding:16px 18px; transition:transform .12s, box-shadow .12s;
-    }
-    .card:hover{ transform:translate(-3px,-3px); box-shadow:var(--shadow-md); }
+  /* ---------- credits ---------- */
+  .credits{background:var(--ink);color:#fff;box-shadow:var(--shadow);border:var(--border);padding:20px 22px;}
+  .credits h3{margin:0 0 12px;color:var(--yellow);font-family:"Archivo Black",sans-serif;font-size:20px;}
+  .credits table{background:transparent;color:#fff;box-shadow:none;border:2px solid #fff;}
+  .credits th{background:#fff;color:var(--ink);}
+  .credits td,.credits th{border:1px solid #555;}
+  .credits a{color:var(--blue);}
 
-    /* 剧情要点 */
-    .facts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:18px 0 8px; }
-    .facts .card h4{ margin:0 0 6px; font-family:"Noto Sans SC",sans-serif; font-weight:900; font-size:1.05rem; }
-    .facts .card p{ margin:0; font-size:.96rem; text-align:left; }
+  /* ---------- footer ---------- */
+  .footer{margin-top:60px;text-align:center;}
+  .footer a{
+    display:inline-block;background:var(--pink);color:#fff;text-decoration:none;
+    font-family:"Archivo Black",sans-serif;font-size:18px;padding:12px 26px;
+    border:var(--border);box-shadow:var(--shadow);
+  }
+  .footer a:hover{background:var(--yellow);color:var(--ink);}
+  .footer .fine{margin-top:18px;font-size:12px;color:#666;font-family:"Space Mono",monospace;}
 
-    /* 曲目网格 */
-    .songs{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:18px 0; }
-    .song{
-      background:var(--pink-soft); border:var(--b); box-shadow:var(--shadow-sm); padding:14px 16px;
-      transition:transform .12s, box-shadow .12s;
-    }
-    .song:hover{ transform:translate(-3px,-3px); box-shadow:var(--shadow-md); }
-    .song__en{ font-family:"Archivo Black",sans-serif; font-weight:400; font-size:1.02rem; color:var(--pink-3); line-height:1.1; }
-    .song__cn{ font-size:.9rem; margin-top:6px; color:var(--ink); }
-
-    /* 卡司 */
-    .cast{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0; }
-    .cast .card{ display:flex; flex-direction:column; gap:4px; }
-    .cast__role{ font-family:"Space Mono",monospace; font-weight:700; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--pink-3); }
-    .cast__name{ font-family:"Noto Sans SC",sans-serif; font-weight:900; font-size:1.1rem; }
-    .cast__note{ font-size:.9rem; color:#333; text-align:left; }
-
-    /* 引用 */
-    .quote{
-      margin:34px 0; padding:20px 22px;
-      border-left:8px solid var(--pink);
-      background:#fff; border:var(--b); box-shadow:var(--shadow-md);
-      position:relative;
-    }
-    .quote__en{
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      font-size:clamp(1.1rem,3vw,1.5rem); color:var(--pink-3); line-height:1.2; margin:0 0 12px;
-    }
-    .quote__cn{ font-size:1rem; margin:0; }
-    .quote__src{
-      display:inline-block; margin-top:12px; font-family:"Space Mono",monospace; font-weight:700;
-      font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
-      background:var(--ink); color:var(--yellow); padding:3px 10px;
-    }
-
-    /* 趣味 callout：Bend and Snap */
-    .callout{
-      margin:34px 0; padding:18px 20px;
-      background:var(--pop); color:#fff; border:var(--b); box-shadow:var(--shadow-md);
-      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
-    }
-    .callout b{ font-family:"Archivo Black",sans-serif; font-weight:400; font-size:1.3rem; }
-    .callout span{ font-size:.96rem; }
-
-    /* 奖项 */
-    .awards{
-      background:var(--yellow); border:var(--b); box-shadow:var(--shadow-md); padding:20px 24px; margin:18px 0;
-    }
-    .awards ul{ margin:0; padding-left:20px; }
-    .awards li{ margin-bottom:8px; font-size:1rem; }
-
-    /* 舞台/服装 两栏 */
-    .duo{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin:18px 0; }
-
-    /* ---------- 页脚 ---------- */
-    .curtain{
-      position:relative; margin-top:40px;
-      background:var(--ink); color:#fff; padding:64px 20px 84px; text-align:center;
-      border-top:var(--b-thick);
-    }
-    .curtain h2{
-      font-family:"Archivo Black", sans-serif; font-weight:400;
-      font-size:clamp(2rem,6vw,3.2rem); color:var(--pink-2); margin:0 0 10px;
-      text-shadow:4px 4px 0 #000;
-    }
-    .curtain p{ text-align:center; opacity:.9; }
-    .curtain__rule{ width:130px; height:3px; background:var(--pink); margin:18px auto; }
-    .btn-brutal{
-      display:inline-block; font-family:"Space Mono",monospace; font-weight:700;
-      background:var(--pink); color:#fff; border:var(--b); box-shadow:var(--shadow-sm);
-      padding:10px 18px; margin:6px; letter-spacing:.05em; text-transform:uppercase; font-size:.85rem;
-      transition:transform .12s, box-shadow .12s;
-    }
-    .btn-brutal:hover{ text-decoration:none; transform:translate(2px,2px); box-shadow:2px 2px 0 0 var(--ink); }
-    .btn-brutal--alt{ background:var(--pop); }
-
-    .credit{ margin-top:26px; font-family:"Space Mono",monospace; font-size:.72rem; color:#bbb; letter-spacing:.04em; }
-    .credit a{ color:var(--pink-2); }
-
-    @media(max-width:640px){
-      .hero__bubble{ position:static; transform:rotate(-3deg); margin:18px auto 0; max-width:90vw; }
-      p{ text-align:left; }
-      .prose{ padding:44px 16px 30px; }
-    }
-  </style>
+  .quote{
+    border-left:8px solid var(--pink);background:#fff;border:var(--border);
+    box-shadow:var(--shadow-sm);padding:16px 18px;margin:18px 0;font-size:17px;font-weight:700;
+  }
+  .quote .src{display:block;margin-top:8px;font-size:12px;color:#888;font-family:"Space Mono",monospace;font-weight:400;}
+  ul.tight{margin:0;padding-left:20px;}
+  ul.tight li{margin-bottom:8px;}
+</style>
 </head>
 <body>
 
-  <nav class="nav" aria-label="返回导航">
-    <div class="nav__inner">
-      <a href="index.html" class="nav__brand">HYHY / GROWTH</a>
-      <div class="nav__links">
-        <a href="collections.html">娱乐合集</a>
-        <a href="projects.html">项目</a>
-        <a href="about.html">关于</a>
+<div class="topbar">
+  <div class="brand">♥ ENTERTAINMENT COLLECTION</div>
+  <div class="nav">
+    <a href="collections.html">← 返回合集</a>
+    <a href="#types">图片类型</a>
+    <a href="#cast">卡司角色</a>
+    <a href="#songs">经典曲目</a>
+    <a href="#credits">版权署名</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO: 演出剧照 (production photo) -->
+  <div class="hero">
+    <img src="legally-blonde-cover.jpg" alt="《律政俏佳人》音乐剧澳大利亚首演夜紫毯现场（演出剧照）" />
+    <span class="hero__badge">演出剧照 · PRODUCTION PHOTO</span>
+    <div class="hero__cap">摄影 / Eva Rinaldi · CC BY-SA 2.0（Wikimedia Commons）— 澳大利亚首演夜紫毯</div>
+  </div>
+  <h1 class="hero__title">LEGALLY BLONDE</h1>
+  <div class="hero__sub">律政俏佳人 · 音乐剧版</div>
+
+  <p style="margin-top:22px">
+    <em>《律政俏佳人》（Legally Blonde: The Musical）</em>是 2007 年登陆百老汇的喜闹音乐剧，改编自 2001 年瑞茜·威瑟斯彭主演的同名电影，
+    由劳伦斯·奥基夫（Laurence O'Keefe）与内尔·本杰明（Nell Benjamin）作曲作词、希瑟·哈赫（Heather Hach）编剧。
+    导演兼编舞为托尼奖得主杰瑞·米切尔（Jerry Mitchell）。全剧用高饱和的粉色、泡泡糖般的编曲，
+    讲了一个"金发女孩不一定是傻白甜"的爽文故事——这也是它和新野兽派（Neo-Brutalist）大胆、俏皮调性天然契合的原因。
+  </p>
+
+  <!-- ===== 图片类型说明（回应用户的核心关切） ===== -->
+  <section id="types">
+    <div class="sec__head">图片类型怎么分？</div>
+    <p>你点出的问题很关键：<strong>并不是所有"剧照"都叫官方封面</strong>。本页所用图片全部按"来源 + 许可 + 内容"三类元数据区分，下面是一个总览。</p>
+    <div class="types">
+      <div class="type official">
+        <span class="tag">① 官方海报 / KEY ART</span>
+        <h4>官方主视觉海报</h4>
+        <p>英文维基的 <code>File:LegallyBlondeTheMusical.jpg</code> 即为此类——商业音乐剧的<strong>设计版主视觉</strong>。但它标注为 <strong>非自由（Fair Use）</strong>，不能下载托管到本站，仅作来源链接展示（见下方说明卡）。</p>
+      </div>
+      <div class="type prod">
+        <span class="tag">② 演出剧照 / PRODUCTION</span>
+        <h4>真实演出现场照</h4>
+        <p>首演夜、探班、排练等<strong>实拍照片</strong>。本站 Hero 与下方画廊用的就是这类（Eva Rinaldi 摄，CC BY-SA 2.0，可自由托管，需署名）。</p>
+      </div>
+      <div class="type char">
+        <span class="tag">③ 角色 / 演员肖像</span>
+        <h4>角色或演员肖像</h4>
+        <p>以"某演员饰某角色"为内容的<strong>人物肖像</strong>。下方卡司区用的 Elle Woods 角色肖像（Courtney Bowman 饰，Ottoch 摄，CC BY-SA 4.0）即属此类。</p>
       </div>
     </div>
-  </nav>
 
-  <main>
-    <header class="hero">
-      <span class="hero__kicker">Musical · 2007 Broadway</span>
-      <h1 class="hero__title">LEGALLY<br>BLONDE</h1>
-      <div class="hero__sub">律政俏佳人 · 音乐剧版</div>
-      <img class="hero__poster" src="legally-blonde-cover.jpg" alt="Legally Blonde: The Musical 官方海报（Eva Rinaldi 摄，CC BY-SA 2.0）" />
-      <div class="hero__bubble">OMIGOD<br>YOU GUYS!</div>
-      <div class="hero__tags">
-        <span class="chip">2007 百老汇首演</span>
-        <span class="chip chip--pop">7 项托尼提名</span>
-        <span class="chip chip--yellow">奥基夫 &amp; 本杰明</span>
-        <span class="chip">杰瑞·米切尔 编导</span>
+    <!-- 官方海报说明卡：链接而非托管 -->
+    <div class="poster-note" style="margin-top:22px">
+      <div class="stamp">⚠ 非自由素材<br/>仅链接来源<br/>未托管副本</div>
+      <div class="body">
+        <h4 style="margin:0 0 6px">关于"官方海报"（Key Art）</h4>
+        <p style="margin:0 0 8px">该剧的官方主视觉海报属于<strong>商业版权素材（非自由 / Fair Use）</strong>，维基百科仅在"合理使用"框架下以低清缩略图挂载，<strong>不允许在任何其他站点重新托管副本</strong>。因此本页不放置其图片文件，仅给出来源链接供查看：</p>
+        <a href="https://en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg" target="_blank" rel="noreferrer noopener">en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg</a>
+        <p style="margin:8px 0 0;font-size:12px;color:#888;font-family:'Space Mono',monospace">© 海报版权归其发行/设计方所有。本页所有可见图片均为自由许可（CC）的演出剧照与角色肖像。</p>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <article class="prose">
-
-      <section>
-        <h2 class="sec"><span class="sec__no">01</span><span class="sec__t">序 · 一场粉色风暴<small>Prologue</small></span></h2>
-        <p class="lead">
-          2007 年 4 月 29 日，一部把"金发花瓶"翻案成"法律精英"的音乐喜剧在纽约百老汇的皇宫剧院（Palace Theatre）拉开大幕。它不是复刻电影，而是一次彻底的音乐剧化重构——《律政俏佳人》（<em>Legally Blonde: The Musical</em>）。作曲与作词由劳伦斯·奥基夫（Laurence O'Keefe）与内尔·本杰明（Nell Benjamin）联手完成，剧本由希瑟·哈克（Heather Hach）执笔，灵感来自阿曼达·布朗（Amanda Brown）的小说与 2001 年那部由瑞茜·威瑟斯彭主演、红遍全球的电影。它用高跟鞋、粉色与一段段炸裂的流行摇滚，告诉所有人： blonde 不等于空壳。
-        </p>
-        <p>
-          导演兼编舞杰瑞·米切尔（Jerry Mitchell）把这部戏的底色定为一剂"快乐强心针"——快节奏、高能量、毫不掩饰地明亮。它首轮在百老汇连演 30 场预演加 595 场正式演出，直到 2008 年 10 月 19 日才落下帷幕，并拿下七项托尼奖提名（含最佳原创配乐）。伦敦西区版随后于 2010 年 1 月 13 日在萨沃伊剧院（Savoy Theatre）开演，此后的十余年里，它登上德国、澳大利亚、日本、韩国、中国等全球无数舞台。
-        </p>
-      </section>
-
-      <div class="facts">
-        <div class="card"><h4>原作</h4><p>阿曼达·布朗小说 + 2001 年电影（瑞茜·威瑟斯彭 饰 Elle Woods）</p></div>
-        <div class="card"><h4>主创</h4><p>作曲/词：奥基夫 &amp; 本杰明；剧本：希瑟·哈克</p></div>
-        <div class="card"><h4>编导</h4><p>杰瑞·米切尔（导演兼编舞）</p></div>
-        <div class="card"><h4>首演</h4><p>2007-04-29 百老汇皇宫剧院；2010 西区萨沃伊剧院</p></div>
+  <!-- ===== 剧情 ===== -->
+  <section>
+    <div class="sec__head">剧情 · SYNOPSIS</div>
+    <div class="card">
+      <p>加州大学洛杉矶分校（UCLA）的校园皇后、金发甜心 <em>Elle Woods（艾丽·伍兹）</em> 被高富帅男友 Warner 以"我需要更严肃的伴侣"为由甩掉。
+      为了挽回他，艾丽放下信用卡、啃起书本，一路杀进 <strong>哈佛法学院</strong>。</p>
+      <p>到了哈佛，她被同学嘲笑、被教授刁难，却也遇见了真正欣赏她的助教 <em>Emmett</em>、理发店老板娘 <em>Paulette</em>，以及一桩牵动全场的谋杀案。
+      最终她不仅以年级第一毕业，还赢回了更珍贵的自己——也顺手把前男友甩进了尘埃。</p>
+      <div class="quote">"Being true to yourself never goes out of style."
+        <span class="src">— 官方剧情简介（澳大利亚首演宣传）· 做自己，永远不会过时。</span>
       </div>
+    </div>
+  </section>
 
-      <section>
-        <h2 class="sec"><span class="sec__no">02</span><span class="sec__t">剧情 · 做自己，也能赢<small>The Story</small></span></h2>
-        <p>
-          艾丽·伍兹（Elle Woods）是加州大学 Delta Nu 姐妹会的主席，生活被粉色、宠物狗布鲁瑟（Bruiser）和完美男友华纳（Warner Huntington III）填满。直到华纳甩了她——理由是"哈佛法学院容不下一个金发花瓶"，并扬言要娶门当户对的薇薇安（Vivienne）。艾丽没有崩溃，反而做了一个让所有人瞠目结舌的决定：她以全 A 成绩和一封用粉色香的申请书考入哈佛法学院，只为把华纳赢回来。
-        </p>
-        <p>
-          初到剑桥，她被视作笑话：被分到低年级合同法班的"冷板凳"，被卡伦教授（Professor Callahan）轻视，被薇薇安当成靶子。但艾丽靠着对细节的敏锐、对时尚与美发的专业直觉，渐渐露出锋芒。她接下健身女王布鲁克·温德姆（Brooke Wyndham）的谋杀案辩护——当所有人都认定这位杀夫嫌疑人有罪时，艾丽用一个关于"漂发与健身日程"的关键常识戳破了谎言，证明了自己的法律头脑。
-        </p>
-        <p>
-          更重要的是，她遇见了真诚、不以外表取人的助教埃米特（Emmett Forrest）。在跌跌撞撞中，艾丽终于明白：她追来哈佛从来不是为了华纳，而是为了成为更好的自己。终幕，她不再需要谁的认可，金发与智慧本就可以并存。
-        </p>
+  <!-- ===== 卡司与角色 ===== -->
+  <section id="cast">
+    <div class="sec__head">卡司与角色 · CAST</div>
+    <p>下面两张是<strong>真实自由授权图片</strong>：一张为<em>角色肖像</em>（演员饰角色的人物照），一张为<em>演出剧照</em>（探班现场）。均标注类型与许可。</p>
 
-        <blockquote class="quote">
-          <p class="quote__en">"I'm so much better, since I found out who I am."</p>
-          <p class="quote__cn">自从这个我，终于找到了真正的自己，一切都好太多了。——全剧的灵魂一句：成长，从来不需要抹掉原来的你。</p>
-          <span class="quote__src">So Much Better</span>
-        </blockquote>
-
-        <div class="callout">
-          <b>BEND &amp; SNAP!</b>
-          <span>全剧最出圈的"撩汉动作"：弯腰捡东西再猛地起身——艾丽在法庭上也用这招化解尴尬。它后来成了现实里真的流行梗。</span>
+    <div class="cast">
+      <div class="actor">
+        <img src="legally-blonde-elle.jpg" alt="Courtney Bowman 饰演 Elle Woods 的角色肖像" />
+        <div class="meta">
+          <span class="kind">角色肖像 · CHARACTER PORTRAIT</span>
+          <div class="role">Elle Woods 艾丽·伍兹</div>
+          <div class="who">饰：Courtney Bowman（摄于伦敦 Regent's Park 露天剧院谢幕）</div>
+          <span class="lic">© Ottoch · CC BY-SA 4.0</span>
         </div>
-      </section>
-
-      <section>
-        <h2 class="sec"><span class="sec__no">03</span><span class="sec__t">经典曲目 · 一开口就上头<small>Music</small></span></h2>
-        <p>
-          全剧没有对白，全靠歌曲推进。曲风是明快的流行摇滚（pop-rock），信息密度高、记忆点强，几首核心曲目几乎是"金发女孩"的宣言书：
-        </p>
-        <div class="songs">
-          <div class="song"><div class="song__en">Omigod You Guys</div><div class="song__cn">开场即高能，艾丽宣布"我要去哈佛"的炸裂独白。</div></div>
-          <div class="song"><div class="song__en">Positive</div><div class="song__cn">艾丽用"正向思考"武装自己，洗脑又治愈。</div></div>
-          <div class="song"><div class="song__en">Bend and Snap</div><div class="song__cn">姐妹会秘技教学，全剧最欢脱的群舞。</div></div>
-          <div class="song"><div class="song__en">There! Right There!</div><div class="song__cn">"她是不是 gay / 欧洲人？"的爆笑怀疑小合唱。</div></div>
-          <div class="song"><div class="song__en">Whipped Into Shape</div><div class="song__cn">布鲁克在监狱里用健身发泄，体能地狱咏叹调。</div></div>
-          <div class="song"><div class="song__en">Take It Like a Man</div><div class="song__cn">埃米特敞开心扉，温柔又坚定的男声独唱。</div></div>
-          <div class="song"><div class="song__en">So Much Better</div><div class="song__cn">终曲前的觉醒：做自己，所以比从前更好。</div></div>
-          <div class="song"><div class="song__en">Legally Blonde</div><div class="song__cn">大结局群像，金发女孩们集体宣言。</div></div>
+      </div>
+      <div class="actor">
+        <img src="legally-blonde-prod.jpg" alt="《律政俏佳人》音乐剧媒体探班演出剧照" />
+        <div class="meta">
+          <span class="kind">演出剧照 · PRODUCTION PHOTO</span>
+          <div class="role">媒体探班现场</div>
+          <div class="who">澳大利亚首演媒体探班（Sydney, The Star）</div>
+          <span class="lic">© Eva Rinaldi · CC BY-SA 2.0</span>
         </div>
+      </div>
+    </div>
 
-        <blockquote class="quote">
-          <p class="quote__en">"Don't be a ginger Rogers, be yourself."</p>
-          <p class="quote__cn">别去模仿别人眼里的"合格"，做你自己就好。——这部戏反复强调的，正是对"标签"的温柔反叛。</p>
-          <span class="quote__src">Elle Woods</span>
-        </blockquote>
-      </section>
+    <div class="card pink" style="margin-top:22px">
+      <h4 style="margin:0 0 10px">主要角色速览</h4>
+      <ul class="tight">
+        <li><strong>Elle Woods</strong> — 女主，金发律政俏佳人。百老汇首演由 Laura Bell Bundy 饰演；澳大利亚首演由 <em>Lucy Durack</em> 饰演并凭此角拿下 Helpmann 奖最佳音乐剧女主角。</li>
+        <li><strong>Emmett Forrest</strong> — 哈佛助教，艾丽的良师益友与真命天子。</li>
+        <li><strong>Paulette Bonafonté</strong> — 理发店老板娘，艾丽的精神后援。</li>
+        <li><strong>Warner Huntington III</strong> — 艾丽的前男友，哈佛同窗。</li>
+        <li><strong>Professor Callahan / Vivienne</strong> — 法学院教授与 Warner 的新女友。</li>
+      </ul>
+    </div>
+  </section>
 
-      <section>
-        <h2 class="sec"><span class="sec__no">04</span><span class="sec__t">卡司 · 百老汇原班<small>Original Cast</small></span></h2>
-        <p>
-          2007 年百老汇首演的 original cast 几乎与角色长在一起，下面几位尤其出圈：
-        </p>
-        <div class="cast">
-          <div class="card"><span class="cast__role">Elle Woods</span><span class="cast__name">Laura Bell Bundy</span><span class="cast__note">金发甜心本甜，把"傻白甜"演成"大女主"。</span></div>
-          <div class="card"><span class="cast__role">Emmett Forrest</span><span class="cast__name">Christian Borle</span><span class="cast__note">后来两夺托尼奖的实力派，此役奠定暖男基底。</span></div>
-          <div class="card"><span class="cast__role">Paulette</span><span class="cast__name">Orfeh</span><span class="cast__note">发型师闺蜜，Ireland 梦与爆笑独唱担当。</span></div>
-          <div class="card"><span class="cast__role">Warner</span><span class="cast__name">Richard H. Blake</span><span class="cast__note">前男友本尊，傲慢与前程的象征。</span></div>
-          <div class="card"><span class="cast__role">Vivienne</span><span class="cast__name">Kate Shindle</span><span class="cast__note">从情敌到同盟，反转最甜的一条线。</span></div>
-          <div class="card"><span class="cast__role">Brooke Wyndham</span><span class="cast__name">Nikki Snelson</span><span class="cast__note">健身女王，Whipped Into Shape 的高音狂人。</span></div>
-          <div class="card"><span class="cast__role">Serena</span><span class="cast__name">Leslie Kritzer</span><span class="cast__note">Delta Nu 姐妹团核心成员之一。</span></div>
-          <div class="card"><span class="cast__role">Pilar</span><span class="cast__name">DeQuina Moore</span><span class="cast__note">姐妹团里的炫酷担当。</span></div>
-        </div>
-      </section>
+  <!-- ===== 经典曲目 ===== -->
+  <section id="songs">
+    <div class="sec__head">经典曲目 · SONGS</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>英文曲名</th><th>中文译名</th><th>情境</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="en">"Omigod You Guys"</td><td class="cn">天哪你们</td><td>艾丽被哈佛录取的宣言式开场</td></tr>
+          <tr><td class="en">"Serious"</td><td class="cn">认真点</td><td>Warner 提出分手的核心唱段</td></tr>
+          <tr><td class="en">"Bend and Snap"</td><td class="cn">弯腰一甩</td><td>艾丽教 Paulette 的"撩汉绝技"，全剧最欢脱名场面</td></tr>
+          <tr><td class="en">"So Much Better"</td><td class="cn">好太多了</td><td>艾丽蜕变后的自信高光</td></tr>
+          <tr><td class="en">"Legally Blonde"</td><td class="cn">律政俏佳人</td><td>终曲，点题"做自己"</td></tr>
+        </tbody>
+      </table>
+      <div class="quote">"I'm never going to be good enough for him, because I'm not him. I'm Elle Woods."
+        <span class="src">— So Much Better · 我不必成为他，我是艾丽·伍兹。</span>
+      </div>
+    </div>
+  </section>
 
-      <section>
-        <h2 class="sec"><span class="sec__no">05</span><span class="sec__t">舞台与服装 · 把粉色穿成铠甲<small>Stagecraft</small></span></h2>
-        <div class="duo">
-          <div class="card">
-            <h4 style="margin:0 0 8px;font-family:'Noto Sans SC',sans-serif;font-weight:900;">服装 · Gregg Barnes</h4>
-            <p style="margin:0;font-size:.98rem;text-align:left;">托尼奖得主格雷格·巴恩斯的服装设计是视觉灵魂：从法学院的保守藏青，到 Delta Nu 的荧光粉，颜色本身就是叙事。每套造型都在说"我拒绝被定义"。</p>
-          </div>
-          <div class="card">
-            <h4 style="margin:0 0 8px;font-family:'Noto Sans SC',sans-serif;font-weight:900;">编舞 · Jerry Mitchell</h4>
-            <p style="margin:0;font-size:.98rem;text-align:left;">导演兼编舞杰瑞·米切尔用高能量的群舞把"姐妹情谊"跳成史诗。Bend and Snap 一段至今是各版本必保留的爆点。</p>
-          </div>
-          <div class="card">
-            <h4 style="margin:0 0 8px;font-family:'Noto Sans SC',sans-serif;font-weight:900;">舞美 · David Rockwell</h4>
-            <p style="margin:0;font-size:.98rem;text-align:left;">大卫·罗克韦尔的布景用明快色块切换哈佛课堂、法庭与加州校园，轻盈、直接、不端着。</p>
-          </div>
-          <div class="card">
-            <h4 style="margin:0 0 8px;font-family:'Noto Sans SC',sans-serif;font-weight:900;">灯光 · Kenneth Posner</h4>
-            <p style="margin:0;font-size:.98rem;text-align:left;">肯尼斯·波斯纳的灯光把粉色打出层次，让喜剧场面更亮、抒情段落更柔。</p>
-          </div>
-        </div>
-      </section>
+  <!-- ===== 奖项与影响 ===== -->
+  <section>
+    <div class="sec__head">奖项与影响 · AWARDS</div>
+    <div class="card yellow">
+      <ul class="tight">
+        <li><strong>托尼奖</strong>提名 7 项（2008），包括最佳音乐剧女主角（Laura Bell Bundy）。</li>
+        <li><strong>奥利弗奖（Olivier）</strong>2011 年度最佳新音乐剧（Best New Musical）。</li>
+        <li>伦敦西区驻演三年、百老汇驻演两年余，并开启多国巡演与业余授权（MTI）。</li>
+        <li>悉尼演员 Lucy Durack 凭 Elle Woods 获 <em>Helpmann 奖</em>最佳音乐剧女主角。</li>
+        <li>文化意义：把"金发=肤浅"的刻板印象翻转为"聪明且自信"，粉色成了女性力量的符号。</li>
+      </ul>
+    </div>
+  </section>
 
-      <section>
-        <h2 class="sec"><span class="sec__no">06</span><span class="sec__t">奖项与影响 · 快乐也是一种力量<small>Legacy</small></span></h2>
-        <div class="awards">
-          <ul>
-            <li>2007 年百老汇皇宫剧院首演，连演 595 场 + 30 场预演。</li>
-            <li>第 61 届托尼奖 7 项提名（含最佳原创配乐、最佳编舞），虽未获奖但人气爆棚。</li>
-            <li>2007 年 MTV 录制并播出百老汇现场版，让全球观众得以一窥全貌。</li>
-            <li>2010 年伦敦西区萨沃伊剧院开演，2012 年落幕，长演 974 场。</li>
-            <li>此后在德、澳、日、韩、中等多国巡演，并被译成多种语言。</li>
-            <li>2022 年伦敦摄政公园露天剧院复排，由 Lucy Moss 执导，再掀粉色热潮。</li>
-          </ul>
-        </div>
-        <p>
-          《律政俏佳人》音乐剧没有改变法律，却悄悄改变了很多女孩对自己的想象。它把"漂亮"和"聪明"从二选一变成"我全都要"，用最不严肃的外壳，讲了一个最认真的主题：你不必为了被尊重而先否定自己。这大概就是它能在全球舞台反复上演近二十年的原因。
-        </p>
-      </section>
-
-      <p style="text-align:center; font-family:'Archivo Black',sans-serif; font-weight:400; color:var(--pink-3); font-size:1.4rem; margin-top:46px;">
-        "So much better." — 因为做自己，所以更好。
+  <!-- ===== 版权署名（直接回应"区分并应用"） ===== -->
+  <section id="credits">
+    <div class="credits">
+      <h3>图片版权与署名 · IMAGE CREDITS</h3>
+      <table>
+        <thead>
+          <tr><th>图片</th><th>类型</th><th>作者</th><th>许可</th><th>来源</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>首演夜 Hero</td><td>演出剧照</td><td>Eva Rinaldi</td><td>CC BY-SA 2.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Legally_Blonde_Opening_Night_(8053354679).jpg" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
+          <tr><td>Elle Woods 肖像</td><td>角色肖像</td><td>Ottoch</td><td>CC BY-SA 4.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Courtney_Bowman_-_Elle_Woods.png" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
+          <tr><td>媒体探班</td><td>演出剧照</td><td>Eva Rinaldi</td><td>CC BY-SA 2.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Legally_Blonde_The_Musical_(8008143258).jpg" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
+          <tr><td>官方主视觉海报</td><td>非自由（Fair Use）</td><td>版权方</td><td>不可托管</td><td><a href="https://en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg" target="_blank" rel="noreferrer noopener">仅链接来源</a></td></tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0;font-size:12px;color:#bbb;font-family:'Space Mono',monospace">
+        本站所有可见图片均为自由许可（CC BY / CC BY-SA）素材，依许可要求署名并附来源链接；官方海报因非自由版权仅作来源引用，未存储任何副本。
       </p>
+    </div>
+  </section>
 
-    </article>
-  </main>
+  <div class="footer">
+    <a href="collections.html">← 回到娱乐合集</a>
+    <div class="fine">娱乐合集 · Neo-Brutalist 原型 · 图片按类型分类标注</div>
+  </div>
 
-  <footer class="curtain">
-    <h2>CURTAIN CALL</h2>
-    <div class="curtain__rule"></div>
-    <p>粉色风暴暂歇，但娱乐合集永不落幕。</p>
-    <p style="margin-top:14px;">
-      <a class="btn-brutal" href="collections.html">← 返回娱乐合集</a>
-      <a class="btn-brutal btn-brutal--alt" href="index.html">回到首页</a>
-    </p>
-    <p class="credit">
-      海报图片：Eva Rinaldi / Wikimedia Commons，<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>。
-      本页采用新野兽派(Neo-Brutalist)「俏皮」变体，粉色重构。
-    </p>
-  </footer>
-
+</div>
 </body>
 </html>
