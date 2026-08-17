@@ -1,408 +1,298 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我与地坛 — 史铁生 散文集 | HYHY</title>
-  <meta name="description" content="关于史铁生《我与地坛》的中文介绍：一篇散文与一整本书、地坛与母亲、生死之问、名句摘抄、出版信息与阅读影响。" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --ink:#1c140a;
-      --parchment:#f3e7c9;
-      --parchment-2:#e8d8b0;
-      --parchment-dark:#cdbb96;
-      --cream:#faf3df;
-      --crimson:#7c1d1d;
-      --crimson-light:#a83636;
-      --gold:#b9912f;
-      --gold-light:#e3c56c;
-      --shadow:0 18px 60px rgba(28,20,10,0.28);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我与地坛 · 史铁生 — 娱乐合集</title>
+<meta name="description" content="关于史铁生散文集《我与地坛》的中文介绍：创作背景、内容概要、主题思想、代表篇目与名句、出版版本、评价影响与文化意义。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1c140a;
+    --paper:#f3e7c9;
+    --paper-2:#e8d8b0;
+    --paper-3:#efe2c0;
+    --crimson:#7c1d1d;
+    --gold:#b9912f;
+    --gold-light:#e3c56c;
+    --border:3px solid var(--ink);
+    --shadow:6px 6px 0 var(--ink);
+    --shadow-sm:4px 4px 0 var(--ink);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Noto Serif SC","Songti SC","SimSun",serif;line-height:1.85;
+    background-image:radial-gradient(rgba(124,29,29,.10) 1.5px, transparent 1.5px);
+    background-size:22px 22px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 18px 80px;}
 
-    *,*::before,*::after{ box-sizing:border-box; }
+  .topbar{
+    position:sticky;top:0;z-index:20;background:var(--ink);
+    border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;
+    padding:10px 18px;flex-wrap:wrap;gap:8px;
+  }
+  .topbar .brand{font-family:"Noto Serif SC",serif;font-weight:900;color:var(--gold-light);letter-spacing:1px;font-size:15px;}
+  .topbar .nav{display:flex;gap:8px;flex-wrap:wrap;}
+  .topbar .nav a{
+    font-family:"Space Mono",monospace;font-weight:700;font-size:11px;
+    background:var(--paper);color:var(--ink);text-decoration:none;
+    border:2px solid var(--ink);padding:4px 9px;box-shadow:var(--shadow-sm);
+  }
+  .topbar .nav a:hover{background:var(--gold-light);}
 
-    html{
-      scroll-behavior:smooth;
-      background:#1c140a;
-    }
-    body{
-      margin:0;
-      font-family:"Noto Serif SC", "Songti SC", "SimSun", serif;
-      color:var(--ink);
-      line-height:1.9;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.16) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 100%, rgba(124,29,29,.10) 0%, transparent 45%),
-        linear-gradient(180deg, #f3e7c9 0%, #e8d8b0 50%, #d9c8a3 100%);
-      position:relative;
-    }
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none; z-index:0;
-      background:
-        repeating-linear-gradient(0deg, rgba(28,20,10,.04) 0px, rgba(28,20,10,0) 1px, rgba(28,20,10,0) 3px),
-        repeating-linear-gradient(90deg, rgba(28,20,10,.03) 0px, rgba(28,20,10,0) 1px, rgba(28,20,10,0) 3px);
-      mix-blend-mode:multiply;
-    }
-    body::after{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none; z-index:1;
-      background:radial-gradient(ellipse at 50% 35%, transparent 0%, rgba(18,11,4,.18) 100%);
-    }
+  /* hero = the book cover */
+  .hero-cover{
+    margin-top:26px;border:var(--border);box-shadow:var(--shadow);background:#fff;
+    padding:14px;display:flex;justify-content:center;
+  }
+  .hero-cover img{
+    display:block;width:100%;max-width:360px;height:auto;
+    border:var(--border);box-shadow:var(--shadow-sm);
+  }
+  .hero__title{
+    margin:26px 0 0;font-family:"Noto Serif SC",serif;font-weight:900;
+    font-size:clamp(34px,8vw,68px);line-height:1.05;color:var(--crimson);
+    text-shadow:3px 3px 0 var(--ink);letter-spacing:2px;
+  }
+  .hero__sub{
+    margin:8px 0 0;font-weight:700;font-size:clamp(15px,3vw,22px);
+    background:var(--ink);color:var(--paper);display:inline-block;padding:4px 12px;
+  }
+  .lede{margin-top:22px;font-size:16px;}
 
-    a{ color:var(--crimson); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s; }
-    a:hover{ border-bottom-color:var(--crimson); }
+  section{margin-top:54px;}
+  .sec__head{
+    display:inline-block;background:var(--crimson);color:#fff;
+    border:var(--border);box-shadow:var(--shadow-sm);
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(19px,3.8vw,28px);
+    padding:6px 16px;margin:0 0 18px;transform:rotate(-1deg);
+  }
+  .card{
+    background:#fff;border:var(--border);box-shadow:var(--shadow);
+    padding:22px 24px;margin-bottom:22px;
+  }
+  .card.gold{background:var(--paper-3);}
+  p{margin:0 0 14px;text-align:justify;text-indent:2em;}
+  p.no-indent{text-indent:0;}
+  strong{background:var(--gold-light);padding:0 4px;box-shadow:2px 2px 0 var(--ink);}
+  em{color:var(--crimson);font-style:normal;font-weight:700;}
 
-    .stage-nav{
-      position:sticky; top:0; z-index:50;
-      background:var(--ink);
-      border-bottom:3px solid var(--gold);
-      box-shadow:0 4px 24px rgba(0,0,0,.35);
-    }
-    .stage-nav__inner{
-      max-width:1100px; margin:0 auto; padding:0 24px;
-      display:flex; align-items:center; justify-content:space-between; min-height:56px;
-    }
-    .stage-nav a{ color:var(--gold-light); border-bottom:none; font-family:"Playfair Display", Georgia, serif; letter-spacing:.06em; }
-    .stage-nav a:hover{ color:var(--cream); }
-    .stage-nav__brand{ font-weight:700; font-size:1.1rem; }
-    .stage-nav__links{ display:flex; gap:22px; font-size:.92rem; }
+  /* 基本信息信息卡 */
+  .infobox{border:var(--border);box-shadow:var(--shadow);background:#fff;margin-bottom:22px;overflow:hidden;}
+  .infobox__title{background:var(--ink);color:var(--gold-light);font-family:"Noto Serif SC",serif;font-weight:900;font-size:20px;padding:8px 16px;border-bottom:var(--border);}
+  .facts{width:100%;border-collapse:collapse;}
+  .facts th,.facts td{border:2px solid var(--ink);padding:10px 14px;font-size:14px;vertical-align:top;text-align:left;}
+  .facts th{background:var(--gold);color:var(--ink);font-family:"Space Mono",monospace;font-size:11px;white-space:nowrap;width:1%;}
+  .facts td b{color:var(--crimson);}
 
-    main{ position:relative; z-index:2; }
+  /* 主题要点 */
+  ul.tight{margin:0;padding-left:22px;}
+  ul.tight li{margin-bottom:10px;text-align:justify;}
+  ul.tight li b{color:var(--crimson);}
 
-    .hero{
-      position:relative;
-      min-height:96vh;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:48px 24px 60px;
-      text-align:center;
-      background:
-        radial-gradient(ellipse at 50% 100%, rgba(124,29,29,.22) 0%, transparent 55%),
-        radial-gradient(circle at 20% 20%, rgba(185,145,47,.10) 0%, transparent 28%),
-        radial-gradient(circle at 80% 20%, rgba(124,29,29,.10) 0%, transparent 28%);
-    }
-    .hero__poster{
-      width:100%;
-      max-width:clamp(280px, 72vw, 400px);
-      height:auto;
-      filter:drop-shadow(0 24px 60px rgba(18,11,4,.42));
-      border:8px solid var(--ink);
-      background:var(--ink);
-    }
-    .hero__caption{
-      margin-top:22px;
-      font-family:"Noto Serif SC", "Songti SC", serif;
-      color:var(--crimson);
-      font-weight:700;
-      letter-spacing:.04em;
-      font-size:clamp(1rem,2.2vw,1.2rem);
-      max-width:30em;
-    }
-    .hero__scroll{
-      margin-top:30px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.9rem; letter-spacing:.15em; color:var(--ink);
-      opacity:.7; animation:bob 2.4s ease-in-out infinite;
-    }
-    @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(6px); } }
+  /* 代表篇目与名句 */
+  table.sel{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.sel th,table.sel td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.sel th{background:var(--ink);color:var(--gold-light);font-family:"Space Mono",monospace;font-size:11px;}
+  table.sel td.name{font-weight:700;color:var(--crimson);white-space:nowrap;}
 
-    .prose{
-      max-width:820px; margin:0 auto; padding:56px 24px 90px;
-    }
-    .prose h2{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(1.8rem,4.6vw,2.7rem);
-      font-weight:800;
-      color:var(--crimson);
-      margin:64px 0 22px;
-      line-height:1.18;
-      letter-spacing:.02em;
-      text-align:center;
-    }
-    .prose h2 span{
-      display:block;
-      font-size:.42em;
-      font-weight:400;
-      letter-spacing:.28em;
-      color:var(--gold);
-      margin-bottom:6px;
-      text-transform:uppercase;
-    }
-    .prose h3{
-      font-family:"Noto Serif SC", "Songti SC", serif;
-      font-size:clamp(1.2rem,3vw,1.5rem);
-      color:var(--ink);
-      margin:38px 0 14px;
-      border-left:5px solid var(--crimson);
-      padding-left:14px;
-    }
-    .prose p{
-      margin:0 0 1.25em;
-      font-size:1.07rem;
-      text-align:justify;
-      text-indent:2em;
-    }
-    .prose p:first-of-type::first-letter{
-      float:left;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:4.2rem; line-height:.78;
-      padding:6px 10px 0 0;
-      color:var(--crimson);
-      font-weight:800;
-    }
-    .prose p.no-indent{ text-indent:0; }
+  /* 出版版本 */
+  table.ed{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.ed th,table.ed td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.ed th{background:var(--gold);color:var(--ink);font-family:"Space Mono",monospace;font-size:11px;}
+  table.ed td.pub{font-weight:700;}
 
-    .ornament{
-      display:flex; align-items:center; justify-content:center; gap:18px;
-      margin:40px auto; max-width:420px; color:var(--gold);
-    }
-    .ornament::before,.ornament::after{
-      content:""; flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .ornament i{ font-style:normal; font-size:1.4rem; }
+  /* 评价与影响 卡片 */
+  .awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .awards .a{border:var(--border);box-shadow:var(--shadow);background:#fff;padding:16px 18px;}
+  .awards .a .yr{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;background:var(--ink);color:var(--gold-light);display:inline-block;padding:2px 8px;margin-bottom:8px;}
+  .awards .a .t{font-weight:700;font-size:15px;}
+  .awards .a p{margin:8px 0 0;font-size:13px;text-indent:0;}
 
-    .act-label{
-      display:inline-block;
-      background:var(--ink); color:var(--gold-light);
-      padding:4px 14px; border-radius:2px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.78rem; letter-spacing:.22em; text-transform:uppercase;
-      margin-bottom:12px;
-    }
+  .footer{margin-top:60px;text-align:center;}
+  .footer a{
+    display:inline-block;background:var(--crimson);color:#fff;text-decoration:none;
+    font-family:"Noto Serif SC",serif;font-weight:900;font-size:18px;padding:12px 26px;
+    border:var(--border);box-shadow:var(--shadow);
+  }
+  .footer a:hover{background:var(--gold);color:var(--ink);}
 
-    .quote{
-      margin:34px 0; padding:22px 26px;
-      border-left:5px solid var(--crimson);
-      background:rgba(250,243,223,.6);
-      box-shadow:var(--shadow);
-      border-radius:1px;
-    }
-    .quote__en{
-      font-family:"Noto Serif SC", "Songti SC", serif;
-      font-size:clamp(1.12rem,2.8vw,1.4rem);
-      font-weight:700;
-      color:var(--crimson);
-      line-height:1.6;
-      margin:0 0 10px;
-    }
-    .quote__cn{
-      color:var(--ink);
-      font-size:.98rem;
-      opacity:.88;
-      margin:0;
-      text-indent:0;
-    }
-    .quote__src{
-      display:block; margin-top:10px;
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.82rem; letter-spacing:.1em; color:var(--gold); text-transform:uppercase;
-    }
-
-    .editions{
-      width:100%; border-collapse:collapse; margin:18px 0 26px;
-      font-family:"Noto Serif SC", serif;
-    }
-    .editions caption{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:.82rem; letter-spacing:.16em; color:var(--gold);
-      text-transform:uppercase; margin-bottom:10px;
-    }
-    .editions th, .editions td{
-      border-bottom:1px solid rgba(28,20,10,.18);
-      padding:10px 12px; text-align:left; font-size:.96rem; vertical-align:top;
-    }
-    .editions th{
-      color:var(--crimson); font-weight:700;
-      border-bottom:2px solid var(--gold);
-    }
-    .editions td:first-child{ font-weight:700; }
-
-    .awards{
-      background:rgba(28,20,10,.04);
-      border:2px solid var(--gold);
-      padding:22px 26px;
-      margin:26px 0;
-    }
-    .awards ul{ margin:0; padding-left:22px; }
-    .awards li{ margin-bottom:8px; }
-
-    .curtain{
-      position:relative;
-      background:var(--ink);
-      color:var(--cream);
-      padding:70px 24px 90px;
-      text-align:center;
-    }
-    .curtain::before{
-      content:""; position:absolute; top:-36px; left:0; right:0; height:36px;
-      background:linear-gradient(180deg, transparent, var(--ink));
-    }
-    .curtain h2{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(2rem,5vw,3rem);
-      margin:0 0 12px; color:var(--gold-light); letter-spacing:.06em;
-    }
-    .curtain p{ margin:0; opacity:.85; }
-    .curtain__rule{
-      width:120px; height:1px; background:var(--gold);
-      margin:18px auto;
-    }
-    .curtain a{ color:var(--gold-light); }
-
-    @media(max-width:640px){
-      .prose{ padding:40px 18px 70px; }
-      .prose p{ text-align:left; }
-      .hero{ min-height:auto; padding-top:36px; }
-      .editions th, .editions td{ padding:8px 8px; font-size:.86rem; }
-    }
-  </style>
+  .quote{
+    border-left:8px solid var(--crimson);background:#fff;border:var(--border);
+    box-shadow:var(--shadow-sm);padding:16px 18px;margin:18px 0;font-size:17px;font-weight:700;
+  }
+  .quote .src{display:block;margin-top:8px;font-size:12px;color:#888;font-family:"Space Mono",monospace;font-weight:400;}
+</style>
 </head>
 <body>
 
-  <nav class="stage-nav" aria-label="返回导航">
-    <div class="stage-nav__inner">
-      <a href="index.html" class="stage-nav__brand">HYHY / GROWTH</a>
-      <div class="stage-nav__links">
-        <a href="collections.html">娱乐合集</a>
-        <a href="projects.html">项目</a>
-        <a href="about.html">关于</a>
-      </div>
-    </div>
-  </nav>
+<div class="topbar">
+  <div class="brand">✎ ENTERTAINMENT COLLECTION</div>
+  <div class="nav">
+    <a href="collections.html">← 返回合集</a>
+    <a href="#facts">基本信息</a>
+    <a href="#synopsis">内容概要</a>
+    <a href="#themes">主题</a>
+    <a href="#background">创作背景</a>
+    <a href="#selected">篇目名句</a>
+    <a href="#editions">版本</a>
+    <a href="#reception">评价影响</a>
+    <a href="#legacy">文化意义</a>
+  </div>
+</div>
 
-  <main>
-    <header class="hero">
-      <img class="hero__poster" src="woyu-ditan-cover.jpg" alt="《我与地坛》史铁生 散文集 封面（人民文学出版社）" />
-      <p class="hero__caption">“我什么也没忘，但是有些事只适合收藏。”</p>
-      <p class="hero__scroll">SCROLL TO OPEN THE BOOK · 向下翻开书页</p>
-    </header>
+<div class="wrap">
 
-    <article class="prose">
+  <!-- HERO: 书封 -->
+  <div class="hero-cover">
+    <img src="woyu-ditan-cover.jpg" alt="《我与地坛》史铁生 书封（封面）" />
+  </div>
+  <h1 class="hero__title">我与地坛</h1>
+  <div class="hero__sub">史铁生 · 散文集</div>
 
-      <h2><span>Prologue</span>序：一篇散文，与一整本书</h2>
-      <p>
-        《我与地坛》有两个互相叠印的身份。作为<strong>一篇散文</strong>，它首发于 1991 年 1 月的《上海文学》，以七个小节、五十段的长篇哲思，写尽一个残疾青年与一座荒芜古园的十五年，其中第一、二段被选入人教版高中语文教材，几乎是几代人的共同记忆。作为<strong>一本散文集</strong>，它自 2002 年 5 月由春风文艺出版社首版，陆续收入《记忆与印象》《好运设计》《秋天的怀念》《合欢树》等名篇，成为史铁生最广为流传的代表作。无论以哪种方式相遇，读者撞见的都是同一个史铁生：用残缺的身体，说出最为健全而丰满的思想。
-      </p>
-      <p>
-        地坛只是一个载体，文章的本质却是一个绝望的人寻求希望的过程，以及对母亲深沉的思念。它不提供答案，只把生死、命运、时间与爱，摊开在北平冬日的光里，等你自己慢慢看。
-      </p>
+  <p class="lede no-indent"><em>《我与地坛》</em>是史铁生最具代表性的哲思抒情散文集，凝聚了他在漫长岁月里对生命、苦难与存在意义的反复叩问。其中的同名篇章首发于 1991 年《上海文学》，此后结集出版，被视为二十世纪中国最优秀的散文之一——一个在轮椅上凝视荒芜古园的人，写出了最健全而丰满的思想。</p>
 
-      <div class="ornament"><i>❧</i></div>
-
-      <h2><span>Author</span>关于史铁生</h2>
-      <p>
-        史铁生，1951 年 1 月 4 日生于北京，1967 年毕业于清华附中，1969 年赴延安一带插队。1972 年，他因双腿瘫痪回到北京，又于 1998 年病情转为尿毒症，靠透析维持生命。他曾自嘲“职业是生病，业余在写作”。1979 年起发表作品，著有长篇小说《务虚笔记》《我的丁一之旅》，短篇小说集《命若琴弦》，以及《我与地坛》《记忆与印象》《病隙碎笔》等散文。2010 年 12 月 31 日凌晨，他因突发脑溢血去世，终年五十九岁。
-      </p>
-      <p>
-        他两次以《我的遥远的清平湾》《奶奶的星星》获全国优秀短篇小说奖，以《老屋小记》获首届鲁迅文学奖，以《病隙碎笔》获第三届鲁迅文学奖及华语传媒大奖 2002 年度杰出成就奖。余华曾公开谈起很喜欢他的散文——在写作与生命完全同构这件事上，史铁生是中国当代作家中少有的范本。
-      </p>
-
-      <div class="ornament"><i>✦</i></div>
-
-      <h2><span>Chapter I</span>地坛：一个失魂落魄之人的庇护所</h2>
-      <p><span class="act-label">The Old Garden</span></p>
-      <p>
-        十五年前的一个下午，史铁生摇着轮椅进入园中。那是一座始建于明代嘉靖年间的皇家祭坛，历经四百余年的风雨，在作者笔下却像一个专为等待他而存在的处所。他在园中观察四季的更替、古柏的苍老、往来的人们，把个体的病痛体验，升华为对普遍生命困境的沉思。“我常觉得这中间有着宿命的味道”，他说，仿佛这古园就是为了等一个失魂落魄的人，把一切都准备好了。
-      </p>
-      <p>
-        地坛不是风景，而是一面镜子。当一个人被命运夺走行走的能力，他反而得以停下，在蝉鸣与落日里重新丈量时间。园子里的每一条小路、每一阵风，都成了与“园神”对话的契机——关于生存与死亡，关于写作的意义，关于人该如何与自己的局限相处。
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“它为一个失魂落魄的人把一切都准备好了。”</p>
-        <p class="quote__cn">地坛用四百年的沉默，接住了一个被命运击垮的青年——这是全书最温柔的开场。</p>
-        <span class="quote__src">《我与地坛》</span>
-      </blockquote>
-
-      <div class="ornament"><i>❦</i></div>
-
-      <h2><span>Chapter II</span>母亲：字字诛心的忏悔</h2>
-      <p><span class="act-label">My Mother</span></p>
-      <p>
-        如果说对生命的思考是史铁生对灵魂的关照，那么对母亲的思念与忏悔，便是全书最大的“泪点”。母亲知道他内心的苦闷，从未阻止他去地坛，也从未对他说过“你为我想想”。她只是悄悄地躲出去，在他看不见的地方偷偷听着动静；她憔悴的脸上，现出央求般的神色，只想着“北海的菊花开了，我推着你去看看吧”。
-      </p>
-      <p>
-        子欲养而亲不待。当史铁生终于懂得母亲，她却已经不在了。“她出去了，就再也没回来。”这短短几个字，藏着一个人一生都无法弥补的愧疚。多年以后他才设想，母亲生前没留下什么隽永的哲言，只是在他不在家的漫长时日里，怎样心神不定、坐卧难宁，兼着痛苦与惊恐，和一个母亲最低限度的祈求。
-      </p>
-
-      <h2><span>Chapter III</span>生死之问</h2>
-      <p>
-        贯穿史铁生散文的主线，是对生死的拷问，是对“怎么活”这一终极命题的探寻。身体的残疾带来心理的苦闷，这苦闷却引导他去思考个人乃至全人类的遭遇与命运。他给出的答案平静得惊人：
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“死是一件不必急于求成的事，死是一个必然会降临的节日。”</p>
-        <p class="quote__cn">既然结果已被保证，剩下的便不是何时赴死，而是怎样活过。生死在史铁生那里，是顺其自然，是等待，而非执着。</p>
-        <span class="quote__src">《我与地坛》</span>
-      </blockquote>
-
-      <p>
-        所以他写“人活一天就不要白活”，写要在恒久的爱与理解中认真生活。苦难没有把他淬炼成愤世者，反而让他成为一个平静、睿智、苦中作乐的灵魂完整的作家。正如他反复叩问的那样——
-      </p>
-
-      <blockquote class="quote">
-        <p class="quote__en">“要是世上没有了苦难，世界还能够存在么？要是没有了丑陋，漂亮又怎么维系自己的幸运？”</p>
-        <p class="quote__cn">残缺与苦难，恰是健全与美好的参照。史铁生不回避命运的残酷，却始终把目光投向光亮处。</p>
-        <span class="quote__src">《我与地坛》</span>
-      </blockquote>
-
-      <div class="ornament"><i>✧</i></div>
-
-      <h2><span>Editions</span>出版信息</h2>
-      <p class="no-indent">
-        《我与地坛》散文集自 2002 年首版以来，先后由多家出版社推出不同版本。本页所用封面为人民文学出版社 2018 年版（ISBN 978-7-02-013563-9），也是目前流传最广的版本之一。
-      </p>
-      <table class="editions">
-        <caption>主要版本一览</caption>
-        <thead>
-          <tr><th>出版社</th><th>出版时间</th><th>ISBN</th></tr>
-        </thead>
+  <!-- 基本信息 -->
+  <section id="facts">
+    <div class="sec__head">基本信息 · FACTS</div>
+    <div class="infobox">
+      <div class="infobox__title">作品档案</div>
+      <table class="facts">
         <tbody>
-          <tr><td>春风文艺出版社</td><td>2002 年 5 月</td><td>9787531324362</td></tr>
-          <tr><td>人民文学出版社</td><td>2008 年 9 月</td><td>9787020084357</td></tr>
-          <tr><td>人民文学出版社</td><td>2011 年 1 月</td><td>9787020083442</td></tr>
-          <tr><td>湖南文艺出版社</td><td>2016 年 12 月</td><td>9787540478087</td></tr>
-          <tr><td>人民文学出版社</td><td>2018 年 3 月</td><td>9787020135639</td></tr>
-          <tr><td>北京出版社</td><td>2020 年 1 月</td><td>9787200152043</td></tr>
+          <tr><th>书名</th><td>我与地坛</td></tr>
+          <tr><th>作者</th><td>史铁生（1951.1.4 北京 — 2010.12.31）</td></tr>
+          <tr><th>体裁</th><td>散文集（哲思抒情散文）</td></tr>
+          <tr><th>单篇首发</th><td>1991 年第 1 期《上海文学》（约 15000 字，未标明小说/散文）</td></tr>
+          <tr><th>首次结集出版</th><td>2002 年 5 月 · 春风文艺出版社 · ISBN <b>9787531324362</b></td></tr>
+          <tr><th>字数</th><td>约 16 万字（161 千字）</td></tr>
+          <tr><th>代表篇目</th><td>《我与地坛》《合欢树》《秋天的怀念》《记忆与印象》《好运设计》</td></tr>
+          <tr><th>主题关键词</th><td>生死 · 命运 · 残缺与健全 · 母爱 · 理想主义</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
 
-      <h2><span>Legacy</span>影响与回响</h2>
-      <div class="awards">
-        <ul>
-          <li>散文第一、二段入选<strong>人教版高中语文教材</strong>，成为无数中学生的共同课文。</li>
-          <li>2020 年 12 月，入选《教育部基础教育课程教材发展中心 中小学生阅读指导目录（2020 年版）》。</li>
-          <li>豆瓣读书长期保持 9.2–9.3 分的高分，数万读者参与评价，被反复摘录与朗诵。</li>
-          <li>多篇被选入语文读本、朗诵选与各类“必读经典”书单，影响跨出文学圈，进入公共记忆。</li>
-        </ul>
+  <!-- 内容概要 -->
+  <section id="synopsis">
+    <div class="sec__head">内容概要 · SYNOPSIS</div>
+    <div class="card">
+      <p>二十一岁的史铁生突然失去行走能力，在最深的绝望里，家附近那座荒芜却静谧的地坛成为他精神的归宿。十五年间，他摇着轮椅一次次进入园中，在四季流转与古柏苍苔之间，反复逼问生与死、时间与命运。园子不语的包容，把一个濒临崩溃的青年 gradually 安顿下来。</p>
+      <p>全书不止写地坛。它写母亲——那个在背后悄悄跟随、至死都惦念儿子的母亲；写故土与亲友，写对命运"好运设计"的遐想，也写病榻之上仍不停止的思考（《病隙碎笔》一脉）。文字朴素如话，却藏着击穿人心的力量：看透生活的荒诞与无常之后，人依然可以选择热爱生活。</p>
+      <div class="quote">"一个人，出生了，这就不再是一个可以辩论的问题，而只是上帝交给他的一个事实；死是一件不必急于求成的事，死是一个必然会降临的节日。"
+        <span class="src">— 《我与地坛》· 论生死</span>
       </div>
-      <p>
-        《我与地坛》的力量，不在于华丽的辞藻，而在于朴素之下击穿人心的真实。它让每一个曾被生活摔打过的人，重新思考活着的意义——正如书里那句被无数人收藏的话所写的那样，有些事只适合收藏，不能说，不能想，却又不能忘。
-      </p>
+    </div>
+  </section>
 
-      <div class="ornament"><i>✧</i></div>
+  <!-- 主题与思想 -->
+  <section id="themes">
+    <div class="sec__head">主题与思想 · THEMES</div>
+    <div class="card gold">
+      <ul class="tight">
+        <li><b>生死观</b>：死是必然降临的节日，不必急于求成；真正要回答的是"如何活"。</li>
+        <li><b>命运与残缺</b>：身体的残疾带来心理的苦闷，却把人引向对个体乃至全人类命运的普遍思考。</li>
+        <li><b>母爱</b>：对母亲的怀念与忏悔是全书的"泪点"，也是史铁生最动人的篇章底色。</li>
+        <li><b>理想主义</b>："看透生活再热爱生活"——这是史铁生在《我与地坛》中灌注的核心态度。</li>
+        <li><b>残缺与健全</b>：用残缺的身体说出最健全的思想，重新定义"健全"的含义。</li>
+      </ul>
+    </div>
+  </section>
 
-      <p style="text-align:center; text-indent:0; font-style:italic; opacity:.9; margin-top:48px;">
-        “有些事只适合收藏，不能说，不能想，却又不能忘。”<br />
-        愿你在地坛的微光里，找到继续走下去的理由。
-      </p>
+  <!-- 创作背景 -->
+  <section id="background">
+    <div class="sec__head">创作背景 · BACKGROUND</div>
+    <div class="card">
+      <p>史铁生，1951 年生于北京，1969 年赴延安插队，1972 年因双腿瘫痪回到北京，曾在街道工厂工作。1979 年开始发表作品，1983 年加入中国作家协会。残疾带来的精神危机，迫使他长久地思考"人为什么活着"。</p>
+      <p>《我与地坛》并非一蹴而就：1989 年初稿完成，1990 年修订润色，1991 年以单篇形式发表于《上海文学》，最终于 2002 年结集出版。文中的"地坛"既是真实的北京古园，也是他精神历程的缩影——"就再没有长久地离开过它"。2010 年 12 月 31 日，史铁生因突发脑溢血去世，生前捐出肝脏挽救他人。</p>
+    </div>
+  </section>
 
-    </article>
-  </main>
+  <!-- 代表篇目与名句 -->
+  <section id="selected">
+    <div class="sec__head">代表篇目与名句 · SELECTED</div>
+    <div class="card">
+      <table class="sel">
+        <thead><tr><th>篇目</th><th>名句</th><th>释读</th></tr></thead>
+        <tbody>
+          <tr><td class="name">我与地坛</td><td>"死是一个必然会降临的节日。"</td><td>把生死从恐惧中解放，转而追问如何活。</td></tr>
+          <tr><td class="name">我与地坛</td><td>"要是有些事我没说，地坛，你别以为是我忘了，我什么也没忘，但是有些事只适合收藏。"</td><td>对古园的私密告白，情深而克制。</td></tr>
+          <tr><td class="name">合欢树</td><td>写母亲种下合欢树，树长大而人已逝。</td><td>以树寄母，物是人非的温柔怅惘。</td></tr>
+          <tr><td class="name">秋天的怀念</td><td>"她出去了，就再也没回来。"</td><td>母亲临终前的北海之约，成为永远的遗憾。</td></tr>
+          <tr><td class="name">好运设计</td><td>假想一套"完美人生"后又亲手推翻。</td><td>以幽默抽丝剥茧，叩问苦难与意义。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-  <footer class="curtain">
-    <h2>THE END</h2>
-    <div class="curtain__rule"></div>
-    <p>《我与地坛》的故事就停在这里，但娱乐合集仍在继续生长。</p>
-    <p style="margin-top:10px;">
-      <a href="collections.html">← 返回娱乐合集</a> · <a href="index.html">回到首页</a>
-    </p>
-  </footer>
+  <!-- 出版与版本 -->
+  <section id="editions">
+    <div class="sec__head">出版与版本 · EDITIONS</div>
+    <div class="card">
+      <table class="ed">
+        <thead><tr><th>出版社</th><th>年份</th><th>ISBN</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td class="pub">春风文艺出版社</td><td>2002.05</td><td>9787531324362</td><td>散文集首版</td></tr>
+          <tr><td class="pub">人民文学出版社</td><td>2008.09</td><td>9787020084357</td><td>权威再版</td></tr>
+          <tr><td class="pub">人民文学出版社</td><td>2011.01</td><td>9787020083442</td><td>纪念版</td></tr>
+          <tr><td class="pub">湖南文艺出版社</td><td>2016.12</td><td>9787540478087</td><td>普及本</td></tr>
+          <tr><td class="pub">人民文学出版社</td><td>2018.03</td><td>9787020135639</td><td>常销版</td></tr>
+          <tr><td class="pub">北京出版社</td><td>2020.01</td><td>9787200152043</td><td>经典悦读版</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
+  <!-- 评价与影响 -->
+  <section id="reception">
+    <div class="sec__head">评价与影响 · RECEPTION</div>
+    <div class="awards">
+      <div class="a">
+        <span class="yr">文学地位</span>
+        <div class="t">二十世纪中国最优秀的散文之一</div>
+        <p>被公认为诗性散文的经典文本，经得起反复细读。</p>
+      </div>
+      <div class="a">
+        <span class="yr">教材入选</span>
+        <div class="t">进入语文课堂</div>
+        <p>正文前两段入选人教版高一语文教材；《秋天的怀念》入选初中部编版七年级上册。</p>
+      </div>
+      <div class="a">
+        <span class="yr">2020 · 教育部</span>
+        <div class="t">中小学生阅读指导目录</div>
+        <p>入选《教育部基础教育课程教材发展中心 中小学生阅读指导目录（2020 年版）》。</p>
+      </div>
+      <div class="a">
+        <span class="yr">读者口碑</span>
+        <div class="t">畅销逾 120 万册</div>
+        <p>深得青少年读者喜爱，长销不衰。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文化意义 -->
+  <section id="legacy">
+    <div class="sec__head">文化意义 · LEGACY</div>
+    <div class="card gold">
+      <ul class="tight">
+        <li><strong>生命教育的范本</strong>：以自身苦难淬炼出平静、睿智的灵魂，成为中学阶段生命教育的重要载体。</li>
+        <li><strong>残缺与健全的辩证</strong>：用残缺的身体说出最健全的思想，重塑了人们对"健全"的理解。</li>
+        <li><strong>地坛的当代之魂</strong>：因这部作品，在广大读者心中史铁生已与北京地坛血肉相连。</li>
+        <li><strong>"真善美"的文学</strong>：不求华丽辞藻，只以朴素文字抵达人心，影响了一代散文写作者与读者。</li>
+        <li><strong>史铁生作品体系</strong>：与《务虚笔记》《病隙碎笔》等共同构筑其精神世界；后者获第三届鲁迅文学奖。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="footer">
+    <a href="collections.html">← 回到娱乐合集</a>
+  </div>
+
+</div>
 </body>
 </html>
