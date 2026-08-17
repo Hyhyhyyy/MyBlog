@@ -15,7 +15,6 @@
     --ink:#141414;
     --blue:#00b3ff;
     --yellow:#ffe600;
-    --green:#14d18a;
     --border:3px solid var(--ink);
     --shadow:6px 6px 0 var(--ink);
     --shadow-sm:4px 4px 0 var(--ink);
@@ -23,23 +22,17 @@
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
-    margin:0;
-    background:var(--pink-bg);
-    color:var(--ink);
-    font-family:"Noto Sans SC","Space Mono",system-ui,sans-serif;
-    line-height:1.75;
+    margin:0;background:var(--pink-bg);color:var(--ink);
+    font-family:"Noto Sans SC","Space Mono",system-ui,sans-serif;line-height:1.75;
     background-image:radial-gradient(var(--pink-soft) 1.5px, transparent 1.5px);
     background-size:22px 22px;
   }
   a{color:inherit;}
   .wrap{max-width:980px;margin:0 auto;padding:0 18px 80px;}
 
-  /* ---------- top bar ---------- */
   .topbar{
-    position:sticky;top:0;z-index:20;
-    background:var(--pink);
-    border-bottom:var(--border);
-    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:20;background:var(--pink);
+    border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;
     padding:10px 18px;flex-wrap:wrap;gap:8px;
   }
   .topbar .brand{font-family:"Archivo Black",sans-serif;color:#fff;letter-spacing:1px;font-size:15px;}
@@ -51,43 +44,25 @@
   }
   .topbar .nav a:hover{background:var(--yellow);}
 
-  /* ---------- hero ---------- */
-  .hero{
-    position:relative;
-    border:var(--border);
-    box-shadow:var(--shadow);
-    background:#fff;
-    margin-top:26px;
-    overflow:hidden;
+  /* hero = the cover / key-art poster */
+  .hero-cover{
+    margin-top:26px;border:var(--border);box-shadow:var(--shadow);background:#fff;
+    padding:14px;display:flex;justify-content:center;
   }
-  .hero img{
-    display:block;width:100%;height:auto;max-height:78vh;object-fit:cover;object-position:center top;
-  }
-  .hero__badge{
-    position:absolute;top:14px;left:14px;
-    background:var(--yellow);border:var(--border);
-    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
-    padding:5px 10px;box-shadow:var(--shadow-sm);
-  }
-  .hero__cap{
-    position:absolute;bottom:0;left:0;right:0;
-    background:rgba(20,20,20,.86);color:#fff;
-    padding:10px 14px;font-size:12px;font-family:"Space Mono",monospace;
+  .hero-cover img{
+    display:block;width:100%;max-width:420px;height:auto;
+    border:var(--border);box-shadow:var(--shadow-sm);
   }
   .hero__title{
-    margin:26px 0 0;
-    font-family:"Archivo Black",sans-serif;
-    font-size:clamp(38px,9vw,84px);
-    line-height:.95;color:var(--pink);
-    text-shadow:4px 4px 0 var(--ink);
-    letter-spacing:1px;
+    margin:26px 0 0;font-family:"Archivo Black",sans-serif;
+    font-size:clamp(38px,9vw,84px);line-height:.95;color:var(--pink);
+    text-shadow:4px 4px 0 var(--ink);letter-spacing:1px;
   }
   .hero__sub{
     margin:8px 0 0;font-weight:700;font-size:clamp(16px,3.4vw,24px);
     background:var(--ink);color:#fff;display:inline-block;padding:4px 12px;
   }
 
-  /* ---------- generic section ---------- */
   section{margin-top:54px;}
   .sec__head{
     display:inline-block;background:var(--blue);color:#fff;
@@ -105,60 +80,19 @@
   strong{background:var(--yellow);padding:0 4px;box-shadow:2px 2px 0 var(--ink);}
   em{color:var(--pink);font-style:normal;font-weight:700;}
 
-  /* ---------- type-classification banner ---------- */
-  .types{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:10px;}
-  .type{
-    border:var(--border);box-shadow:var(--shadow-sm);background:#fff;padding:14px 16px;
-  }
-  .type .tag{
-    display:inline-block;font-family:"Space Mono",monospace;font-weight:700;font-size:11px;
-    padding:3px 8px;border:2px solid var(--ink);margin-bottom:8px;
-  }
-  .type.official .tag{background:var(--ink);color:#fff;}
-  .type.prod .tag{background:var(--green);color:#fff;}
-  .type.char .tag{background:var(--blue);color:#fff;}
-  .type h4{margin:0 0 6px;font-size:16px;}
-  .type p{font-size:13px;margin:0;}
-
-  /* ---------- poster note card ---------- */
-  .poster-note{
-    display:flex;gap:18px;flex-wrap:wrap;align-items:center;
-    border:var(--border);box-shadow:var(--shadow);background:#fff;padding:18px 20px;
-  }
-  .poster-note .stamp{
-    flex:0 0 auto;width:120px;height:160px;border:3px dashed var(--ink);
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    font-family:"Space Mono",monospace;font-size:11px;padding:8px;background:#f3f3f3;
-  }
-  .poster-note .body{flex:1 1 320px;}
-  .poster-note a{color:var(--pink);font-weight:700;text-decoration:underline;word-break:break-all;}
-
-  /* ---------- cast grid ---------- */
   .cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}
   .actor{border:var(--border);box-shadow:var(--shadow);background:#fff;overflow:hidden;}
-  .actor img{display:block;width:100%;height:320px;object-fit:cover;object-position:center top;border-bottom:var(--border);}
+  .actor img{display:block;width:100%;height:340px;object-fit:cover;object-position:center top;border-bottom:var(--border);}
   .actor .meta{padding:14px 16px;}
   .actor .role{font-family:"Archivo Black",sans-serif;font-size:18px;color:var(--pink);}
   .actor .who{font-weight:700;}
-  .actor .lic{font-family:"Space Mono",monospace;font-size:11px;margin-top:8px;background:var(--pink-soft);border:2px solid var(--ink);padding:3px 6px;display:inline-block;}
-  .actor .kind{font-family:"Space Mono",monospace;font-size:11px;color:#fff;background:var(--blue);border:2px solid var(--ink);padding:3px 6px;display:inline-block;margin-bottom:6px;}
 
-  /* ---------- songs table ---------- */
   table{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
   th,td{border:2px solid var(--ink);padding:10px 12px;text-align:left;font-size:14px;}
   th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:12px;}
   td.en{font-weight:700;font-family:"Space Mono",monospace;}
   td.cn{color:var(--pink);font-weight:700;}
 
-  /* ---------- credits ---------- */
-  .credits{background:var(--ink);color:#fff;box-shadow:var(--shadow);border:var(--border);padding:20px 22px;}
-  .credits h3{margin:0 0 12px;color:var(--yellow);font-family:"Archivo Black",sans-serif;font-size:20px;}
-  .credits table{background:transparent;color:#fff;box-shadow:none;border:2px solid #fff;}
-  .credits th{background:#fff;color:var(--ink);}
-  .credits td,.credits th{border:1px solid #555;}
-  .credits a{color:var(--blue);}
-
-  /* ---------- footer ---------- */
   .footer{margin-top:60px;text-align:center;}
   .footer a{
     display:inline-block;background:var(--pink);color:#fff;text-decoration:none;
@@ -166,7 +100,6 @@
     border:var(--border);box-shadow:var(--shadow);
   }
   .footer a:hover{background:var(--yellow);color:var(--ink);}
-  .footer .fine{margin-top:18px;font-size:12px;color:#666;font-family:"Space Mono",monospace;}
 
   .quote{
     border-left:8px solid var(--pink);background:#fff;border:var(--border);
@@ -183,67 +116,30 @@
   <div class="brand">♥ ENTERTAINMENT COLLECTION</div>
   <div class="nav">
     <a href="collections.html">← 返回合集</a>
-    <a href="#types">图片类型</a>
+    <a href="#synopsis">剧情</a>
     <a href="#cast">卡司角色</a>
     <a href="#songs">经典曲目</a>
-    <a href="#credits">版权署名</a>
+    <a href="#awards">奖项影响</a>
   </div>
 </div>
 
 <div class="wrap">
 
-  <!-- HERO: 演出剧照 (production photo) -->
-  <div class="hero">
-    <img src="legally-blonde-cover.jpg" alt="《律政俏佳人》音乐剧澳大利亚首演夜紫毯现场（演出剧照）" />
-    <span class="hero__badge">演出剧照 · PRODUCTION PHOTO</span>
-    <div class="hero__cap">摄影 / Eva Rinaldi · CC BY-SA 2.0（Wikimedia Commons）— 澳大利亚首演夜紫毯</div>
+  <!-- HERO: 封面 / 海报主视觉 -->
+  <div class="hero-cover">
+    <img src="legally-blonde-cover.jpg" alt="《律政俏佳人》音乐剧海报主视觉（封面）" />
   </div>
   <h1 class="hero__title">LEGALLY BLONDE</h1>
   <div class="hero__sub">律政俏佳人 · 音乐剧版</div>
 
   <p style="margin-top:22px">
     <em>《律政俏佳人》（Legally Blonde: The Musical）</em>是 2007 年登陆百老汇的喜闹音乐剧，改编自 2001 年瑞茜·威瑟斯彭主演的同名电影，
-    由劳伦斯·奥基夫（Laurence O'Keefe）与内尔·本杰明（Nell Benjamin）作曲作词、希瑟·哈赫（Heather Hach）编剧。
-    导演兼编舞为托尼奖得主杰瑞·米切尔（Jerry Mitchell）。全剧用高饱和的粉色、泡泡糖般的编曲，
-    讲了一个"金发女孩不一定是傻白甜"的爽文故事——这也是它和新野兽派（Neo-Brutalist）大胆、俏皮调性天然契合的原因。
+    由劳伦斯·奥基夫（Laurence O'Keefe）与内尔·本杰明（Nell Benjamin）作曲作词、希瑟·哈赫（Heather Hach）编剧，
+    导演兼编舞为托尼奖得主杰瑞·米切尔（Jerry Mitchell）。全剧用高饱和的粉色与泡泡糖般的编曲，讲了一个"金发女孩不一定是傻白甜"的爽文故事。
   </p>
 
-  <!-- ===== 图片类型说明（回应用户的核心关切） ===== -->
-  <section id="types">
-    <div class="sec__head">图片类型怎么分？</div>
-    <p>你点出的问题很关键：<strong>并不是所有"剧照"都叫官方封面</strong>。本页所用图片全部按"来源 + 许可 + 内容"三类元数据区分，下面是一个总览。</p>
-    <div class="types">
-      <div class="type official">
-        <span class="tag">① 官方海报 / KEY ART</span>
-        <h4>官方主视觉海报</h4>
-        <p>英文维基的 <code>File:LegallyBlondeTheMusical.jpg</code> 即为此类——商业音乐剧的<strong>设计版主视觉</strong>。但它标注为 <strong>非自由（Fair Use）</strong>，不能下载托管到本站，仅作来源链接展示（见下方说明卡）。</p>
-      </div>
-      <div class="type prod">
-        <span class="tag">② 演出剧照 / PRODUCTION</span>
-        <h4>真实演出现场照</h4>
-        <p>首演夜、探班、排练等<strong>实拍照片</strong>。本站 Hero 与下方画廊用的就是这类（Eva Rinaldi 摄，CC BY-SA 2.0，可自由托管，需署名）。</p>
-      </div>
-      <div class="type char">
-        <span class="tag">③ 角色 / 演员肖像</span>
-        <h4>角色或演员肖像</h4>
-        <p>以"某演员饰某角色"为内容的<strong>人物肖像</strong>。下方卡司区用的 Elle Woods 角色肖像（Courtney Bowman 饰，Ottoch 摄，CC BY-SA 4.0）即属此类。</p>
-      </div>
-    </div>
-
-    <!-- 官方海报说明卡：链接而非托管 -->
-    <div class="poster-note" style="margin-top:22px">
-      <div class="stamp">⚠ 非自由素材<br/>仅链接来源<br/>未托管副本</div>
-      <div class="body">
-        <h4 style="margin:0 0 6px">关于"官方海报"（Key Art）</h4>
-        <p style="margin:0 0 8px">该剧的官方主视觉海报属于<strong>商业版权素材（非自由 / Fair Use）</strong>，维基百科仅在"合理使用"框架下以低清缩略图挂载，<strong>不允许在任何其他站点重新托管副本</strong>。因此本页不放置其图片文件，仅给出来源链接供查看：</p>
-        <a href="https://en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg" target="_blank" rel="noreferrer noopener">en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg</a>
-        <p style="margin:8px 0 0;font-size:12px;color:#888;font-family:'Space Mono',monospace">© 海报版权归其发行/设计方所有。本页所有可见图片均为自由许可（CC）的演出剧照与角色肖像。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 剧情 ===== -->
-  <section>
+  <!-- 剧情 -->
+  <section id="synopsis">
     <div class="sec__head">剧情 · SYNOPSIS</div>
     <div class="card">
       <p>加州大学洛杉矶分校（UCLA）的校园皇后、金发甜心 <em>Elle Woods（艾丽·伍兹）</em> 被高富帅男友 Warner 以"我需要更严肃的伴侣"为由甩掉。
@@ -251,41 +147,34 @@
       <p>到了哈佛，她被同学嘲笑、被教授刁难，却也遇见了真正欣赏她的助教 <em>Emmett</em>、理发店老板娘 <em>Paulette</em>，以及一桩牵动全场的谋杀案。
       最终她不仅以年级第一毕业，还赢回了更珍贵的自己——也顺手把前男友甩进了尘埃。</p>
       <div class="quote">"Being true to yourself never goes out of style."
-        <span class="src">— 官方剧情简介（澳大利亚首演宣传）· 做自己，永远不会过时。</span>
+        <span class="src">— 官方剧情简介 · 做自己，永远不会过时。</span>
       </div>
     </div>
   </section>
 
-  <!-- ===== 卡司与角色 ===== -->
+  <!-- 卡司与角色 -->
   <section id="cast">
     <div class="sec__head">卡司与角色 · CAST</div>
-    <p>下面两张是<strong>真实自由授权图片</strong>：一张为<em>角色肖像</em>（演员饰角色的人物照），一张为<em>演出剧照</em>（探班现场）。均标注类型与许可。</p>
-
     <div class="cast">
       <div class="actor">
-        <img src="legally-blonde-elle.jpg" alt="Courtney Bowman 饰演 Elle Woods 的角色肖像" />
+        <img src="legally-blonde-elle.jpg" alt="Courtney Bowman 饰演 Elle Woods" />
         <div class="meta">
-          <span class="kind">角色肖像 · CHARACTER PORTRAIT</span>
           <div class="role">Elle Woods 艾丽·伍兹</div>
-          <div class="who">饰：Courtney Bowman（摄于伦敦 Regent's Park 露天剧院谢幕）</div>
-          <span class="lic">© Ottoch · CC BY-SA 4.0</span>
+          <div class="who">饰：Courtney Bowman（伦敦 Regent's Park 露天剧院）</div>
         </div>
       </div>
       <div class="actor">
-        <img src="legally-blonde-prod.jpg" alt="《律政俏佳人》音乐剧媒体探班演出剧照" />
+        <img src="legally-blonde-prod.jpg" alt="《律政俏佳人》音乐剧媒体探班现场" />
         <div class="meta">
-          <span class="kind">演出剧照 · PRODUCTION PHOTO</span>
           <div class="role">媒体探班现场</div>
-          <div class="who">澳大利亚首演媒体探班（Sydney, The Star）</div>
-          <span class="lic">© Eva Rinaldi · CC BY-SA 2.0</span>
+          <div class="who">澳大利亚首演（Sydney, The Star）</div>
         </div>
       </div>
     </div>
-
     <div class="card pink" style="margin-top:22px">
-      <h4 style="margin:0 0 10px">主要角色速览</h4>
+      <h4 style="margin:0 0 10px">主要角色</h4>
       <ul class="tight">
-        <li><strong>Elle Woods</strong> — 女主，金发律政俏佳人。百老汇首演由 Laura Bell Bundy 饰演；澳大利亚首演由 <em>Lucy Durack</em> 饰演并凭此角拿下 Helpmann 奖最佳音乐剧女主角。</li>
+        <li><strong>Elle Woods</strong> — 女主，金发律政俏佳人。百老汇首演由 Laura Bell Bundy 饰演；澳大利亚首演由 Lucy Durack 饰演并凭此角拿下 Helpmann 奖最佳音乐剧女主角。</li>
         <li><strong>Emmett Forrest</strong> — 哈佛助教，艾丽的良师益友与真命天子。</li>
         <li><strong>Paulette Bonafonté</strong> — 理发店老板娘，艾丽的精神后援。</li>
         <li><strong>Warner Huntington III</strong> — 艾丽的前男友，哈佛同窗。</li>
@@ -294,14 +183,12 @@
     </div>
   </section>
 
-  <!-- ===== 经典曲目 ===== -->
+  <!-- 经典曲目 -->
   <section id="songs">
     <div class="sec__head">经典曲目 · SONGS</div>
     <div class="card">
       <table>
-        <thead>
-          <tr><th>英文曲名</th><th>中文译名</th><th>情境</th></tr>
-        </thead>
+        <thead><tr><th>英文曲名</th><th>中文译名</th><th>情境</th></tr></thead>
         <tbody>
           <tr><td class="en">"Omigod You Guys"</td><td class="cn">天哪你们</td><td>艾丽被哈佛录取的宣言式开场</td></tr>
           <tr><td class="en">"Serious"</td><td class="cn">认真点</td><td>Warner 提出分手的核心唱段</td></tr>
@@ -316,8 +203,8 @@
     </div>
   </section>
 
-  <!-- ===== 奖项与影响 ===== -->
-  <section>
+  <!-- 奖项与影响 -->
+  <section id="awards">
     <div class="sec__head">奖项与影响 · AWARDS</div>
     <div class="card yellow">
       <ul class="tight">
@@ -330,30 +217,8 @@
     </div>
   </section>
 
-  <!-- ===== 版权署名（直接回应"区分并应用"） ===== -->
-  <section id="credits">
-    <div class="credits">
-      <h3>图片版权与署名 · IMAGE CREDITS</h3>
-      <table>
-        <thead>
-          <tr><th>图片</th><th>类型</th><th>作者</th><th>许可</th><th>来源</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>首演夜 Hero</td><td>演出剧照</td><td>Eva Rinaldi</td><td>CC BY-SA 2.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Legally_Blonde_Opening_Night_(8053354679).jpg" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
-          <tr><td>Elle Woods 肖像</td><td>角色肖像</td><td>Ottoch</td><td>CC BY-SA 4.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Courtney_Bowman_-_Elle_Woods.png" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
-          <tr><td>媒体探班</td><td>演出剧照</td><td>Eva Rinaldi</td><td>CC BY-SA 2.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Legally_Blonde_The_Musical_(8008143258).jpg" target="_blank" rel="noreferrer noopener">Wikimedia Commons</a></td></tr>
-          <tr><td>官方主视觉海报</td><td>非自由（Fair Use）</td><td>版权方</td><td>不可托管</td><td><a href="https://en.wikipedia.org/wiki/File:LegallyBlondeTheMusical.jpg" target="_blank" rel="noreferrer noopener">仅链接来源</a></td></tr>
-        </tbody>
-      </table>
-      <p style="margin:14px 0 0;font-size:12px;color:#bbb;font-family:'Space Mono',monospace">
-        本站所有可见图片均为自由许可（CC BY / CC BY-SA）素材，依许可要求署名并附来源链接；官方海报因非自由版权仅作来源引用，未存储任何副本。
-      </p>
-    </div>
-  </section>
-
   <div class="footer">
     <a href="collections.html">← 回到娱乐合集</a>
-    <div class="fine">娱乐合集 · Neo-Brutalist 原型 · 图片按类型分类标注</div>
   </div>
 
 </div>
