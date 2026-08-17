@@ -3,7 +3,7 @@
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v5';
+const STORAGE_KEY = 'hyhy_collections_v6';
 
 // Tomato-related palette for the placeholder blocks: reds + green + yellow.
 const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
