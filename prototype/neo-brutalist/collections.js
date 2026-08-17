@@ -3,7 +3,7 @@
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v9';
+const STORAGE_KEY = 'hyhy_collections_v8';
 
 // Tomato-related palette for the placeholder blocks: reds + green + yellow.
 const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
@@ -69,11 +69,11 @@ function init() {
     tileHeight: 150,
     gap: 16,
     radius: 14,
-    tilt: 6,
-    turn: -6,
+    tilt: 16,
+    turn: -14,
     roll: 0,
-    perspective: 1400,
-    depth: 80,
+    perspective: 1200,
+    depth: 120,
     speed: 40,
     direction: 'up',
     variance: 0.45,
@@ -81,7 +81,7 @@ function init() {
     pauseOnHover: false,
     lift: 70,
     fade: 0.55,
-    dim: 0.68,
+    dim: 0.55,
     overlayColor: '#000000',
     fallbackPalette: PALETTE
   });
