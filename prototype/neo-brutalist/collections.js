@@ -1,12 +1,13 @@
 // Collections (合集) wiring for the Neo-Brutalist prototype.
-// - Seeds the DriftWall with tomato-colour placeholder blocks.
+// - Seeds the DriftWall with placeholder blocks coloured as a red→yellow→green gradient.
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v8';
+const STORAGE_KEY = 'hyhy_collections_v9';
 
-// Tomato-related palette for the placeholder blocks: reds + green + yellow.
-const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
+// 占位色块调色板：整体呈现「鲜红 → 鲜黄 → 鲜绿」的渐变（色相 0°→120° 均匀步进）。
+// 顺序必须保留：splitColumns 仍按 (i % PALETTE.length) 循环取色，故改这里即改整墙渐变顺序。
+const PALETTE = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
 const PLACEHOLDER_COUNT = 49; // 7 columns x ~7 → a dense, fully-filled wall
 
 function makePlaceholders() {
