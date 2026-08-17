@@ -36,11 +36,11 @@
     padding:10px 18px;flex-wrap:wrap;gap:8px;
   }
   .topbar .brand{font-family:"Archivo Black",sans-serif;color:#fff;letter-spacing:1px;font-size:15px;}
-  .topbar .nav{display:flex;gap:10px;flex-wrap:wrap;}
+  .topbar .nav{display:flex;gap:8px;flex-wrap:wrap;}
   .topbar .nav a{
-    font-family:"Space Mono",monospace;font-weight:700;font-size:12px;
+    font-family:"Space Mono",monospace;font-weight:700;font-size:11px;
     background:#fff;color:var(--ink);text-decoration:none;
-    border:2px solid var(--ink);padding:4px 10px;box-shadow:var(--shadow-sm);
+    border:2px solid var(--ink);padding:4px 9px;box-shadow:var(--shadow-sm);
   }
   .topbar .nav a:hover{background:var(--yellow);}
 
@@ -62,6 +62,7 @@
     margin:8px 0 0;font-weight:700;font-size:clamp(16px,3.4vw,24px);
     background:var(--ink);color:#fff;display:inline-block;padding:4px 12px;
   }
+  .lede{margin-top:22px;font-size:16px;}
 
   section{margin-top:54px;}
   .sec__head{
@@ -80,18 +81,55 @@
   strong{background:var(--yellow);padding:0 4px;box-shadow:2px 2px 0 var(--ink);}
   em{color:var(--pink);font-style:normal;font-weight:700;}
 
-  .cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;}
-  .actor{border:var(--border);box-shadow:var(--shadow);background:#fff;overflow:hidden;}
-  .actor img{display:block;width:100%;height:340px;object-fit:cover;object-position:center top;border-bottom:var(--border);}
-  .actor .meta{padding:14px 16px;}
-  .actor .role{font-family:"Archivo Black",sans-serif;font-size:18px;color:var(--pink);}
-  .actor .who{font-weight:700;}
+  /* 基本信息信息卡 */
+  .infobox{border:var(--border);box-shadow:var(--shadow);background:#fff;margin-bottom:22px;overflow:hidden;}
+  .infobox__title{background:var(--pink);color:#fff;font-family:"Archivo Black",sans-serif;font-size:20px;padding:8px 16px;border-bottom:var(--border);}
+  .facts{width:100%;border-collapse:collapse;}
+  .facts th,.facts td{border:2px solid var(--ink);padding:10px 14px;font-size:14px;vertical-align:top;text-align:left;}
+  .facts th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:11px;white-space:nowrap;width:1%;}
+  .facts td b{color:var(--pink);}
 
-  table{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
-  th,td{border:2px solid var(--ink);padding:10px 12px;text-align:left;font-size:14px;}
-  th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:12px;}
-  td.en{font-weight:700;font-family:"Space Mono",monospace;}
-  td.cn{color:var(--pink);font-weight:700;}
+  /* 创作团队 */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .team .role{border:var(--border);box-shadow:var(--shadow-sm);background:#fff;padding:14px 16px;}
+  .team .role .k{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;background:var(--ink);color:#fff;display:inline-block;padding:2px 8px;margin-bottom:8px;}
+  .team .role .v{font-weight:700;font-size:15px;}
+  .team .role .d{font-size:13px;color:#555;margin-top:4px;}
+
+  /* 角色卡司 */
+  .cast2{display:grid;grid-template-columns:1fr;gap:0;}
+  table.casts{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.casts th,table.casts td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.casts th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:11px;}
+  table.casts td.name{font-weight:700;color:var(--pink);white-space:nowrap;}
+  .stills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px;}
+  .stills figure{margin:0;border:var(--border);box-shadow:var(--shadow);background:#fff;overflow:hidden;}
+  .stills img{display:block;width:100%;height:300px;object-fit:cover;object-position:center top;border-bottom:var(--border);}
+  .stills figcaption{padding:10px 12px;font-size:12px;font-weight:700;}
+
+  /* 按幕曲目 */
+  .song-act{display:inline-block;background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:11px;padding:2px 9px;margin-bottom:10px;}
+  table.songs{width:100%;border-collapse:collapse;background:#fff;border:var(--border);box-shadow:var(--shadow);}
+  table.songs th,table.songs td{border:2px solid var(--ink);padding:9px 12px;font-size:13px;text-align:left;vertical-align:top;}
+  table.songs th{background:var(--ink);color:#fff;font-family:"Space Mono",monospace;font-size:11px;}
+  table.songs td.en{font-weight:700;font-family:"Space Mono",monospace;white-space:nowrap;}
+  table.songs td.cn{color:var(--pink);font-weight:700;white-space:nowrap;}
+
+  /* 制作年表 */
+  .timeline{list-style:none;margin:0;padding:0;border-left:6px solid var(--ink);}
+  .timeline li{position:relative;padding:0 0 18px 28px;}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline li::before{content:"";position:absolute;left:-15px;top:4px;width:18px;height:18px;background:var(--blue);border:3px solid var(--ink);}
+  .timeline .yr{font-family:"Archivo Black",sans-serif;color:var(--pink);font-size:17px;display:block;line-height:1.2;}
+  .timeline .ev{font-weight:700;}
+
+  /* 奖项 */
+  .awards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+  .awards .a{border:var(--border);box-shadow:var(--shadow);background:#fff;padding:16px 18px;}
+  .awards .a .yr{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;background:var(--ink);color:#fff;display:inline-block;padding:2px 8px;margin-bottom:8px;}
+  .awards .a .t{font-weight:700;font-size:15px;}
+  .awards .a ul{margin:8px 0 0;padding-left:18px;font-size:13px;}
+  .awards .a li{margin-bottom:4px;}
 
   .footer{margin-top:60px;text-align:center;}
   .footer a{
@@ -116,10 +154,14 @@
   <div class="brand">♥ ENTERTAINMENT COLLECTION</div>
   <div class="nav">
     <a href="collections.html">← 返回合集</a>
+    <a href="#facts">基本信息</a>
     <a href="#synopsis">剧情</a>
-    <a href="#cast">卡司角色</a>
-    <a href="#songs">经典曲目</a>
-    <a href="#awards">奖项影响</a>
+    <a href="#team">创作团队</a>
+    <a href="#cast">角色卡司</a>
+    <a href="#songs">曲目</a>
+    <a href="#history">年表</a>
+    <a href="#awards">奖项</a>
+    <a href="#impact">影响</a>
   </div>
 </div>
 
@@ -132,69 +174,118 @@
   <h1 class="hero__title">LEGALLY BLONDE</h1>
   <div class="hero__sub">律政俏佳人 · 音乐剧版</div>
 
-  <p style="margin-top:22px">
-    <em>《律政俏佳人》（Legally Blonde: The Musical）</em>是 2007 年登陆百老汇的喜闹音乐剧，改编自 2001 年瑞茜·威瑟斯彭主演的同名电影，
-    由劳伦斯·奥基夫（Laurence O'Keefe）与内尔·本杰明（Nell Benjamin）作曲作词、希瑟·哈赫（Heather Hach）编剧，
-    导演兼编舞为托尼奖得主杰瑞·米切尔（Jerry Mitchell）。全剧用高饱和的粉色与泡泡糖般的编曲，讲了一个"金发女孩不一定是傻白甜"的爽文故事。
-  </p>
+  <p class="lede"><em>《律政俏佳人》（Legally Blonde: The Musical）</em>是 2007 年登陆百老汇的原创音乐喜剧，改编自 2001 年瑞茜·威瑟斯彭主演的同名电影与阿曼达·布朗（Amanda Brown）的同名小说。全剧用高饱和的粉色与泡泡糖般的流行编曲，讲了一个"金发女孩不一定是傻白甜"的爽文故事——聪明、自信与做自己，从不需要二选一。</p>
+
+  <!-- 基本信息 -->
+  <section id="facts">
+    <div class="sec__head">基本信息 · FACTS</div>
+    <div class="infobox">
+      <div class="infobox__title">作品档案</div>
+      <table class="facts">
+        <tbody>
+          <tr><th>中文名</th><td>律政俏佳人（又译《律政俏佳人》）</td></tr>
+          <tr><th>英文名</th><td>Legally Blonde: The Musical</td></tr>
+          <tr><th>类型</th><td>原创音乐喜剧（Original Musical Comedy）· <b>2 幕</b></td></tr>
+          <tr><th>作曲 / 作词</th><td>Laurence O'Keefe &amp; Nell Benjamin</td></tr>
+          <tr><th>编剧（Book）</th><td>Heather Hach</td></tr>
+          <tr><th>导演 / 编舞</th><td>Jerry Mitchell（托尼奖得主）</td></tr>
+          <tr><th>原著</th><td>2001 年电影（Reese Witherspoon 主演）+ Amanda Brown 同名小说</td></tr>
+          <tr><th>百老汇首演</th><td>2007-04-29 · Palace Theatre（预演自 4 月 3 日）</td></tr>
+          <tr><th>百老汇落幕</th><td>2008-10-19 · 30 场预演 + 595 场常规演出</td></tr>
+          <tr><th>西区首演</th><td>2010-01-13 · Savoy Theatre（预演自 2009-12-05），2012-04-07 落幕，约 974 场</td></tr>
+          <tr><th>主要设计</th><td>布景 David Rockwell / 服装 Gregg Barnes / 灯光 Kenneth Posner &amp; Paul Miller</td></tr>
+          <tr><th>授权上演</th><td>学生 / 业余版由 Music Theatre International（MTI）全球发行</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <!-- 剧情 -->
   <section id="synopsis">
     <div class="sec__head">剧情 · SYNOPSIS</div>
     <div class="card">
-      <p>加州大学洛杉矶分校（UCLA）的校园皇后、金发甜心 <em>Elle Woods（艾丽·伍兹）</em> 被高富帅男友 Warner 以"我需要更严肃的伴侣"为由甩掉。
-      为了挽回他，艾丽放下信用卡、啃起书本，一路杀进 <strong>哈佛法学院</strong>。</p>
-      <p>到了哈佛，她被同学嘲笑、被教授刁难，却也遇见了真正欣赏她的助教 <em>Emmett</em>、理发店老板娘 <em>Paulette</em>，以及一桩牵动全场的谋杀案。
-      最终她不仅以年级第一毕业，还赢回了更珍贵的自己——也顺手把前男友甩进了尘埃。</p>
+      <p>加州大学洛杉矶分校（UCLA）的校园皇后、金发甜心 <em>Elle Woods（艾丽·伍兹）</em> 被高富帅男友 Warner 以"我需要更严肃的伴侣，要的是 Jackie 不是 Marilyn"为由甩掉。为了挽回他，艾丽放下信用卡、啃起书本，一路杀进 <strong>哈佛法学院</strong>——靠的是一张写真照片、超常的 LSAT 分数，以及一段让招生官拍案叫绝的啦啦队宣言。</p>
+      <p>到了哈佛，她被同学嘲笑、被教授刁难，却也遇见了真正欣赏她的助教 <em>Emmett</em>、理发店老板娘 <em>Paulette</em>，以及一桩牵动全场的谋杀案：健身明星客户 <em>Brooke Wyndham</em> 被控杀害丈夫，艾丽在实习中抽丝剥茧、当庭翻盘。最终她不仅以<strong>年级第一</strong>毕业并拿下毕业致辞，还赢回了更珍贵的自己——也顺手把前男友甩进了尘埃。</p>
       <div class="quote">"Being true to yourself never goes out of style."
-        <span class="src">— 官方剧情简介 · 做自己，永远不会过时。</span>
+        <span class="src">— 官方剧情内核 · 做自己，永远不会过时。</span>
       </div>
     </div>
   </section>
 
-  <!-- 卡司与角色 -->
+  <!-- 创作团队 -->
+  <section id="team">
+    <div class="sec__head">创作团队 · CREATIVE TEAM</div>
+    <div class="team">
+      <div class="role"><span class="k">作曲 / 作词</span><div class="v">Laurence O'Keefe &amp; Nell Benjamin</div><div class="d">继《Bat Boy》后再度合作的词曲搭档，包办全剧音乐与歌词。</div></div>
+      <div class="role"><span class="k">编剧</span><div class="v">Heather Hach</div><div class="d">把电影的俏皮劲儿提炼成舞台叙事。</div></div>
+      <div class="role"><span class="k">导演 / 编舞</span><div class="v">Jerry Mitchell</div><div class="d">托尼奖得主，为全剧注入高能量舞蹈。</div></div>
+      <div class="role"><span class="k">布景设计</span><div class="v">David Rockwell</div><div class="d">打造糖果般的哈佛与加州场景。</div></div>
+      <div class="role"><span class="k">服装设计</span><div class="v">Gregg Barnes</div><div class="d">把"粉色即力量"穿在每一个角色身上。</div></div>
+      <div class="role"><span class="k">灯光设计</span><div class="v">Kenneth Posner &amp; Paul Miller</div><div class="d">霓虹与高光交织的青春舞台。</div></div>
+    </div>
+  </section>
+
+  <!-- 角色与卡司 -->
   <section id="cast">
-    <div class="sec__head">卡司与角色 · CAST</div>
-    <div class="cast">
-      <div class="actor">
-        <img src="legally-blonde-elle.jpg" alt="Courtney Bowman 饰演 Elle Woods" />
-        <div class="meta">
-          <div class="role">Elle Woods 艾丽·伍兹</div>
-          <div class="who">饰：Courtney Bowman（伦敦 Regent's Park 露天剧院）</div>
-        </div>
+    <div class="sec__head">角色与卡司 · CAST</div>
+    <div class="card">
+      <table class="casts">
+        <thead><tr><th>角色</th><th>简介</th><th>百老汇首演</th><th>伦敦首演</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Elle Woods</td><td>金发律政俏佳人，全剧女主</td><td>Laura Bell Bundy</td><td>Sheridan Smith</td></tr>
+          <tr><td class="name">Emmett Forrest</td><td>哈佛助教，艾丽的良师益友与真命</td><td>Christian Borle</td><td>Alex Gaumond</td></tr>
+          <tr><td class="name">Paulette Bonafonté</td><td>理发店老板娘，艾丽的精神后援</td><td>Orfeh</td><td>Jill Halfpenny</td></tr>
+          <tr><td class="name">Warner Huntington III</td><td>艾丽的前男友，哈佛同窗</td><td>Richard H. Blake</td><td>Duncan James</td></tr>
+          <tr><td class="name">Vivienne Kensington</td><td>Warner 的新女友 / 同窗对手</td><td>Kate Shindle</td><td>Siobhan Dillon 等</td></tr>
+          <tr><td class="name">Professor Callahan</td><td>法学院教授，谋杀案实习上司</td><td>Michael Rupert</td><td>Peter Davison</td></tr>
+          <tr><td class="name">Brooke Wyndham</td><td>健身明星 / 谋杀案被告</td><td>Nikki Snelson</td><td>Aoife Mulholland</td></tr>
+          <tr><td class="name">Delta Nu 姐妹<br>（希腊合唱团）</td><td>Elle 脑中现身的精神后援团</td><td>群演合唱</td><td>群演合唱</td></tr>
+        </tbody>
+      </table>
+      <div class="stills">
+        <figure>
+          <img src="legally-blonde-elle.jpg" alt="Elle Woods（2022 复排 Courtney Bowman 饰）" />
+          <figcaption>Elle Woods — 2022 年 Regent's Park 复排，Courtney Bowman 饰</figcaption>
+        </figure>
+        <figure>
+          <img src="legally-blonde-prod.jpg" alt="澳大利亚首演媒体探班现场（The Star, Sydney）" />
+          <figcaption>澳大利亚首演媒体探班现场（The Star, Sydney）</figcaption>
+        </figure>
       </div>
-      <div class="actor">
-        <img src="legally-blonde-prod.jpg" alt="《律政俏佳人》音乐剧媒体探班现场" />
-        <div class="meta">
-          <div class="role">媒体探班现场</div>
-          <div class="who">澳大利亚首演（Sydney, The Star）</div>
-        </div>
-      </div>
-    </div>
-    <div class="card pink" style="margin-top:22px">
-      <h4 style="margin:0 0 10px">主要角色</h4>
-      <ul class="tight">
-        <li><strong>Elle Woods</strong> — 女主，金发律政俏佳人。百老汇首演由 Laura Bell Bundy 饰演；澳大利亚首演由 Lucy Durack 饰演并凭此角拿下 Helpmann 奖最佳音乐剧女主角。</li>
-        <li><strong>Emmett Forrest</strong> — 哈佛助教，艾丽的良师益友与真命天子。</li>
-        <li><strong>Paulette Bonafonté</strong> — 理发店老板娘，艾丽的精神后援。</li>
-        <li><strong>Warner Huntington III</strong> — 艾丽的前男友，哈佛同窗。</li>
-        <li><strong>Professor Callahan / Vivienne</strong> — 法学院教授与 Warner 的新女友。</li>
-      </ul>
     </div>
   </section>
 
-  <!-- 经典曲目 -->
+  <!-- 曲目 -->
   <section id="songs">
-    <div class="sec__head">经典曲目 · SONGS</div>
+    <div class="sec__head">曲目 · SONGS</div>
     <div class="card">
-      <table>
-        <thead><tr><th>英文曲名</th><th>中文译名</th><th>情境</th></tr></thead>
+      <span class="song-act">ACT I</span>
+      <table class="songs">
+        <thead><tr><th>英文曲名</th><th>中文</th><th>情境</th></tr></thead>
         <tbody>
-          <tr><td class="en">"Omigod You Guys"</td><td class="cn">天哪你们</td><td>艾丽被哈佛录取的宣言式开场</td></tr>
-          <tr><td class="en">"Serious"</td><td class="cn">认真点</td><td>Warner 提出分手的核心唱段</td></tr>
-          <tr><td class="en">"Bend and Snap"</td><td class="cn">弯腰一甩</td><td>艾丽教 Paulette 的"撩汉绝技"，全剧最欢脱名场面</td></tr>
-          <tr><td class="en">"So Much Better"</td><td class="cn">好太多了</td><td>艾丽蜕变后的自信高光</td></tr>
-          <tr><td class="en">"Legally Blonde"</td><td class="cn">律政俏佳人</td><td>终曲，点题"做自己"</td></tr>
+          <tr><td class="en">"Omigod You Guys"</td><td class="cn">天哪你们</td><td>开场，艾丽被哈佛录取，姐妹团欢呼</td></tr>
+          <tr><td class="en">"Serious"</td><td class="cn">认真点</td><td>Warner 以"我需要严肃的伴侣"提出分手</td></tr>
+          <tr><td class="en">"What You Want"</td><td class="cn">你想要的</td><td>艾丽为打动哈佛招生拍出的啦啦队宣言</td></tr>
+          <tr><td class="en">"The Harvard Variations"</td><td class="cn">哈佛变奏曲</td><td>同学们对"金发女孩进哈佛"的群嘲</td></tr>
+          <tr><td class="en">"Kill the Bitch"</td><td class="cn">击退她</td><td>Vivienne 与同学排挤艾丽的对抗唱段</td></tr>
+          <tr><td class="en">"Bend and Snap"</td><td class="cn">弯腰一甩</td><td>艾丽教 Paulette 的撩汉绝技，全剧最欢脱名场面</td></tr>
+          <tr><td class="en">"There! Right There!"</td><td class="cn">就·在·那</td><td>Paulette 对 UPS 小哥 Kyle 心动</td></tr>
+          <tr><td class="en">"Take It Back"</td><td class="cn">收回去</td><td>Emmett 点醒艾丽，教她用实力说话</td></tr>
+          <tr><td class="en">"Whipped Into Shape"</td><td class="cn">严以律己</td><td>健身明星客户 Brooke 的冲刺唱段</td></tr>
+          <tr><td class="en">"Break It Down"</td><td class="cn">拆解它</td><td>艾丽在 Emmett 帮助下完成法律分析蜕变</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <span class="song-act">ACT II</span>
+      <table class="songs">
+        <thead><tr><th>英文曲名</th><th>中文</th><th>情境</th></tr></thead>
+        <tbody>
+          <tr><td class="en">"Legally Blonde"</td><td class="cn">律政俏佳人</td><td>点题，艾丽确立自我</td></tr>
+          <tr><td class="en">"Blood in the Water"</td><td class="cn">血在水中</td><td>Callahan 在谋杀案中的高压施压</td></tr>
+          <tr><td class="en">"So Much Better"</td><td class="cn">好太多了</td><td>艾丽自信高光，唱出"我是艾丽·伍兹"</td></tr>
+          <tr><td class="en">"Blow Ya Mind"</td><td class="cn">震撼你</td><td>Brooke 法庭上的爆发</td></tr>
+          <tr><td class="en">"Find My Way / Finale"</td><td class="cn">找到我的路 / 终曲</td><td>艾丽以年级第一毕业，全员欢庆</td></tr>
         </tbody>
       </table>
       <div class="quote">"I'm never going to be good enough for him, because I'm not him. I'm Elle Woods."
@@ -203,16 +294,76 @@
     </div>
   </section>
 
-  <!-- 奖项与影响 -->
+  <!-- 制作年表 -->
+  <section id="history">
+    <div class="sec__head">制作年表 · TIMELINE</div>
+    <div class="card">
+      <ul class="timeline">
+        <li><span class="yr">2007.01–02</span><span class="ev">旧金山试演</span> — Golden Gate Theatre 试演（2 月 5 日正式开幕）。</li>
+        <li><span class="yr">2007.04.29</span><span class="ev">百老汇首演</span> — Palace Theatre 开幕（预演自 4 月 3 日），Laura Bell Bundy 饰 Elle。</li>
+        <li><span class="yr">2007.09.18</span><span class="ev">电视转播</span> — 现场录制并于 10 月经 MTV 播出；衍生真人秀《The Search for Elle Woods》。</li>
+        <li><span class="yr">2008.10.19</span><span class="ev">百老汇落幕</span> — 共 30 场预演 + 595 场常规演出。</li>
+        <li><span class="yr">2008.09</span><span class="ev">美国首轮巡演</span> — 启动，后扩展至二轮巡演。</li>
+        <li><span class="yr">2010.01.13</span><span class="ev">西区首演</span> — Savoy Theatre 正式开幕（预演自 2009-12-05），Sheridan Smith 饰 Elle。</li>
+        <li><span class="yr">2011.03.13</span><span class="ev">奥利弗奖 3 项</span> — 最佳新音乐剧、最佳女主（Smith）、最佳女配（Halfpenny）。</li>
+        <li><span class="yr">2011.07</span><span class="ev">英国巡演</span> — 自 Liverpool Empire 启动。</li>
+        <li><span class="yr">2012.04.07</span><span class="ev">西区落幕</span> — 伦敦驻演约 974 场，远超百老汇。</li>
+        <li><span class="yr">2022</span><span class="ev">Regent's Park 复排</span> — 露天剧院复排（Lucy Moss 导演，Courtney Bowman 饰 Elle），获《泰晤士报》五星好评。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 奖项 -->
   <section id="awards">
-    <div class="sec__head">奖项与影响 · AWARDS</div>
-    <div class="card yellow">
+    <div class="sec__head">奖项与荣誉 · AWARDS</div>
+    <div class="awards">
+      <div class="a">
+        <span class="yr">2008 · 托尼奖</span>
+        <div class="t">7 项提名（未获奖）</div>
+        <ul>
+          <li>最佳原创配乐</li>
+          <li>最佳音乐剧女主角（Laura Bell Bundy）</li>
+          <li>最佳音乐剧男配角（Christian Borle）</li>
+          <li>最佳音乐剧女配角（Orfeh）</li>
+          <li>最佳编舞（Jerry Mitchell）</li>
+        </ul>
+      </div>
+      <div class="a">
+        <span class="yr">2011 · 奥利弗奖</span>
+        <div class="t">3 项获奖（提名 5 项）</div>
+        <ul>
+          <li>最佳新音乐剧</li>
+          <li>最佳音乐剧女主角（Sheridan Smith）</li>
+          <li>最佳音乐剧女配角（Jill Halfpenny）</li>
+        </ul>
+      </div>
+      <div class="a">
+        <span class="yr">2011 · WhatsOnStage</span>
+        <div class="t">4 项获奖</div>
+        <ul>
+          <li>最佳新音乐剧 等</li>
+        </ul>
+      </div>
+      <div class="a">
+        <span class="yr">2007 · 票房</span>
+        <div class="t">百万美元俱乐部</div>
+        <ul>
+          <li>2007-06 周票房破 $1,003,282</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文化影响 -->
+  <section id="impact">
+    <div class="sec__head">文化影响 · IMPACT</div>
+    <div class="card pink">
       <ul class="tight">
-        <li><strong>托尼奖</strong>提名 7 项（2008），包括最佳音乐剧女主角（Laura Bell Bundy）。</li>
-        <li><strong>奥利弗奖（Olivier）</strong>2011 年度最佳新音乐剧（Best New Musical）。</li>
-        <li>伦敦西区驻演三年、百老汇驻演两年余，并开启多国巡演与业余授权（MTI）。</li>
-        <li>悉尼演员 Lucy Durack 凭 Elle Woods 获 <em>Helpmann 奖</em>最佳音乐剧女主角。</li>
-        <li>文化意义：把"金发=肤浅"的刻板印象翻转为"聪明且自信"，粉色成了女性力量的符号。</li>
+        <li><strong>"Bend and Snap"</strong> 走出剧场成为流行文化梗，被广泛模仿与二次创作。</li>
+        <li><strong>粉色 = 女性力量</strong>：把"金发 = 肤浅"的刻板印象翻转为"聪明且自信"，粉色成了自信的符号。</li>
+        <li><strong>拓路者</strong>：作为女性主导的流行风音乐喜剧，影响了此后一批同类作品（如《Mean Girls》音乐剧）。</li>
+        <li><strong>卡司录音</strong>进入英国榜单；2022 复排获《泰晤士报》五星好评，印证其持久人气。</li>
+        <li><strong>全球上演</strong>：除百老汇与西区长驻外，美、英、澳、韩等多国巡演与制作不断，MTI 学生版让校园舞台也能"变粉"。</li>
       </ul>
     </div>
   </section>
