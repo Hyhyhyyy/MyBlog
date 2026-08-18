@@ -168,15 +168,7 @@
       // 其余为占位条目；开发者可通过 window.__study.addNote() 无限追加。
       var STUDY_ITEMS = [];
       // 预置真实笔记：键为圆盘序号（1..42），其余为占位条目。
-      var SEEDED = {
-        1: { link: 'kaoyan408.html',
-             title: '我的408学习网页', description: '归类：资料', category: '资料' },
-        2: { link: 'opensource-guide.html',
-             title: '大模型为例的开源起步网页', description: '归类：资料', category: '资料' },
-        3: { link: 'https://hyhyhyyy.github.io/MyBlog/dingkan-map.html',
-             image: 'assets/covers/dingkan-map.svg?v=1',
-             title: '顶刊顶会地图', description: '归类：资料', category: '资料' }
-      };
+      var SEEDED = {};
       for (var i = 1; i <= 42; i++) {
         var imgPath = 'assets/stilllife/cover_' + String(i).padStart(2, '0') + '.jpg?v=4';
         var seed = SEEDED[i];
