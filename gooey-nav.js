@@ -11,7 +11,9 @@
     { label: '学习', href: 'study.html' },
     { label: '项目', href: 'projects.html' },
     { label: '娱乐', href: 'collections.html' },
-    { label: '关于', href: 'about.html' }
+    { label: '关于', href: 'about.html' },
+    { label: '408', href: 'kaoyan408.html' },
+    { label: '开源', href: 'opensource-guide.html' }
   ];
 
   function currentPageKey() {
