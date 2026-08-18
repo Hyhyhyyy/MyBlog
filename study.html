@@ -170,7 +170,7 @@
       // 预置真实笔记：键为圆盘序号（1..42），其余为占位条目。
       var SEEDED = {};
       for (var i = 1; i <= 42; i++) {
-        var imgPath = 'assets/stilllife/cover_' + String(i).padStart(2, '0') + '.jpg?v=4';
+        var imgPath = 'assets/covers/tomato-cover.svg?v=1';
         var seed = SEEDED[i];
         var cover = (seed && seed.image) ? seed.image : imgPath;
         if (seed) {
@@ -203,7 +203,7 @@
             var image = note && note.image;
             if (!image) {
               var idx = STUDY_ITEMS.length + 1;
-              image = 'assets/stilllife/cover_' + String(((idx - 1) % 42) + 1).padStart(2, '0') + '.jpg';
+              image = 'assets/covers/tomato-cover.svg?v=1';
             }
             var n = Object.assign({ link: null, title: '', description: '', category: '未分类' }, note || {}, { image: image });
             if (window.__infiniteMenuSketch && typeof window.__infiniteMenuSketch.addItem === 'function') {
