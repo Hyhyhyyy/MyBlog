@@ -58,13 +58,15 @@
         var c = document.getElementById('dot-field-bg');
         if (!c || typeof window.DotFieldInit !== 'function') return;
         window.DotFieldInit(c, {
-          dotRadius: 2.5,
-          dotSpacing: 14,
+          dotRadius: 22,
+          dotSpacing: 26,
           cursorRadius: 500,
           bulgeStrength: 67,
           glowRadius: 160,
-          gradientFrom: 'rgba(255,0,0,0.95)',      /* 鲜红 */
-          gradientTo: 'rgba(255,0,0,0.95)',        /* 鲜红（暂全红） */
+          dotImage: 'assets/tomato.png',
+          /* gradient 字段为图片模式下的回退色，此处不生效 */
+          gradientFrom: 'rgba(255,0,0,0.95)',
+          gradientTo: 'rgba(255,0,0,0.95)',
           glowColor: 'rgba(0,0,0,0.10)'
         });
       }
