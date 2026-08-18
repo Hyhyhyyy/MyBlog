@@ -79,39 +79,14 @@ function initDriftWall(container, props = {}) {
   let raf = null;
   let containerHeight = container.clientHeight || window.innerHeight || 800;
 
-  // Column assignment.
-  // - Items WITHOUT a `col` field (placeholder blocks) are round-robined across
-  //   every column so the wall stays dense.
-  // - Items WITH a `col` field (real collection covers) are pinned to that exact
-  //   column index and interleaved with placeholders at even intervals, so a
-  //   whole column can be dedicated to one category (e.g. musicals in the
-  //   center column, literature immediately left of it).
   function splitColumns(arr, cols) {
     const colsArr = Array.from({ length: cols }, () => []);
-    const placeholders = arr.filter(it => !('col' in it) || it.col == null);
-    const pinned = arr.filter(it => ('col' in it) && it.col != null);
-    // 1) round-robin placeholders so every column is dense
-    placeholders.forEach((it, i) => colsArr[i % cols].push(it));
-    // 2) group pinned items by their preferred column
-    const byCol = {};
-    pinned.forEach(it => {
-      const c = Math.max(0, Math.min(cols - 1, Number(it.col) || 0));
-      (byCol[c] = byCol[c] || []).push(it);
+    arr.forEach((it, i) => {
+      const c = (it && typeof it.col === 'number' && it.col >= 0 && it.col < cols) ? it.col : (i % cols);
+      colsArr[c].push(it);
     });
-  // 3) interleave pinned items into their target column at even intervals
-  Object.keys(byCol).forEach(c => {
-    c = Number(c);
-    const col = colsArr[c];
-    const pinnedThis = byCol[c];
-    const step = Math.max(1, Math.floor(col.length / (pinnedThis.length + 1)));
-    let idx = step;
-    pinnedThis.forEach(item => {
-      col.splice(Math.min(idx, col.length), 0, item);
-      idx += step + 1;
-    });
-  });
-  return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
-}
+    return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
+  }
   function computeMeta() {
     const unit = tileHeight + gap;
     return columnItems.map(col => {
@@ -163,10 +138,8 @@ function initDriftWall(container, props = {}) {
     if (item.href) {
       tile = document.createElement('a');
       tile.href = item.href;
+      tile.target = '_blank';
       tile.rel = 'noreferrer noopener';
-      // 预览面板多以 iframe 内嵌，弹窗(_blank)会被浏览器拦截导致"点击无反应"；
-      // 内嵌时改为同窗口跳转，独立浏览器中仍开新标签。
-      tile.target = (window.self !== window.top) ? '_self' : '_blank';
     } else {
       tile = document.createElement('div');
       tile.tabIndex = 0;
@@ -193,14 +166,6 @@ function initDriftWall(container, props = {}) {
     columnItems.forEach((col, c) => {
       const colEl = document.createElement('div');
       colEl.className = 'drift-wall__col';
-      // fixed, non-drifting category label for columns that carry a category
-      const cat = col.find(it => it.category);
-      if (cat) {
-        const label = document.createElement('div');
-        label.className = 'drift-wall__col-label';
-        label.textContent = cat.category;
-        colEl.appendChild(label);
-      }
       const track = document.createElement('div');
       track.className = 'drift-wall__track';
       const m = meta[c];
