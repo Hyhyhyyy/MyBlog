@@ -30,7 +30,8 @@
       waveAmplitude: num(opts.waveAmplitude, 0),
       gradientFrom: opts.gradientFrom || 'rgba(168, 85, 247, 0.35)',
       gradientTo: opts.gradientTo || 'rgba(180, 151, 207, 0.25)',
-      glowColor: opts.glowColor || '#120F17'
+      glowColor: opts.glowColor || '#120F17',
+      dotImage: opts.dotImage || null
     };
 
     // ---- canvas（点阵） ----
@@ -85,6 +86,13 @@
     var raf = null;
     var resizeTimer = null;
     var frameCount = 0;
+
+    // ---- optional dot image (if set, replaces each dot circle with this image) ----
+    var dotImg = null;
+    if (p.dotImage) {
+      dotImg = new Image();
+      dotImg.src = p.dotImage;
+    }
 
     function buildDots(w, h) {
       var step = p.dotRadius + p.dotSpacing;
@@ -163,17 +171,19 @@
 
       ctx.clearRect(0, 0, w, h);
 
-      var grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, p.gradientFrom);
-      grad.addColorStop(1, p.gradientTo);
-      ctx.fillStyle = grad;
+      var useImg = !!(dotImg && dotImg.complete && dotImg.naturalWidth > 0);
+      if (!useImg) {
+        var grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, p.gradientFrom);
+        grad.addColorStop(1, p.gradientTo);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+      }
 
       var cr = p.cursorRadius;
       var crSq = cr * cr;
       var rad = p.dotRadius / 2;
       var isBulge = p.bulgeOnly;
-
-      ctx.beginPath();
       for (var i = 0; i < len; i++) {
         var d = dots[i];
         var dx = mouse.x - d.ax;
@@ -215,7 +225,9 @@
           drawX += Math.cos(d.ay * 0.03 + t * 0.7) * p.waveAmplitude * 0.5;
         }
 
-        if (p.sparkle) {
+        if (useImg) {
+          ctx.drawImage(dotImg, drawX - rad, drawY - rad, rad * 2, rad * 2);
+        } else if (p.sparkle) {
           var hash = ((i * 2654435761) ^ (frameCount >> 3)) >>> 0;
           if ((hash % 100) < 3) {
             ctx.moveTo(drawX + rad * 1.8, drawY);
@@ -230,7 +242,7 @@
         }
       }
 
-      ctx.fill();
+      if (!useImg) ctx.fill();
       raf = requestAnimationFrame(tick);
     }
 
