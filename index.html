@@ -58,13 +58,13 @@
         var c = document.getElementById('dot-field-bg');
         if (!c || typeof window.DotFieldInit !== 'function') return;
         window.DotFieldInit(c, {
-          dotRadius: 1.5,
+          dotRadius: 2.5,
           dotSpacing: 14,
           cursorRadius: 500,
           bulgeStrength: 67,
           glowRadius: 160,
           gradientFrom: 'rgba(255,0,0,0.95)',      /* 鲜红 */
-          gradientTo: 'rgba(0,200,0,0.95)',        /* 鲜绿 */
+          gradientTo: 'rgba(255,0,0,0.95)',        /* 鲜红（暂全红） */
           glowColor: 'rgba(0,0,0,0.10)'
         });
       }
