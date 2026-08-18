@@ -75,10 +75,24 @@
       } else { boot(); }
     })();
   </script>
-  <!-- Lanyard 物理引擎 wasm 的 base：必须在加载 lanyard.js 之前设置。
-       相对当前页面解析到 ./lanyard-dist/assets/，适配任意 http 主机/端口。 -->
-  <script>window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;</script>
-  <script src="lanyard-dist/assets/lanyard.js"></script>
+  <!-- Lanyard 物理名片：延迟到 DOM 解析完成后再加载，
+       避免 3MB JS + 1.4MB wasm 阻塞首屏渲染（首屏先显示其余内容，名片随后“长”出）。 -->
+  <script>
+    window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;
+    function loadLanyard() {
+      if (window.__lanyardLoaded) return;
+      window.__lanyardLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'lanyard-dist/assets/lanyard.js';
+      s.async = true;
+      document.body.appendChild(s);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(loadLanyard, 100); });
+    } else {
+      setTimeout(loadLanyard, 100);
+    }
+  </script>
   <!-- 全站绿色鼠标特效（React Bits TargetCursor 原生移植） -->
   <script src="target-cursor.js"></script>
   <script>
