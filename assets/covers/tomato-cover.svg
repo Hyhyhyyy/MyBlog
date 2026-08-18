@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <pattern id="tomatoTile" width="150" height="150" patternUnits="userSpaceOnUse">
+      <g stroke="#111111" stroke-width="4" stroke-linejoin="round">
+        <!-- 番茄身体 -->
+        <ellipse cx="75" cy="86" rx="44" ry="40" fill="#e02820"/>
+        <!-- 高光 -->
+        <ellipse cx="60" cy="74" rx="11" ry="8" fill="#ffffff" opacity="0.45" stroke="none"/>
+        <!-- 绿蒂/叶 -->
+        <g fill="#1f8a3d" stroke="#111111" stroke-width="3">
+          <path d="M75 52 q-10 -16 -22 -18 q10 6 12 20 z"/>
+          <path d="M75 52 q10 -16 22 -18 q-10 6 -12 20 z"/>
+          <path d="M75 52 q-4 -20 -2 -26 q8 8 6 26 z"/>
+          <path d="M75 52 q-18 -10 -26 -6 q14 8 24 14 z"/>
+          <path d="M75 52 q18 -10 26 -6 q-14 8 -24 14 z"/>
+        </g>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="600" height="600" fill="#fff0eb"/>
+  <rect width="600" height="600" fill="url(#tomatoTile)"/>
+</svg>
