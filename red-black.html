@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>摇滚红与黑 — Le Rouge et le Noir | HYHY 娱乐合集</title>
+  <style>
+    :root {
+      --bg: #0a0a0e;
+      --bg2: #0d0d12;
+      --bg3: #141419;
+      --text: #f5f5f7;
+      --muted: #a0a0a8;
+      --faint: #6c6c75;
+      --card: rgba(255, 255, 255, 0.045);
+      --border: rgba(255, 255, 255, 0.1);
+      --red: #e50914;
+      --red-dim: rgba(229, 9, 20, 0.18);
+      --radius: 16px;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+      --glow: 0 0 28px rgba(229, 9, 20, 0.22);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: radial-gradient(ellipse at 80% -10%, rgba(229,9,20,0.12), transparent 45%),
+                  linear-gradient(180deg, #0a0a0e 0%, #0d0d12 50%, #111114 100%);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10, 10, 14, 0.85);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 900; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .logo:hover { color: var(--red); }
+    .nav-links a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 0.92rem; font-weight: 600; }
+    .nav-links a:hover { color: var(--red); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px 80px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem; font-weight: 700; color: var(--red); margin: 0 0 8px; }
+    h1, h2, h3 { margin: 0; font-family: "Noto Serif SC", "Songti SC", Georgia, "SimSun", serif; }
+    h1 { font-size: clamp(2.4rem, 7vw, 4.6rem); font-weight: 900; line-height: 1.05; letter-spacing: 0.04em; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 800; margin-bottom: 22px; position: relative; display: inline-block; }
+    h2::after { content: ""; position: absolute; left: 0; bottom: -8px; width: 100%; height: 2px; background: linear-gradient(90deg, var(--red), transparent); }
+    h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; }
+    section { margin-top: 64px; }
+    .hero {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center;
+      padding: 54px 0 38px;
+    }
+    .hero-cover {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(229, 9, 20, 0.35);
+      box-shadow: var(--shadow), var(--glow);
+      background: var(--card);
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease;
+    }
+    .hero-cover:hover { transform: translateY(-6px); box-shadow: var(--shadow), 0 0 46px rgba(229,9,20,0.32); }
+    .hero-cover img { display: block; width: 100%; height: auto; }
+    .hero-title { margin-bottom: 16px; }
+    .hero-sub { font-size: 1.2rem; font-weight: 700; color: var(--red); letter-spacing: 0.08em; margin-bottom: 14px; }
+    .hero-intro { font-size: 1.05rem; color: var(--muted); max-width: 520px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .kv { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 11px 0; }
+    .kv:last-child { border-bottom: none; }
+    .kv k { color: var(--faint); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; font-family: system-ui, sans-serif; }
+    .kv v { text-align: right; font-weight: 600; max-width: 65%; }
+    blockquote {
+      margin: 28px 0 0; padding: 24px 28px;
+      border-left: 4px solid var(--red);
+      background: var(--red-dim);
+      border-radius: 0 14px 14px 0;
+      font-style: italic;
+    }
+    blockquote .orig { font-size: 1.12rem; font-weight: 700; color: var(--text); font-family: "Noto Serif SC", Georgia, serif; }
+    blockquote cite { display: block; margin-top: 10px; color: var(--red); font-style: normal; font-weight: 700; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    th { color: var(--red); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; font-family: system-ui, sans-serif; }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); }
+    .table-wrap table { margin: 0; min-width: 620px; }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(to bottom, var(--red), #111); }
+    .event { position: relative; margin-bottom: 24px; }
+    .event::before { content: ""; position: absolute; left: -26px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--red); }
+    .event time { font-weight: 800; color: var(--red); font-size: 0.9rem; letter-spacing: 0.05em; font-family: system-ui, sans-serif; }
+    .event p { margin: 4px 0 0; color: var(--muted); }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800;
+      margin-right: 8px; margin-bottom: 8px; letter-spacing: 0.04em;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+    }
+    .badge.red { background: rgba(229,9,20,0.14); border-color: rgba(229,9,20,0.35); color: #fca5a5; }
+    ul.clean { padding-left: 22px; }
+    ul.clean li { margin-bottom: 12px; color: var(--muted); }
+    figure { margin: 24px 0 0; }
+    figcaption { font-size: 0.85rem; color: var(--faint); text-align: center; margin-top: 10px; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 22px; }
+    .gallery figure { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow); transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .gallery figure:hover { transform: translateY(-5px); box-shadow: var(--shadow), 0 0 30px rgba(229,9,20,0.18); }
+    .gallery img { display: block; width: 100%; height: auto; }
+    .gallery figcaption { padding: 12px 14px; font-size: 0.85rem; color: var(--faint); text-align: center; }
+    .gallery .wide { grid-column: 1 / -1; }
+    .reslinks { list-style: none; padding: 0; margin: 14px 0 0; }
+    .reslinks li { margin-bottom: 12px; }
+    .reslinks a { display: inline-flex; align-items: center; gap: 8px; color: var(--red); text-decoration: none; font-weight: 700; border: 1px solid var(--border); padding: 10px 16px; border-radius: 12px; background: rgba(255,255,255,0.04); transition: background 0.25s ease, border-color 0.25s ease; }
+    .reslinks a:hover { background: rgba(229,9,20,0.12); border-color: rgba(229,9,20,0.4); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
+      border-radius: 999px; color: #fff; text-decoration: none; font-weight: 800;
+      background: linear-gradient(90deg, #b20710, #e50914);
+      box-shadow: 0 8px 24px rgba(229, 9, 20, 0.35);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(229, 9, 20, 0.45); }
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-cover { max-width: 360px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="index.html">HYHY / GROWTH</a>
+      <div class="nav-links">
+        <a href="collections.html">娱乐合集</a>
+        <a href="index.html">主页</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-cover">
+        <img src="red-black-cover.jpg" alt="摇滚红与黑 主视觉" />
+      </div>
+      <div>
+        <p class="eyebrow">MUSICAL / 音乐剧</p>
+        <h1 class="hero-title">摇滚红与黑</h1>
+        <p class="hero-sub">LE ROUGE ET LE NOIR — L'OPERA ROCK</p>
+        <p class="hero-intro">司汤达笔下 1830 年代的阶级牢笼，被法式摇滚撕开一道血红裂口。木匠之子于连怀揣着对荣耀与爱情的执念，在红（热血、军装、革命）与黑（教袍、阴谋、死亡）之间冲撞，最终走向断头台。</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>基本信息 · FACTS</h2>
+      <div class="card">
+        <div class="kv"><k>中文名</k><v>摇滚红与黑</v></div>
+        <div class="kv"><k>外文名</k><v>Le Rouge et le Noir — L'Opéra Rock</v></div>
+        <div class="kv"><k>类型</k><v>法语摇滚音乐剧（Opéra Rock）</v></div>
+        <div class="kv"><k>原著</k><v>司汤达（Stendhal）长篇小说《红与黑》</v></div>
+        <div class="kv"><k>作曲</k><v>William Rousseau & Sorel</v></div>
+        <div class="kv"><k>作词</k><v>Zazie & Vincent Baguian</v></div>
+        <div class="kv"><k>编剧（Book）</k><v>Alexandre Bonstein</v></div>
+        <div class="kv"><k>导演</k><v>François Chouquet / Laurent Seroussi</v></div>
+        <div class="kv"><k>首演</k><v>2016-09-22 法国巴黎宫殿戏院（Palais des Sports de Paris）</v></div>
+        <div class="kv"><k>中国巡演</k><v>2019 年首次中国巡演（上海站 2018-12-06 开票）</v></div>
+        <div class="kv"><k>荣誉</k><v>2017 水晶球奖（Globes de Cristal）最佳音乐剧提名</v></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>剧情 · SYNOPSIS</h2>
+      <p>于连·索雷尔出身贫寒，却精通拉丁文、野心勃勃。在波旁王朝复辟的压抑年代，他渴望以「红」（拿破仑式的军功与热血）或「黑」（教会的权谋）爬上社会顶层。</p>
+      <p>成为维里埃市长家的家庭教师后，他与市长夫人露易丝·德瑞那陷入禁忌之恋。私情败露，他被迫离开，进入神学院，后又成为巴黎拉莫尔侯爵的秘书，并赢得侯爵千金玛蒂尔德的芳心。就在他即将跻身贵族之时，教会迫使德瑞那夫人写信揭发于连；于连在愤怒中开枪打伤德瑞那夫人，最终被送上断头台。</p>
+      <blockquote>
+        <p class="orig">La gloire à mes genoux, l'amour au creux des mains.</p>
+        <cite>— 取自名曲《La gloire à mes genoux》：荣耀向我俯首，爱情握于掌心，道出了于连一生的执念与覆灭。</cite>
+      </blockquote>
+    </section>
+
+    <section>
+      <h2>创作团队 · CREATIVE TEAM</h2>
+      <div class="grid-3">
+        <div class="card"><h3>William Rousseau</h3><p>作曲核心，参与过《摇滚莫扎特》《1789，巴士底狱的恋人》等法式摇滚音乐剧。</p></div>
+        <div class="card"><h3>Sorel</h3><p>作曲，19 岁时因司汤达主人公而改名 Sorel；本剧所有 demo 均出自他手。</p></div>
+        <div class="card"><h3>Zazie</h3><p>作词，法国著名唱作人，为 Florent Pagny、Johnny Hallyday 等写过大量作品。</p></div>
+        <div class="card"><h3>Vincent Baguian</h3><p>作词，与 William Rousseau 多次合作，擅长将文学意象转化为摇滚歌词。</p></div>
+        <div class="card"><h3>Alexandre Bonstein</h3><p>编剧，将司汤达厚重的小说压缩成戏剧张力十足的舞台文本。</p></div>
+        <div class="card"><h3>François Chouquet & Laurent Seroussi</h3><p>联合导演，以红黑两极的视觉语言统摄全剧。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>角色与卡司 · CAST</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>角色</th><th>简介</th><th>巴黎首演</th></tr>
+          <tr><td><strong>Julien Sorel</strong><br>于连·索雷尔</td><td>木匠之子，野心与爱情交织的悲剧主角</td><td>Côme</td></tr>
+          <tr><td><strong>Louise de Rênal</strong><br>露易丝·德瑞那</td><td>维里埃市长夫人，于连的初恋，压抑中燃烧的自由灵魂</td><td>Haylen</td></tr>
+          <tr><td><strong>Mathilde de La Mole</strong><br>玛蒂尔德·德·拉莫尔</td><td>拉莫尔侯爵千金，骄傲而热烈的爱人</td><td>Julie Fournier</td></tr>
+          <tr><td><strong>Gérard de Rênal</strong><br>德瑞那先生</td><td>维里埃市长，于连与露易丝之间的障碍</td><td>Michel Lerousseau</td></tr>
+          <tr><td><strong>Le Marquis de La Mole</strong><br>拉莫尔侯爵</td><td>巴黎贵族，于连跻身上流的跳板</td><td>Patrice Maktav</td></tr>
+          <tr><td><strong>Élisa / 其他</strong></td><td>市长家女仆等配角</td><td>Elsa Pérusin / Cynthia Tolleron</td></tr>
+        </table>
+      </div>
+      <div class="gallery">
+        <figure class="wide">
+          <img src="redblack-keyart.jpg" alt="摇滚红与黑 主视觉（Opéra Rock 2016）" loading="lazy" />
+          <figcaption>《摇滚红与黑》主视觉 · Opéra Rock 2016</figcaption>
+        </figure>
+        <figure>
+          <img src="redblack-troupe1.jpg" alt="摇滚红与黑 剧组合影（一）" loading="lazy" />
+          <figcaption>剧组合影（一）</figcaption>
+        </figure>
+        <figure>
+          <img src="redblack-troupe2.jpg" alt="摇滚红与黑 剧组合影（二）" loading="lazy" />
+          <figcaption>剧组合影（二）</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2>曲目 · SONGS</h2>
+      <p style="color:var(--faint)">以下按剧情分组列出 ACT I / ACT II，幕次划分以叙事推进为参考；现场演出版本可能略有调整。</p>
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <tr><th colspan="3">ACT I — 维里埃、德瑞那之恋与神学院</th></tr>
+          <tr><th>曲名</th><th>演唱角色</th><th>情境</th></tr>
+          <tr><td>La gloire à mes genoux</td><td>Julien</td><td>于连的野心宣言：「荣耀向我俯首」</td></tr>
+          <tr><td>Les maudits mots d'amour</td><td>Mme de Rênal / Julien</td><td>被诅咒的情话，禁忌之恋的开端</td></tr>
+          <tr><td>Écouter son cœur</td><td>Mme de Rênal</td><td>露易丝倾听内心的渴望</td></tr>
+          <tr><td>Dans le noir je vois rouge</td><td>Julien</td><td>黑暗中于连看见红色的命运</td></tr>
+          <tr><td>Ding Dong</td><td>全员</td><td>命运叩门，情节转折的节点</td></tr>
+          <tr><td>Quel ennui</td><td>贵族群像</td><td>对上流社会空虚的讽刺</td></tr>
+          <tr><td>Que c'est bon d'être un bourgeois</td><td> bourgeois 群像</td><td>布尔乔亚的得意与虚伪</td></tr>
+          <tr><td>Tout se perd</td><td>Julien / Mme de Rênal</td><td>一切在失去，情感与身份的崩塌</td></tr>
+        </table>
+      </div>
+      <div class="table-wrap" style="margin-top:18px;">
+        <table>
+          <tr><th colspan="3">ACT II — 巴黎、侯爵府与悲剧</th></tr>
+          <tr><th>曲名</th><th>演唱角色</th><th>情境</th></tr>
+          <tr><td>Sans elles</td><td>Julien</td><td>失去两位女性后，于连的独白</td></tr>
+          <tr><td>Il aurait suffi</td><td>Mme de Rênal</td><td>露易丝的悔恨：「本就足够了」</td></tr>
+          <tr><td>Pour qu'elles nous aiment</td><td>Julien / 男性角色</td><td>为了被爱，男人做出的抉择</td></tr>
+          <tr><td>Éviter les roses</td><td>Mathilde</td><td>玛蒂尔德避开玫瑰，选择骄傲</td></tr>
+          <tr><td>Ces peines perdues</td><td>Mme de Rênal</td><td>徒劳的痛楚与告别</td></tr>
+          <tr><td>Je vous laisse hélas</td><td>全员</td><td>终曲：于连走向结局，众人告别</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>制作年表 · TIMELINE</h2>
+      <div class="card">
+        <div class="timeline">
+          <div class="event"><time>1830</time><p>司汤达长篇小说《红与黑》首次出版。</p></div>
+          <div class="event"><time>2016-09-22</time><p>法语摇滚音乐剧《摇滚红与黑》于巴黎宫殿戏院首演。</p></div>
+          <div class="event"><time>2017</time><p>获水晶球奖（Globes de Cristal）最佳音乐剧提名。</p></div>
+          <div class="event"><time>2018-12-06</time><p>2019 中国巡演上海站率先开票。</p></div>
+          <div class="event"><time>2019</time><p>首次中国巡演，推动法剧在国内的二次传播。</p></div>
+          <div class="event"><time>2020s</time><p>在法国及海外持续复排，Côme、Haylen 等原卡演员成为法剧标志性面孔。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>奖项与荣誉 · AWARDS</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Globes de Cristal 2017</h3>
+          <span class="badge red">最佳音乐剧提名</span>
+          <p style="color:var(--muted);margin-top:10px">法语音乐剧界重要奖项，本剧作为新作成即获认可。</p>
+        </div>
+        <div class="card">
+          <h3>法国媒体评价</h3>
+          <span class="badge">「每一幕结束都情不自禁去鼓掌」</span>
+          <p style="color:var(--muted);margin-top:10px">被赞为品质保证的法式摇滚歌剧。</p>
+        </div>
+        <div class="card">
+          <h3>中国巡演 2019</h3>
+          <span class="badge red">上海 / 多地售罄</span>
+          <p style="color:var(--muted);margin-top:10px">Côme、Haylen 等原班阵容来华，推动法红黑成为法剧圈热门曲目。</p>
+        </div>
+        <div class="card">
+          <h3>流媒体与现场</h3>
+          <span class="badge">《La gloire à mes genoux》等名曲广为流传</span>
+          <p style="color:var(--muted);margin-top:10px">专辑与现场视频在 Bilibili、YouTube 等平台积累了大量观众。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>文化影响 · IMPACT</h2>
+      <div class="card">
+        <ul class="clean">
+          <li>与《摇滚莫扎特》《1789，巴士底狱的恋人》共同构成 21 世纪法式摇滚音乐剧（Opéra Rock）浪潮。</li>
+          <li>将 19 世纪文学巨著《红与黑》转化为现代摇滚语汇，降低了年轻观众进入司汤达的门槛。</li>
+          <li>Côme 饰演的于连与 Haylen 饰演的德瑞那夫人成为法剧标志性角色，被誉为「原卡封神」。</li>
+          <li>歌曲《La gloire à mes genoux》《Dans le noir je vois rouge》成为法语音乐剧圈长期传唱的名曲。</li>
+          <li>2019 年中国巡演使「法红黑」成为国内音乐剧观众讨论的重要作品，推动了法语音乐剧在华传播。</li>
+          <li>「红」与「黑」的视觉符号与阶级隐喻，使本剧成为文学改编音乐剧中兼具视觉冲击力与思想深度的代表。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>观看与收听 · WATCH &amp; LISTEN</h2>
+      <div class="card">
+        <h3>📺 在 B 站观看演出</h3>
+        <ul class="reslinks">
+          <li><a href="https://www.bilibili.com/video/BV1Px411C7uB/" target="_blank" rel="noopener">2019 法语原版官方摄制版（中法字幕，限时免费）</a></li>
+        </ul>
+        <h3 style="margin-top:24px">🎧 在网易云音乐收听原声</h3>
+        <ul class="reslinks">
+          <li><a href="https://music.163.com/album?id=34867218" target="_blank" rel="noopener">《Le rouge et le noir - L'Opéra Rock》官方原声专辑</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section style="text-align:center; margin-top:80px;">
+      <a class="btn" href="collections.html">← 返回娱乐合集</a>
+    </section>
+  </div>
+</body>
+</html>

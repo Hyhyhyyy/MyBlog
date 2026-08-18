@@ -1,42 +1,27 @@
 // Collections (合集) wiring for the Neo-Brutalist prototype.
-// - Seeds the DriftWall with placeholder blocks coloured as a red→yellow→green gradient.
+// - Seeds the DriftWall with tomato-colour placeholder blocks.
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v9';
+const STORAGE_KEY = 'hyhy_collections_v2';
 
-// 占位色块调色板：整体呈现「鲜红 → 鲜黄 → 鲜绿」的渐变（色相 0°→120° 均匀步进）。
-// 顺序必须保留：splitColumns 仍按 (i % PALETTE.length) 循环取色，故改这里即改整墙渐变顺序。
-const PALETTE = ['#FF1E1E', '#FF6A00', '#FFB300', '#FFE500', '#C6E800', '#5FD800', '#00E000'];
+// Tomato-related palette for the placeholder blocks: reds + green + yellow.
+const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
 const PLACEHOLDER_COUNT = 49; // 7 columns x ~7 → a dense, fully-filled wall
 
+// Real collection tiles. DriftWall consumes `image` + `href`; `category` is stored
+// for future use, and `col` is now respected by drift-wall.js when splitting items.
+const REAL_TILES = [
+  { image: 'six-tile.jpg', href: 'six.html', title: 'SIX 六位王后', category: '音乐剧', col: 3 },
+  { image: 'red-black-tile.jpg', href: 'red-black.html', title: '摇滚红与黑 Le Rouge et le Noir', category: '音乐剧', col: 3 }
+];
+
 function makePlaceholders() {
-  const items = [{
-    image: 'hamilton-tile.jpg',
-    href: 'hamilton.html',
-    title: 'Hamilton 汉密尔顿',
-    category: '音乐剧',
-    col: 3
-  }, {
-    image: 'woyu-ditan-tile.jpg',
-    href: 'woyu-ditan.html',
-    title: '我与地坛 史铁生',
-    category: '文学',
-    col: 2
-  }, {
-    image: 'legally-blonde-tile.jpg',
-    href: 'legally-blonde.html',
-    title: '律政俏佳人 Legally Blonde',
-    category: '音乐剧',
-    col: 3
-  }];
-  for (let i = 0; i < PLACEHOLDER_COUNT; i++) {
-    items.push({
-      color: PALETTE[i % PALETTE.length],
-      label: '合集 ' + String(i + 1).padStart(2, '0')
-    });
-  }
-  return items;
+  const placeholders = Array.from({ length: PLACEHOLDER_COUNT }, (_, i) => ({
+    color: PALETTE[i % PALETTE.length],
+    label: '合集 ' + String(i + 1).padStart(2, '0')
+  }));
+  return [...REAL_TILES, ...placeholders];
 }
 
 function loadState() {
