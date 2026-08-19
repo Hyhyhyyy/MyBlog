@@ -3,7 +3,7 @@
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v3';
+const STORAGE_KEY = 'hyhy_collections_v4';
 
 // Tomato-related palette for the placeholder blocks: reds + green + yellow.
 const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
@@ -16,7 +16,9 @@ const REAL_TILES = [
   { image: 'red-black-tile.jpg', href: 'red-black.html', title: '摇滚红与黑 Le Rouge et le Noir', category: '音乐剧', col: 3 },
   { image: 'hulanhe-tile.jpg', href: 'hulanhe.html', title: '呼兰河传 · 萧红', category: '文学', col: 2 },
   { image: 'caofangzi-tile.jpg', href: 'caofangzi.html', title: '草房子 · 曹文轩', category: '文学', col: 2 },
-  { image: 'calvino-tile.jpg', href: 'calvino.html', title: '卡尔维诺短篇小说集', category: '文学', col: 2 }
+  { image: 'calvino-tile.jpg', href: 'calvino.html', title: '卡尔维诺短篇小说集', category: '文学', col: 2 },
+  { image: 'friends-tile.jpg', href: 'friends.html', title: 'Friends 老友记', category: '影视', col: 4 },
+  { image: 'sherlock-tile.jpg', href: 'sherlock.html', title: 'Sherlock 神探夏洛克', category: '影视', col: 4 }
 ];
 
 function makePlaceholders() {
