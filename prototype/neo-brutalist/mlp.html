@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Little Pony: Friendship Is Magic — 小马宝莉 | HYHY 娱乐合集</title>
+  <style>
+    :root {
+      --bg: #130a2e;
+      --bg2: #1d0f3f;
+      --text: #fdfbff;
+      --muted: rgba(253, 251, 255, 0.78);
+      --faint: rgba(253, 251, 255, 0.55);
+      --card: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.16);
+      --c1: #ff6ec7; /* 粉 */
+      --c2: #7c4dff; /* 紫 */
+      --c3: #29e0e0; /* 青 */
+      --c4: #ffd166; /* 黄 */
+      --c5: #5eead4; /* 薄荷 */
+      --radius: 1.8rem;
+      --glow: 0 0 40px rgba(124, 77, 255, 0.45);
+      --serif: Georgia, "Times New Roman", "Songti SC", "Noto Serif SC", serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1100px 700px at 12% -8%, rgba(255,110,199,0.30) 0%, rgba(255,110,199,0) 55%),
+        radial-gradient(1000px 800px at 92% 4%, rgba(41,224,224,0.26) 0%, rgba(41,224,224,0) 55%),
+        radial-gradient(900px 900px at 60% 110%, rgba(124,77,255,0.34) 0%, rgba(124,77,255,0) 60%),
+        linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+      background-attachment: fixed;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: rgba(19, 10, 46, 0.62);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 900; letter-spacing: 0.06em; color: var(--text); text-decoration: none;
+      background: linear-gradient(90deg, var(--c1), var(--c3)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 1.2rem; }
+    .logo:hover { filter: brightness(1.15); }
+    .nav-links a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 0.92rem; font-weight: 800; }
+    .nav-links a:hover { color: var(--c3); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 1; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem; font-weight: 800; color: var(--c3); margin: 0 0 8px; }
+    h1, h2, h3 { margin: 0; }
+    h1 { font-size: clamp(2.3rem, 6.4vw, 4.4rem); font-weight: 900; line-height: 1.02;
+      background: linear-gradient(92deg, var(--c1), var(--c4), var(--c3)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 22px; color: var(--text);
+      text-shadow: 0 0 22px rgba(124,77,255,0.35); }
+    h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    section { margin-top: 64px; }
+    .hero {
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: 44px; align-items: center;
+      padding: 56px 0 38px;
+    }
+    .hero-cover {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--glow);
+      background: var(--card);
+      max-width: 340px;
+      margin: 0 auto;
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease;
+    }
+    .hero-cover:hover { transform: translateY(-8px) rotate(-0.6deg); box-shadow: 0 0 60px rgba(255,110,199,0.55); }
+    .hero-cover img { display: block; width: 100%; height: auto; }
+    .hero-title { margin-bottom: 16px; }
+    .hero-sub { font-size: 1.22rem; font-weight: 800; color: var(--c4); margin-bottom: 14px; }
+    .hero-intro { font-size: 1.04rem; color: var(--muted); max-width: 520px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+    .kv { display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding: 11px 0; gap: 16px; }
+    .kv:last-child { border-bottom: none; }
+    .kv k { color: var(--faint); font-size: 0.86rem; font-weight: 800; letter-spacing: 0.04em; white-space: nowrap; }
+    .kv v { text-align: right; font-weight: 600; max-width: 66%; }
+    blockquote {
+      margin: 28px 0 0; padding: 24px 28px;
+      border-left: 5px solid var(--c1);
+      background: linear-gradient(135deg, rgba(255,110,199,0.16), rgba(41,224,224,0.12));
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-style: italic;
+    }
+    blockquote .orig { font-size: 1.2rem; font-weight: 800; color: var(--text); }
+    blockquote cite { display: block; margin-top: 10px; color: var(--c3); font-style: normal; font-weight: 700; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--card-border); vertical-align: top; }
+    th { color: var(--c3); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 800; }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--card-border); background: var(--card); backdrop-filter: blur(8px); }
+    .table-wrap table { margin: 0; min-width: 620px; }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 3px; background: linear-gradient(to bottom, var(--c1), var(--c2), var(--c3)); }
+    .event { position: relative; margin-bottom: 24px; }
+    .event::before { content: ""; position: absolute; left: -26px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 3px solid var(--c4); }
+    .event time { font-weight: 800; color: var(--c4); font-size: 0.9rem; letter-spacing: 0.05em; }
+    .event p { margin: 4px 0 0; color: var(--muted); }
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800;
+      margin-right: 8px; margin-bottom: 8px; letter-spacing: 0.04em;
+      background: rgba(255,255,255,0.10); border: 1px solid var(--card-border); color: var(--text);
+    }
+    .badge.win { background: rgba(255,110,199,0.22); border-color: rgba(255,110,199,0.5); color: #ffd3ee; }
+    .badge.nom { background: rgba(41,224,224,0.18); border-color: rgba(41,224,224,0.5); color: #bff6f6; }
+    ul.clean { padding-left: 22px; }
+    ul.clean li { margin-bottom: 12px; color: var(--muted); }
+    .cast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 22px; }
+    .cast-card {
+      background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius);
+      padding: 22px 18px; text-align: center; backdrop-filter: blur(8px);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .cast-card:hover { transform: translateY(-6px); box-shadow: var(--glow); }
+    .cast-photo {
+      width: 130px; height: 130px; margin: 0 auto 16px; border-radius: 50%;
+      overflow: hidden; border: 4px solid var(--c1); background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 2.2rem; color: #fff;
+      background: linear-gradient(135deg, var(--c2), var(--c1));
+    }
+    .cast-photo.img { background: rgba(255,255,255,0.08); }
+    .cast-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cast-card h3 { font-size: 1.06rem; margin: 0 0 3px; }
+    .cast-actor { font-weight: 800; color: var(--c3); font-size: 0.86rem; margin: 0 0 10px; }
+    .cast-desc { color: var(--muted); font-size: 0.86rem; line-height: 1.55; margin: 0; }
+    .reslinks { list-style: none; padding: 0; margin: 14px 0 0; }
+    .reslinks li { margin-bottom: 12px; }
+    .reslinks a {
+      display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; font-weight: 800;
+      border: 1px solid var(--card-border); padding: 10px 16px; border-radius: 999px;
+      background: linear-gradient(135deg, rgba(124,77,255,0.35), rgba(41,224,224,0.25));
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .reslinks a:hover { transform: translateY(-2px); box-shadow: var(--glow); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
+      border-radius: 999px; color: #1a0936; text-decoration: none; font-weight: 900;
+      background: linear-gradient(90deg, var(--c1), var(--c4));
+      box-shadow: 0 10px 30px rgba(255,110,199,0.40);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(124,77,255,0.55); }
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-cover { max-width: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="index.html">HYHY / GROWTH</a>
+      <div class="nav-links">
+        <a href="collections.html">娱乐合集</a>
+        <a href="index.html">主页</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-cover">
+        <img src="mlp-cover.jpg" alt="My Little Pony: Friendship Is Magic 海报" />
+      </div>
+      <div>
+        <p class="eyebrow">ANIMATED SERIES / 动画剧集</p>
+        <h1 class="hero-title">My Little Pony:<br/>Friendship Is Magic</h1>
+        <p class="hero-sub">小马宝莉：友谊的魔力 · 六位小马的魔法奇旅</p>
+        <p class="hero-intro">2010 年重启的《小马宝莉》第四代动画，由 Lauren Faust 操刀。小马国里六位主角各自代表一种「和谐元素」，在糖果色的冒险中反复证明一句话——Friendship is magic。它意外俘获了全球成年粉丝「Brony」，成为动画史上最出圈的「合家欢破圈」之一。</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>基本信息 · FACTS</h2>
+      <div class="card">
+        <div class="kv"><k>中文名</k><v>小马宝莉：友谊的魔力（第四代 / G4）</v></div>
+        <div class="kv"><k>英文名</k><v>My Little Pony: Friendship Is Magic</v></div>
+        <div class="kv"><k>类型</k><v>动画剧集（奇幻 / 喜剧 / 冒险）</v></div>
+        <div class="kv"><k>主创</k><v>Lauren Faust（开发 / 前四季执行制片）</v></div>
+        <div class="kv"><k>配音主演</k><v>Tara Strong / Ashleigh Ball / Andrea Libman / Tabitha St. Germain 等</v></div>
+        <div class="kv"><k>原著</k><v>Hasbro《My Little Pony》玩具line 改编</v></div>
+        <div class="kv"><k>出品</k><v>Hasbro Studios · DHX Media（后 Boulder Media）</v></div>
+        <div class="kv"><k>首播</k><v>2010-10-10（The Hub）</v></div>
+        <div class="kv"><k>完结</k><v>2019-10-12（第 9 季）</v></div>
+        <div class="kv"><k>季数 · 集数</k><v>9 季 · 221 集（含特别篇）</v></div>
+        <div class="kv"><k>单集时长</k><v>约 22 分钟</v></div>
+        <div class="kv"><k>语言</k><v>英语</v></div>
+        <div class="kv"><k>主题曲</k><v>《Friendship Is Magic》主题曲</v></div>
+        <div class="kv"><k>评分</k><v>IMDb 7.8 · 豆瓣 9.3</v></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>剧情 · SYNOPSIS</h2>
+      <p>故事发生在甜美又神奇的「小马国（Equestria）」。主角 Twilight Sparkle 是一匹爱读书的紫色独角兽，被老师 Celestia 公主派往 Ponyville 学习「友谊的魔法」。她结识了五位性格迥异的好友：热情的 Applejack、飒爽的 Rainbow Dash、爱笑的 Pinkie Pie、温柔的 Fluttershy，以及精致的 Rarity——六人分别对应「诚实、忠诚、欢笑、善良、慷慨、魔法」六种和谐元素。</p>
+      <p>每一集都是一场色彩斑斓的冒险：从对抗梦魇之月到化解友谊危机，从节日庆典到平行宇宙穿越。它用孩子能懂的寓言讲「如何与人相处」，却因精良的剧本、角色塑造与音乐，意外吸引了海量成年观众。它证明了一部「玩具改编动画」也能拥有扎实的叙事与真挚的情感。</p>
+      <blockquote>
+        <p class="orig">Friendship is magic.</p>
+        <cite>— 全剧核心信条，也是六位主角共同守护的「和谐元素」之和。</cite>
+      </blockquote>
+    </section>
+
+    <section>
+      <h2>创作背景 · BACKGROUND</h2>
+      <div class="card">
+        <ul class="clean">
+          <li><strong>Faust 的野心</strong>：Lauren Faust（《飞天小女警》《非凡的公主希瑞》编剧）接手时立下目标——让女孩向动画摆脱「浅薄刻板」，给角色真实性格与成长弧。</li>
+          <li><strong>第四代重启</strong>：作为 Hasbro《My Little Pony》玩具线的第四代动画（G4），它脱离了前几代「纯卖玩具」的框架，先立住故事再带动周边。</li>
+          <li><strong>音乐与制作</strong>：由 Daniel Ingram 操刀的歌曲成为口碑担当；DHX Media 负责动画制作，画面相较前代大幅升级。</li>
+          <li><strong>意外破圈</strong>：2010 年首播后，因网络二创与高质量剧本，大量成年男性观众（自称「Brony」）涌入，形成罕见的跨年龄粉丝文化。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>角色与演员 · CAST</h2>
+      <p style="color:var(--faint)">六位主角对应真实配音演员照片如下；Rarity 由 Tabitha St. Germain 配音，其公开肖像受版权限制，此处以首字母占位。</p>
+      <div class="cast-grid">
+        <div class="cast-card">
+          <div class="cast-photo img"><img src="mlp-strong.jpg" alt="Tara Strong 配音 Twilight Sparkle" loading="lazy" /></div>
+          <h3>Twilight Sparkle</h3>
+          <p class="cast-actor">Tara Strong</p>
+          <p class="cast-desc">爱读书的紫色独角兽（后为天角兽），六人组的「大脑」，负责学习与守护友谊魔法。</p>
+        </div>
+        <div class="cast-card">
+          <div class="cast-photo img"><img src="mlp-ball.jpg" alt="Ashleigh Ball 配音 Applejack / Rainbow Dash" loading="lazy" /></div>
+          <h3>Applejack / Rainbow Dash</h3>
+          <p class="cast-actor">Ashleigh Ball</p>
+          <p class="cast-desc">诚实的橘色陆马与忠诚的彩虹飞马，皆由 Ball 一人分饰，前者稳健后者飒爽。</p>
+        </div>
+        <div class="cast-card">
+          <div class="cast-photo img"><img src="mlp-libman.jpg" alt="Andrea Libman 配音 Pinkie Pie / Fluttershy" loading="lazy" /></div>
+          <h3>Pinkie Pie / Fluttershy</h3>
+          <p class="cast-actor">Andrea Libman</p>
+          <p class="cast-desc">欢笑的粉色派对马与善良的黄色飞马，同样由 Libman 分饰，一闹一静反差萌。</p>
+        </div>
+        <div class="cast-card">
+          <div class="cast-photo">TS</div>
+          <h3>Rarity</h3>
+          <p class="cast-actor">Tabitha St. Germain</p>
+          <p class="cast-desc">精致的白色独角兽，代表「慷慨」，是六人里的时装设计师与戏剧担当。</p>
+        </div>
+        <div class="cast-card">
+          <div class="cast-photo" style="border-color:var(--c3); background:linear-gradient(135deg,var(--c3),var(--c5));">S</div>
+          <h3>Spike</h3>
+          <p class="cast-actor">Cathy Weseluck</p>
+          <p class="cast-desc">Twilight 的紫色小龙助手，毒舌又忠诚，串联主线剧情的「吐槽担当」。</p>
+        </div>
+        <div class="cast-card">
+          <div class="cast-photo" style="border-color:var(--c4); background:linear-gradient(135deg,var(--c4),var(--c1));">CP</div>
+          <h3>Princess Celestia</h3>
+          <p class="cast-actor">Nicole Oliver</p>
+          <p class="cast-desc">小马国的太阳公主，Twilight 的导师，象征智慧与温柔的统治。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>分季结构 · SEASONS</h2>
+      <div class="table-wrap">
+        <table>
+          <tr><th>季</th><th>首播年</th><th>集数</th><th>一句话主题</th></tr>
+          <tr><td>第 1 季</td><td>2010</td><td>26</td><td>六元素集结，梦魇之月危机，友谊起点</td></tr>
+          <tr><td>第 2 季</td><td>2011</td><td>26</td><td>Discord 混沌登场，反派开始复杂化</td></tr>
+          <tr><td>第 3 季</td><td>2012</td><td>13</td><td>Twilight 晋升天角兽，主线升级</td></tr>
+          <tr><td>第 4 季</td><td>2013</td><td>26</td><td>三集大电影式 finale，对抗 Tirek</td></tr>
+          <tr><td>第 5 季</td><td>2015</td><td>26</td><td>「Cutie Map」平行宇宙与社会寓言</td></tr>
+          <tr><td>第 6 季</td><td>2016</td><td>26</td><td>下一代小马登场，世代传承</td></tr>
+          <tr><td>第 7 季</td><td>2017</td><td>26</td><td>回顾原点，导师往事补全</td></tr>
+          <tr><td>第 8 季</td><td>2018</td><td>26</td><td>友谊学校成立，群像铺开</td></tr>
+          <tr><td>第 9 季</td><td>2019</td><td>26</td><td>终章，Grogar 与最终决战，正式告别</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>制作年表 · TIMELINE</h2>
+      <div class="card">
+        <div class="timeline">
+          <div class="event"><time>2010-10-10</time><p>在 The Hub 频道首播，Lauren Faust 任执行制片。</p></div>
+          <div class="event"><time>2011–2012</time><p>成年粉丝「Brony」文化爆发，二创与同人席卷网络。</p></div>
+          <div class="event"><time>2013</time><p>第 4 季电影级 finale 播出，口碑与热度双高。</p></div>
+          <div class="event"><time>2017</time><p>推出衍生剧场版电影《My Little Pony: The Movie》。</p></div>
+          <div class="event"><time>2019-10-12</time><p>第 9 季完结，九季长跑正式落幕。</p></div>
+          <div class="event"><time>此后</time><p>成为动画「合家欢破圈」范本，持续影响后续 G5 重启。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>奖项与荣誉 · AWARDS</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>日间艾美奖</h3>
+          <span class="badge nom">多项提名（歌曲 / 配音 / 动画节目）</span>
+        </div>
+        <div class="card">
+          <h3>英国电影学院奖（BAFTA Children's）</h3>
+          <span class="badge win">入围并获奖提名</span>
+        </div>
+        <div class="card">
+          <h3>口碑地位</h3>
+          <span class="badge win">IMDb 7.8 高分动画</span>
+          <span class="badge nom">豆瓣 9.3 神作级评分</span>
+        </div>
+        <div class="card">
+          <h3>文化现象</h3>
+          <span class="badge win">Brony 成年粉丝文化奠基之作</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>文化影响 · IMPACT</h2>
+      <div class="card">
+        <ul class="clean">
+          <li>开创了「玩具改编动画」也能拥有扎实剧本与成人观众的现象，直接催生 Brony 文化。</li>
+          <li>「Friendship is magic」成为跨越语言的流行语与正能量符号。</li>
+          <li>角色设计（六元素）与音乐（Daniel Ingram 作曲）被反复致敬与二次创作。</li>
+          <li>证明女性向动画不必浅薄——角色有缺陷、有成长，影响后续同类创作。</li>
+          <li>九季长线叙事为后续 G5 重启（《小马宝莉：新世代》）奠定世界观基础。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>观看入口 · WHERE TO WATCH</h2>
+      <div class="card">
+        <ul class="reslinks">
+          <li><a href="https://search.douban.com/movie/subject_search?search_text=My%20Little%20Pony%20Friendship%20Is%20Magic" target="_blank" rel="noopener">豆瓣 · 小马宝莉词条与评分</a></li>
+          <li><a href="https://www.netflix.com/" target="_blank" rel="noopener">Netflix（多地片库常驻）</a></li>
+          <li><a href="https://search.bilibili.com/all?keyword=%E5%B0%8F%E9%A9%AC%E5%AE%9D%E8%8E%89" target="_blank" rel="noopener">bilibili（搜索「小马宝莉」正版与二创）</a></li>
+          <li><a href="https://www.hasbro.com/" target="_blank" rel="noopener">Hasbro 官方（角色与世界观）</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section style="text-align:center; margin-top:80px;">
+      <a class="btn" href="collections.html">← 返回娱乐合集</a>
+    </section>
+  </div>
+</body>
+</html>
