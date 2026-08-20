@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>HYHY · Growth Archive</title>
+    <link>https://hyhyhyyy.github.io/MyBlog/</link>
+    <description>Neo-Brutalist 娱乐合集原型站更新流：音乐剧、文学与影视收藏。</description>
+    <language>zh-CN</language>
+    <item>
+      <title>SIX 六位王后（SIX: The Musical）</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/six.html</link>
+      <description>音乐剧收藏页。</description>
+    </item>
+    <item>
+      <title>摇滚红与黑（Le Rouge et le Noir）</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/red-black.html</link>
+      <description>音乐剧收藏页。</description>
+    </item>
+    <item>
+      <title>呼兰河传 · 萧红</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/hulanhe.html</link>
+      <description>文学收藏页。</description>
+    </item>
+    <item>
+      <title>草房子 · 曹文轩</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/caofangzi.html</link>
+      <description>文学收藏页。</description>
+    </item>
+    <item>
+      <title>卡尔维诺短篇小说集</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/calvino.html</link>
+      <description>文学收藏页。</description>
+    </item>
+    <item>
+      <title>Friends 老友记</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/friends.html</link>
+      <description>影视收藏页。</description>
+    </item>
+    <item>
+      <title>Sherlock 神探夏洛克</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/sherlock.html</link>
+      <description>影视收藏页。</description>
+    </item>
+    <item>
+      <title>小马宝莉 Friendship Is Magic</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/mlp.html</link>
+      <description>影视收藏页。</description>
+    </item>
+    <item>
+      <title>IT狂人 The IT Crowd</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/itcrowd.html</link>
+      <description>影视收藏页。</description>
+    </item>
+    <item>
+      <title>娱乐合集墙</title>
+      <link>https://hyhyhyyy.github.io/MyBlog/collections.html</link>
+      <description>音乐剧、文学、影视收藏的无限滚动 DriftWall。</description>
+    </item>
+  </channel>
+</rss>

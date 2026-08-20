@@ -33,6 +33,7 @@
     container.className = 'gooey-nav-container';
 
     var nav = document.createElement('nav');
+    nav.setAttribute('aria-label', '站内导航');
     var ul = document.createElement('ul');
     NAV_ITEMS.forEach(function (item, idx) {
       var li = document.createElement('li');

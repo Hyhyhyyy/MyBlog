@@ -1,0 +1,13 @@
+{
+  "name": "HYHY · Growth Archive",
+  "short_name": "HYHY",
+  "description": "Neo-Brutalist 娱乐合集原型站：音乐剧、文学与影视收藏。",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF4438",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
