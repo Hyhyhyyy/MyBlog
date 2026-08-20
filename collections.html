@@ -24,6 +24,8 @@
   </style>
   <!-- hyhy-head -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#FF4438" />
   <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/collections.html" />
   <meta name="description" content="娱乐合集墙：音乐剧、文学、影视收藏的无限滚动 DriftWall。" />
   <meta property="og:type" content="website" />
@@ -37,7 +39,9 @@
   <meta name="twitter:description" content="娱乐合集墙：音乐剧、文学、影视收藏的无限滚动 DriftWall。" />
   <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
   <link rel="stylesheet" href="a11y.css" />
+  <link rel="stylesheet" href="search.css" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"ENTERTAINMENT / 娱乐合集 — HYHY","url":"https://hyhyhyyy.github.io/MyBlog/collections.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
+  <link rel="alternate" type="application/rss+xml" title="HYHY · Growth Archive" href="feed.xml" />
 </head>
 <body class="collections-page">
   <!-- hyhy-skip -->
@@ -48,8 +52,20 @@
     <div class="nav-inner">
       <a href="index.html" class="logo">HYHY / GROWTH</a>
       <div class="nav-links" data-gooey-nav></div>
+  <!-- hyhy-search -->
+  <div class="site-search" role="search">
+    <label class="visually-hidden" for="site-search">站内搜索</label>
+    <input id="site-search" type="search" placeholder="搜索…" autocomplete="off" aria-label="站内搜索" />
+    <ul id="search-results" class="search-results" hidden></ul>
+  </div>
+
     </div>
   </nav>
+  <!-- hyhy-crumb -->
+  <nav aria-label="面包屑" class="breadcrumb"><a href="index.html">首页</a><span class="sep">/</span><span aria-current="page">娱乐合集</span></nav>
+
+  <!-- hyhy-theme -->
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="切换深色或浅色模式">深色</button>
 
   <div class="drift-page">
     <!-- 合集（全屏 DriftWall：番茄色块占位 + 上传封面随机永久占位） -->
@@ -66,5 +82,41 @@
   <script src="gooey-nav.js"></script>
   <script src="drift-wall.js"></script>
   <script src="collections.js"></script>
+
+  <!-- hyhy-sw -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  </script>
+
+  <!-- hyhy-theme -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var saved = null;
+      try { saved = localStorage.getItem('hyhy_theme'); } catch (e) {}
+      if (saved === 'dark') root.setAttribute('data-theme', 'dark');
+      var btn = document.getElementById('theme-toggle');
+      if (btn) {
+        var sync = function () {
+          var d = root.getAttribute('data-theme') === 'dark';
+          btn.textContent = d ? '浅色' : '深色';
+          btn.setAttribute('aria-pressed', d ? 'true' : 'false');
+        };
+        sync();
+        btn.addEventListener('click', function () {
+          var d = root.getAttribute('data-theme') !== 'dark';
+          if (d) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+          try { localStorage.setItem('hyhy_theme', d ? 'dark' : 'light'); } catch (e) {}
+          sync();
+        });
+      }
+    })();
+  </script>
+  <script src="search.js"></script>
+  <script defer src="vitals.js"></script>
 </body>
 </html>

@@ -329,3 +329,48 @@ body.home .hero{
 .cursor-toggle:focus-visible{ outline:3px solid var(--green); outline-offset:3px; }
 .cursor-toggle[aria-pressed="true"]{ background:var(--black); color:var(--white); }
 @media(max-width:767px){ .cursor-toggle{ left:10px; bottom:10px; padding:6px 9px; } }
+
+/* ============================================================
+   D1/D2/D3 设计令牌补充 + 动效/响应式 + 深色模式（U4）
+   ============================================================ */
+:root{
+  --space-1:8px; --space-2:16px; --space-3:24px; --space-4:32px; --space-5:48px;
+  --radius:0px;                                  /* 新野兽派：硬边 */
+  --motion-fast:.15s; --motion-base:.2s; --motion-slow:.3s;
+  --ease-out:cubic-bezier(.2,.7,.3,1);
+}
+/* 统一过渡语言（D2） */
+.btn, .card, .dw-add-btn, .cursor-toggle, .theme-toggle{
+  transition:transform var(--motion-base) var(--ease-out),
+             box-shadow var(--motion-base) var(--ease-out),
+             background var(--motion-base) var(--ease-out),
+             color var(--motion-base) var(--ease-out);
+}
+/* 深色模式：仅反转共享令牌；首页保持黑底，不强制变浅（U4/D1） */
+:root[data-theme="dark"]{ --white:#0e0e0e; --black:#f2f2f2; }
+:root[data-theme="dark"] body.home{ background:#000; }
+
+/* 深色模式切换按钮（固定右下，与左侧 cursor-toggle 错开） */
+.theme-toggle{
+  position:fixed; right:16px; bottom:16px; z-index:60;
+  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.06em;
+  background:var(--white); color:var(--black);
+  border:2px solid var(--black); box-shadow:var(--shadow);
+  padding:8px 12px; cursor:pointer;
+  transition:transform var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out);
+}
+.theme-toggle:hover{ box-shadow:none; transform:translate(2px,2px); }
+.theme-toggle:focus-visible{ outline:3px solid var(--green); outline-offset:3px; }
+@media(max-width:767px){ .theme-toggle{ right:10px; bottom:10px; padding:6px 9px; } }
+
+/* U3：大动画（DotField / Lanyard）加载骨架屏 */
+body.home .main{ position:relative; }
+.skeleton{
+  position:absolute; inset:0; z-index:5; pointer-events:none;
+  background:linear-gradient(100deg,#161616 30%,#2a2a2a 50%,#161616 70%);
+  background-size:200% 100%;
+  animation:skel 1.2s linear infinite;
+}
+.skeleton.hidden{ display:none; }
+@keyframes skel{ from{ background-position:200% 0; } to{ background-position:-200% 0; } }
+@media (prefers-reduced-motion: reduce){ .skeleton{ animation:none; } }
