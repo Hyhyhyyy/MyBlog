@@ -54,3 +54,31 @@
 .site-footer .links a{ color:var(--white, #fff); text-decoration:none; border-bottom:2px solid transparent; }
 .site-footer .links a:hover{ border-bottom-color:var(--white, #fff); }
 .site-footer .tag{ font-family:var(--mono, monospace); font-size:12px; opacity:.8; }
+
+/* ---------- A4 / C2 系列页顶部导航（自包含，不依赖 style.css） ---------- */
+/* 仅 hulanhe / caofangzi / calvino 三类「无顶导航」系列页使用；
+   其余 6 个系列页沿用各自内联主题导航，此处仅补齐统一的跳转留白。 */
+.topnav{
+  position:sticky; top:0; z-index:100;
+  background:#ffffff; border-bottom:3px solid #000;
+  box-shadow:0 2px 0 rgba(0,0,0,.08);
+}
+.topnav .nav-inner{
+  max-width:1180px; margin:0 auto; padding:12px 20px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.topnav .logo{
+  font-family:var(--mono, ui-monospace, monospace); font-weight:900; letter-spacing:.06em;
+  color:#000; text-decoration:none; font-size:15px;
+}
+.topnav .nav-links{ display:flex; flex-wrap:wrap; gap:6px; }
+.topnav .nav-links a{
+  font-family:var(--mono, ui-monospace, monospace); font-weight:700; font-size:13px;
+  color:#000; text-decoration:none; padding:6px 12px; border:2px solid #000; background:#fff; border-radius:0;
+}
+.topnav .nav-links a:hover, .topnav .nav-links a:focus-visible{ background:#000; color:#fff; }
+/* 跳转到 #main 时不被 sticky 导航遮挡（同时惠及全部加载 search.css 的页面） */
+#main{ scroll-margin-top:72px; }
+@media(max-width:600px){
+  .topnav .nav-links a{ padding:5px 9px; font-size:12px; }
+}
