@@ -338,14 +338,22 @@ body.home .hero{
   --radius:0px;                                  /* 新野兽派：硬边 */
   --motion-fast:.15s; --motion-base:.2s; --motion-slow:.3s;
   --ease-out:cubic-bezier(.2,.7,.3,1);
+  /* 响应式断点令牌（D3）：全站统一两档 — 移动优先、≥768 平板/桌面、≥1024 宽屏 */
+  --bp-md:768px; --bp-lg:1024px;
 }
-/* 统一过渡语言（D2） */
-.btn, .card, .dw-add-btn, .cursor-toggle, .theme-toggle{
+/* 统一过渡语言（D2）：交互元素共用同一组 motion 令牌，避免各组件节奏不一 */
+.btn, .card, .dw-add-btn, .cursor-toggle, .theme-toggle, .nav-links > a{
   transition:transform var(--motion-base) var(--ease-out),
              box-shadow var(--motion-base) var(--ease-out),
              background var(--motion-base) var(--ease-out),
-             color var(--motion-base) var(--ease-out);
+             color var(--motion-base) var(--ease-out),
+             border-color var(--motion-fast) var(--ease-out);
 }
+/* D3 响应式安全网：共享页（index/collections/about/projects/study）图片不溢出、
+   整页不出现横向滚动条；系列页自带 CSS 已处理，这里仅兜底共享层。
+   用 overflow-x:clip 而非 hidden —— clip 不创建滚动容器，不会破坏 nav 的 sticky。 */
+img{ max-width:100%; height:auto; }
+body{ overflow-x:clip; }
 /* 深色模式：仅反转共享令牌；首页保持黑底，不强制变浅（U4/D1） */
 :root[data-theme="dark"]{ --white:#0e0e0e; --black:#f2f2f2; }
 :root[data-theme="dark"] body.home{ background:#000; }
