@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STUDY / 学习 — HYHY</title>
-  <link rel="icon" href="data:," />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="gooey-nav.css" />
   <link rel="stylesheet" href="infinite-menu.css" />
@@ -86,18 +85,36 @@
       #infinite-menu-root { height: 100%; }
     }
   </style>
+  <!-- hyhy-head -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/study.html" />
+  <meta name="description" content="学习档案：备考与知识整理的交互原型。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HYHY · Growth Archive" />
+  <meta property="og:title" content="STUDY / 学习 — HYHY" />
+  <meta property="og:description" content="学习档案：备考与知识整理的交互原型。" />
+  <meta property="og:url" content="https://hyhyhyyy.github.io/MyBlog/study.html" />
+  <meta property="og:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="STUDY / 学习 — HYHY" />
+  <meta name="twitter:description" content="学习档案：备考与知识整理的交互原型。" />
+  <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <link rel="stylesheet" href="a11y.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"STUDY / 学习 — HYHY","url":"https://hyhyhyyy.github.io/MyBlog/study.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
 </head>
 <body class="study-page">
+  <!-- hyhy-skip -->
+  <a class="skip-link" href="#main">跳到主内容</a>
 
   <!-- 导航 -->
-  <nav class="nav">
+  <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo">HYHY / GROWTH</a>
       <div class="nav-links" data-gooey-nav></div>
     </div>
   </nav>
 
-  <main class="study-main">
+  <main class="study-main" id="main">
     <div class="study-split">
       <!-- 左 5/6：原有学习页等比缩小、功能全保留（球面笔记菜单） -->
       <div class="study-left">
@@ -168,21 +185,25 @@
       // 其余为占位条目；开发者可通过 window.__study.addNote() 无限追加。
       var STUDY_ITEMS = [];
       // 预置真实笔记：键为圆盘序号（1..42），其余为占位条目。
-      var SEEDED = {};
+      var SEEDED = {
+        1: { link: 'https://c7570a5102a7463ab5806c9f9a108552.gz4.agentos-app.net',
+             title: '我的408学习网页', description: '归类：资料', category: '资料' },
+        2: { link: 'https://94252049556049838e24ae8b5e7489a0.app.codebuddy.work/',
+             title: '大模型为例的开源起步网页', description: '归类：资料', category: '资料' }
+      };
       for (var i = 1; i <= 42; i++) {
-        var imgPath = 'assets/covers/tomato-cover.svg?v=1';
+        var imgPath = 'assets/stilllife/cover_' + String(i).padStart(2, '0') + '.jpg?v=4';
         var seed = SEEDED[i];
-        var cover = (seed && seed.image) ? seed.image : imgPath;
         if (seed) {
           STUDY_ITEMS.push({
-            image: cover,
+            image: imgPath,
             link: seed.link,
             title: seed.title,
             description: seed.description,
             category: seed.category
           });
         } else {
-          STUDY_ITEMS.push({ image: cover, link: null, title: '', description: '', category: '占位' });
+          STUDY_ITEMS.push({ image: imgPath, link: null, title: '', description: '', category: '占位' });
         }
       }
 
@@ -203,7 +224,7 @@
             var image = note && note.image;
             if (!image) {
               var idx = STUDY_ITEMS.length + 1;
-              image = 'assets/covers/tomato-cover.svg?v=1';
+              image = 'assets/stilllife/cover_' + String(((idx - 1) % 42) + 1).padStart(2, '0') + '.jpg';
             }
             var n = Object.assign({ link: null, title: '', description: '', category: '未分类' }, note || {}, { image: image });
             if (window.__infiniteMenuSketch && typeof window.__infiniteMenuSketch.addItem === 'function') {

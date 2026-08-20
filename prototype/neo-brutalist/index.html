@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HYHY · Growth Archive — Neo-Brutalist Prototype</title>
-  <link rel="icon" href="data:," />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="drift-wall.css" />
   <link rel="stylesheet" href="magic-bento.css" />
@@ -12,24 +11,46 @@
   <link rel="stylesheet" href="lanyard.css" />
   <link rel="stylesheet" href="target-cursor.css" />
   <link rel="stylesheet" href="DotField.css" />
+  <!-- hyhy-head -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/index.html" />
+  <meta name="description" content="HYHY · Growth Archive — Neo-Brutalist 娱乐合集原型站：以新野兽派视觉呈现音乐剧、文学与影视收藏。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HYHY · Growth Archive" />
+  <meta property="og:title" content="HYHY · Growth Archive — Neo-Brutalist Prototype" />
+  <meta property="og:description" content="HYHY · Growth Archive — Neo-Brutalist 娱乐合集原型站：以新野兽派视觉呈现音乐剧、文学与影视收藏。" />
+  <meta property="og:url" content="https://hyhyhyyy.github.io/MyBlog/index.html" />
+  <meta property="og:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HYHY · Growth Archive — Neo-Brutalist Prototype" />
+  <meta name="twitter:description" content="HYHY · Growth Archive — Neo-Brutalist 娱乐合集原型站：以新野兽派视觉呈现音乐剧、文学与影视收藏。" />
+  <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <link rel="stylesheet" href="a11y.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"HYHY · Growth Archive — Neo-Brutalist Prototype","url":"https://hyhyhyyy.github.io/MyBlog/index.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
 </head>
 <body class="home">
+  <!-- hyhy-skip -->
+  <a class="skip-link" href="#main">跳到主内容</a>
 
   <!-- ===== 主页背景：DotField 点阵（固定铺满视口，置于内容之下） ===== -->
   <div class="dot-field-bg" id="dot-field-bg" aria-hidden="true"></div>
 
   <!-- ===== 导航（保留博客架构） ===== -->
-  <nav class="nav">
+  <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo">HYHY / GROWTH</a>
       <div class="nav-links" data-gooey-nav></div>
     </div>
   </nav>
 
+  <!-- A2：自定义光标开关（仅桌面默认开启，可一键关闭并记忆偏好） -->
+  <button id="cursor-toggle" class="cursor-toggle" type="button"
+          aria-pressed="false" aria-label="切换自定义鼠标指针（绿色光标）">光标: 开</button>
+
   <div class="main">
 
   <!-- ===== 交互档案（MagicBento） ===== -->
-  <section class="section">
+  <section class="section" id="main">
     <div class="section-inner">
       <div id="bento"></div>
     </div>
@@ -45,60 +66,61 @@
 
   </div><!-- /.main -->
 
-  <script src="gsap.min.js"></script>
-  <script src="gooey-nav.js"></script>
-  <script src="magic-bento.js"></script>
-  <!-- 主页背景：DotField 点阵（React Bits 原生移植，取代纯白底；
-       鼠标附近点向外凸起 + 微光跟随，静止时回落为静态点阵） -->
-  <script src="DotField.js"></script>
+  <!-- 外部脚本全部 defer：与 HTML 解析并行下载，执行顺序保留（gsap 先于依赖它的脚本），
+       不阻塞首屏渲染。gsap 被 magic-bento / target-cursor / projects / flowing-menu 实际使用，保留。 -->
+  <script defer src="gsap.min.js"></script>
+  <script defer src="gooey-nav.js"></script>
+  <script defer src="magic-bento.js"></script>
+  <script defer src="DotField.js"></script>
+  <!-- Lanyard 物理引擎 wasm 的 base：必须在 lanyard.js 执行前设置（内联、解析期运行，早于 defer 脚本） -->
+  <script>window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;</script>
+  <script defer src="lanyard-dist/assets/lanyard.js"></script>
+  <script defer src="target-cursor.js"></script>
+  <!-- 所有依赖库均 defer，在 DOMContentLoaded 前已就绪；统一在此初始化（A1/A2） -->
   <script>
     (function () {
       'use strict';
-      function boot() {
-        var c = document.getElementById('dot-field-bg');
-        if (!c || typeof window.DotFieldInit !== 'function') return;
-        window.DotFieldInit(c, {
-          dotRadius: 22,
-          dotSpacing: 26,
-          cursorRadius: 500,
-          bulgeStrength: 67,
-          glowRadius: 160,
-          dotImage: 'assets/tomato.png',
-          /* gradient 字段为图片模式下的回退色，此处不生效 */
-          gradientFrom: 'rgba(255,0,0,0.95)',
-          gradientTo: 'rgba(255,0,0,0.95)',
-          glowColor: 'rgba(0,0,0,0.10)'
-        });
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot);
-      } else { boot(); }
+      var mq = window.matchMedia;
+      var reduce = mq && mq('(prefers-reduced-motion: reduce)').matches;
+      var finePointer = mq && mq('(hover: hover) and (pointer: fine)').matches;
+      var cursorOff = false;
+      try { cursorOff = localStorage.getItem('hyhy_cursor_off') === '1'; } catch (e) {}
+      document.addEventListener('DOMContentLoaded', function () {
+        // DotField 点阵：reduced-motion 下静态呈现，不启动光标跟随动画
+        var df = document.getElementById('dot-field-bg');
+        if (df && typeof window.DotFieldInit === 'function' && !reduce) {
+          window.DotFieldInit(df, {
+            dotRadius: 1.5,
+            dotSpacing: 14,
+            cursorRadius: 500,
+            bulgeStrength: 67,
+            glowRadius: 160,
+            gradientFrom: 'rgba(224,40,32,0.6)',   /* 深番茄红 */
+            gradientTo: 'rgba(16,150,84,0.6)',      /* 深绿 */
+            glowColor: 'rgba(0,0,0,0.08)'
+          });
+        }
+        // TargetCursor 绿色鼠标：仅精细指针（桌面）默认开启，且可被用户关闭；
+        // reduced-motion 下不隐藏系统光标、不做旋转动画
+        if (typeof window.TargetCursorInit === 'function' && finePointer && !cursorOff) {
+          window.TargetCursorInit({ cursorColor: '#1FD17B', hideDefaultCursor: !reduce, spinDuration: 2 });
+        }
+        // 自定义光标开关（A2）
+        var toggle = document.getElementById('cursor-toggle');
+        if (toggle) {
+          var syncLabel = function () { toggle.textContent = cursorOff ? '光标: 关' : '光标: 开'; };
+          syncLabel();
+          toggle.setAttribute('aria-pressed', cursorOff ? 'true' : 'false');
+          toggle.addEventListener('click', function () {
+            cursorOff = !cursorOff;
+            try { localStorage.setItem('hyhy_cursor_off', cursorOff ? '1' : '0'); } catch (e) {}
+            toggle.setAttribute('aria-pressed', cursorOff ? 'true' : 'false');
+            syncLabel();
+            location.reload();
+          });
+        }
+      });
     })();
-  </script>
-  <!-- Lanyard 物理名片：延迟到 DOM 解析完成后再加载，
-       避免 3MB JS + 1.4MB wasm 阻塞首屏渲染（首屏先显示其余内容，名片随后“长”出）。 -->
-  <script>
-    window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;
-    function loadLanyard() {
-      if (window.__lanyardLoaded) return;
-      window.__lanyardLoaded = true;
-      var s = document.createElement('script');
-      s.src = 'lanyard-dist/assets/lanyard.js';
-      s.async = true;
-      document.body.appendChild(s);
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () { setTimeout(loadLanyard, 100); });
-    } else {
-      setTimeout(loadLanyard, 100);
-    }
-  </script>
-  <!-- 全站绿色鼠标特效（React Bits TargetCursor 原生移植） -->
-  <script src="target-cursor.js"></script>
-  <script>
-    if (typeof window.TargetCursorInit === 'function') {
-      window.TargetCursorInit({ cursorColor: '#1FD17B', hideDefaultCursor: true, spinDuration: 2 });
-    }
   </script>
 
 </body>

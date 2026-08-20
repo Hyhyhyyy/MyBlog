@@ -7,75 +7,47 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="gooey-nav.css" />
   <style>
-    /* 项目页：整页锁定，仅内部模块可滚动 */
+    /* 单屏布局：body 不滚动，仅 ALL REPOSITORIES 列表内部滚动 */
     body.projects-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; }
-    .projects-page .nav{ flex:0 0 auto; }
-    .projects-page .section{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; padding-top:18px; padding-bottom:20px; }
-    .projects-page .section-inner{ max-width:1320px; width:100%; margin:0 auto; padding-left:24px; padding-right:24px; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
-    .projects-page .eyebrow{ margin-bottom:4px; flex:0 0 auto; }
-    .projects-page h2{ margin:0 0 14px; font-size:clamp(28px,4vw,48px); flex:0 0 auto; }
+    .projects-page .section{ flex:1; min-height:0; display:flex; flex-direction:column; padding-top:18px; padding-bottom:18px; }
+    .projects-page .section-inner{ flex:1; min-height:0; display:flex; flex-direction:column; max-width:none; margin:0; padding-left:24px; padding-right:24px; }
+    .projects-page .eyebrow{ margin-bottom:4px; }
+    .projects-page h2{ margin:0 0 14px; font-size:clamp(28px,4vw,48px); }
 
-    /* 双栏：左侧 ALL REPOSITORIES 大框 + 右侧 CardSwap 堆叠，占满剩余高度 */
-    .projects-split{
-      display:flex; gap:24px; align-items:stretch;
-      flex:1 1 auto; min-height:0;
-    }
+    .projects-layout{ flex:1; min-height:0; display:flex; gap:24px; overflow:hidden; }
 
-    /* 左侧 ALL REPOSITORIES 大框（自身占满高度，内部 .all-list 滚动） */
+    /* 左侧：可滚动的 ALL REPOSITORIES */
     .repo-sidebar{
-      flex:0 0 660px; min-width:520px;
+      width:42%; min-width:320px; max-width:560px;
       display:flex; flex-direction:column;
       border:4px solid #000; background:#fff; box-shadow:8px 8px 0 #000;
-      min-height:0;
     }
     .repo-sidebar-head{
       padding:12px 16px; border-bottom:4px solid #000;
       font-family:var(--heavy); font-weight:900; font-size:16px; letter-spacing:.04em;
-      background:var(--red); color:#fff; flex:0 0 auto;
+      background:var(--red); color:#fff;
     }
-
-    /* 内部小卡片：竖版（瘦高），左侧彩色竖脊区分于大卡；两列网格一行两个，小卡尺寸不变 */
     .all-list{
-      flex:1 1 auto; overflow:auto;
-      display:grid; grid-template-columns:1fr 1fr; gap:14px; align-content:start; padding:16px;
+      flex:1; min-height:0; overflow-y:auto; overflow-x:hidden;
+      margin-top:0; padding:14px;
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px;
     }
     .all-list a{
-      position:relative; display:block;
-      border:3px solid #000; border-left-width:12px;
-      box-shadow:5px 5px 0 #000; background:#fff;
-      padding:14px 14px 14px 16px;
-      font-family:var(--mono); font-size:12px;
-      min-height:150px;
-      transition:all .15s ease-out;
+      display:block; border:3px solid #000; box-shadow:5px 5px 0 #000; background:#fff;
+      padding:12px; font-family:var(--mono); font-size:12px; transition:all .15s ease-out;
     }
-    .all-list a:hover{ box-shadow:none; transform:translate(3px,3px); }
-    .all-list b{ font-family:var(--heavy); font-weight:900; font-size:18px; display:block; margin-bottom:8px; line-height:1.15; word-break:break-word; }
-    .all-list .lang{ display:inline-block; border:2px solid #000; padding:1px 8px; margin:2px 0 8px; font-size:11px; }
-    .all-list .desc{ color:#222; line-height:1.45; font-size:12px; }
+    .all-list a:hover{ box-shadow:none; transform:translate(2px,2px); }
+    .all-list b{ font-family:var(--heavy); font-weight:900; font-size:15px; display:block; margin-bottom:4px; line-height:1.15; }
 
-    /* 右侧 CardSwap 展示区 */
-    .swap-hero{
-      position:relative; flex:1 1 auto; min-width:0;
-      min-height:0;
-      /* 允许卡片向上/右/下溢出显示（不被 swap-hero 本身裁切），左侧仍裁剪以保护 sidebar */
-      overflow:visible; clip-path: inset(-100% -100% -100% 0);
-      /* 轮播模块置于整页最高层：压过 .nav(z-index:50) 及任何潜在覆盖层 */
-      z-index:2147483647; isolation:isolate;
-    }
-    .swap-hero .swap-stage{ position:absolute; inset:0; z-index:1; }
-    .swap-hero .card-swap-container{ top:15%; left:20%; }
-
-    /* 卡片堆叠相关（projects.js 依赖，原样保留） */
+    /* 右侧：堆叠卡片 */
     .swap-wrap{ flex:1; position:relative; min-width:0; height:100%; margin:0; }
     .swap-stage{ position:relative; width:100%; height:100%; }
     .card-swap-container{
-      position:absolute; top:15%; left:20%;
+      position:absolute; top:33%; left:36%;
       width:680px; height:864px;
-      transform:translate(-50%,-50%) scale(min(2.5, calc(2.5 * (100vh - 200px) / 864)));
+      transform:translate(-50%,-50%) scale(min(1, calc((100vh - 180px) / 864)));
       transform-origin:center center;
       perspective:1100px;
-      /* 模块本身也置于最高层，并建立独立层叠上下文，确保内部卡片不被任何同级块遮挡 */
-      z-index:2147483647; isolation:isolate;
     }
 
     .card{
@@ -87,10 +59,9 @@
     }
     .card .no{ font-family:var(--mono); font-size:24px; font-weight:700; letter-spacing:.14em; margin-bottom:24px; }
     .card h3{ font-family:var(--heavy); font-weight:900; font-size:50px; margin:0; line-height:1.05; }
-    .card .meta{ font-family:var(--mono); font-size:24px; font-weight:700; margin-top:20px; display:flex; gap:10px; flex-wrap:nowrap; align-items:center; }
-    .card .badge{ border:2px solid #000; padding:2px 9px; background:#fff; font-size:14px; white-space:nowrap; }
-    .card .body{ font-family:var(--mono); font-size:26px; line-height:1.5; margin-top:26px; max-height:560px; overflow:auto; scrollbar-width:none; -ms-overflow-style:none; }
-    .card .body::-webkit-scrollbar{ width:0; height:0; display:none; }
+    .card .meta{ font-family:var(--mono); font-size:24px; font-weight:700; margin-top:20px; display:flex; gap:14px; flex-wrap:wrap; }
+    .card .badge{ border:3px solid #000; padding:4px 14px; background:#fff; font-size:20px; }
+    .card .body{ font-family:var(--mono); font-size:26px; line-height:1.5; margin-top:26px; max-height:560px; overflow:auto; }
     .card .body > :first-child{ margin-top:0; }
     .card .body > :last-child{ margin-bottom:0; }
     .card .body h1,.card .body h2,.card .body h3,.card .body h4{ font-family:var(--heavy); font-weight:900; line-height:1.15; margin:14px 0 8px; }
@@ -102,20 +73,13 @@
     .card .body ul,.card .body ol{ margin:10px 0; padding-left:28px; }
     .card .body li{ margin:6px 0; }
     .card .body code{ font-family:var(--mono); font-size:20px; background:rgba(0,0,0,.08); border:2px solid #000; padding:1px 6px; }
-    .card .body pre{ background:#000; color:#fff; border:3px solid #000; padding:14px; overflow:auto; scrollbar-width:none; -ms-overflow-style:none; margin:12px 0; }
-    .card .body pre::-webkit-scrollbar{ width:0; height:0; display:none; }
+    .card .body pre{ background:#000; color:#fff; border:3px solid #000; padding:14px; overflow:auto; margin:12px 0; }
     .card .body pre code{ background:none; color:#fff; border:none; padding:0; font-size:18px; }
     .card .body a{ color:inherit; text-decoration:underline; font-weight:700; }
     .card .body strong{ font-weight:900; }
     .card .body hr{ border:none; border-top:4px solid #000; margin:14px 0; }
     .card .body img{ max-width:100%; height:auto; display:block; margin:12px 0; border:3px solid #000; background:#fff; }
     .card .body svg{ max-width:100%; height:auto; display:block; margin:12px 0; }
-
-    /* 隐藏 README 里的 shields 徽章（img.shields.io），真正内容图/banner/架构图/SVG 保持原样 */
-    .card .body img[src*="img.shields.io"]{ display:none; }
-    .card .body p:has(> img[src*="img.shields.io"]:only-child),
-    .card .body p:has(> a:only-child > img[src*="img.shields.io"]:only-child),
-    .card .body div:has(> img[src*="img.shields.io"]:only-child){ display:none; }
     .card--red{ background:var(--red); }
     .card--green{ background:var(--green); }
     .card--ink{ background:var(--black); color:#fff; }
@@ -123,26 +87,40 @@
     .card--ink .body code{ background:rgba(255,255,255,.16); }
     .card--yellow{ background:var(--yellow); }
 
-    /* 单屏模式下隐藏页脚 */
+    /* 单屏模式下隐藏页脚，避免出滚动条 */
     .projects-page .footer{ display:none; }
 
     @media(max-width:900px){
-      .projects-split{ flex-direction:column; }
-      .repo-sidebar{ flex:0 0 auto; max-height:42vh; }
-      .all-list{ grid-template-columns:1fr 1fr; }
-      .all-list a{ min-height:140px; }
-      .swap-hero{ height:50vh; min-height:360px; }
-    }
-    @media(max-width:520px){
-      .all-list{ grid-template-columns:1fr; }
+      .projects-layout{ flex-direction:column; }
+      .repo-sidebar{ width:100%; max-width:none; min-width:auto; height:38%; }
+      .swap-wrap{ height:58%; }
+      .card-swap-container{ transform:translate(-50%,-50%) scale(min(1, calc((62vh - 80px) / 864))); }
     }
     @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
   </style>
+  <!-- hyhy-head -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/projects.html" />
+  <meta name="description" content="项目档案：开源与个人项目的集合展示。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HYHY · Growth Archive" />
+  <meta property="og:title" content="项目 / PROJECTS — HYHY" />
+  <meta property="og:description" content="项目档案：开源与个人项目的集合展示。" />
+  <meta property="og:url" content="https://hyhyhyyy.github.io/MyBlog/projects.html" />
+  <meta property="og:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="项目 / PROJECTS — HYHY" />
+  <meta name="twitter:description" content="项目档案：开源与个人项目的集合展示。" />
+  <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <link rel="stylesheet" href="a11y.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"项目 / PROJECTS — HYHY","url":"https://hyhyhyyy.github.io/MyBlog/projects.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
 </head>
 <body class="projects-page">
+  <!-- hyhy-skip -->
+  <a class="skip-link" href="#main">跳到主内容</a>
 
   <!-- 导航 -->
-  <nav class="nav">
+  <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo">HYHY / GROWTH</a>
       <div class="nav-links" data-gooey-nav></div>
@@ -150,20 +128,18 @@
   </nav>
 
   <!-- 项目展示 -->
-  <section class="section">
+  <section class="section" id="main">
     <div class="section-inner">
       <p class="eyebrow">PROJECTS / 项目展示</p>
       <h2>PROJECT SHOWCASE</h2>
 
-      <div class="projects-split">
-        <!-- 左侧：ALL REPOSITORIES 大框（竖版小卡片） -->
+      <div class="projects-layout">
         <aside class="repo-sidebar">
           <div class="repo-sidebar-head">ALL REPOSITORIES</div>
           <div class="all-list" id="all-list"></div>
         </aside>
 
-        <!-- 右侧：精选卡片堆叠（CardSwap） -->
-        <div class="swap-hero">
+        <div class="swap-wrap">
           <div class="swap-stage">
             <div class="card-swap-container" id="swap"></div>
           </div>
@@ -174,7 +150,7 @@
 
   <!-- 页脚 -->
   <footer class="footer">
-    <div class="footer-inner">
+    <div class="footer-inner" role="contentinfo">
       <div>
         <span class="logo">HYHY / GROWTH</span>
         <p class="tag">持续书写的成长档案。</p>
@@ -200,6 +176,6 @@
   <script src="gooey-nav.js"></script>
   <script src="marked.min.js"></script>
   <script src="data.js"></script>
-  <script src="projects.js?v=10"></script>
+  <script src="projects.js"></script>
 </body>
 </html>

@@ -8,27 +8,36 @@
   <link rel="stylesheet" href="gooey-nav.css" />
   <link rel="stylesheet" href="flowing-menu.css" />
   <link rel="stylesheet" href="text-pressure.css" />
-  <style>
-    /* 整页锁定：不可上下滑动，仅 .about-main 内部模块可滚动 */
-    html, body{ height:100%; }
-    body.about-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; background:var(--white); }
-    .about-page .nav{ flex:0 0 auto; }
-    .about-main{ flex:1 1 auto; min-height:0; overflow:auto; display:flex; flex-direction:column; }
-    .about-page .footer{ flex:0 0 auto; }
-    @media(prefers-reduced-motion:reduce){ *{ transition:none!important; animation:none!important; } }
-  </style>
+  <!-- hyhy-head -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/about.html" />
+  <meta name="description" content="关于 HYHY · Growth Archive：成长档案与设计原型。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="HYHY · Growth Archive" />
+  <meta property="og:title" content="ABOUT / 关于 — HYHY" />
+  <meta property="og:description" content="关于 HYHY · Growth Archive：成长档案与设计原型。" />
+  <meta property="og:url" content="https://hyhyhyyy.github.io/MyBlog/about.html" />
+  <meta property="og:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ABOUT / 关于 — HYHY" />
+  <meta name="twitter:description" content="关于 HYHY · Growth Archive：成长档案与设计原型。" />
+  <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
+  <link rel="stylesheet" href="a11y.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"ABOUT / 关于 — HYHY","url":"https://hyhyhyyy.github.io/MyBlog/about.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
 </head>
 <body class="about-page">
+  <!-- hyhy-skip -->
+  <a class="skip-link" href="#main">跳到主内容</a>
 
   <!-- 导航（与全站一致，当前页“关于”高亮） -->
-  <nav class="nav">
+  <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
       <a href="index.html" class="logo">HYHY / GROWTH</a>
       <div class="nav-links" data-gooey-nav></div>
     </div>
   </nav>
 
-  <main class="about-main">
+  <main class="about-main" id="main">
 
     <!-- TextPressure 标题（React Bits 原生移植）：鼠标靠近字符，字重/字宽/斜体随距离变化 -->
     <section class="tp-section">
@@ -44,7 +53,7 @@
 
   <!-- 页脚 -->
   <footer class="footer">
-    <div class="footer-inner">
+    <div class="footer-inner" role="contentinfo">
       <div>
         <h4>HYHY / GROWTH</h4>
         <p class="tag">Neo-Brutalist 原型 · 关于页占位</p>
