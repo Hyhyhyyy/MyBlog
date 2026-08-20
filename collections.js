@@ -3,7 +3,7 @@
 // - User-facing "add" button removed: additions are now developer-only via
 //   console API (window.__collections) and persisted in localStorage.
 // - Clicking a real tile opens its target URL.
-const STORAGE_KEY = 'hyhy_collections_v5';
+const STORAGE_KEY = 'hyhy_collections_v6';
 
 // Tomato-related palette for the placeholder blocks: reds + green + yellow.
 const PALETTE = ['#FF4438', '#E2361F', '#FF7A5C', '#C0271A', '#FFB199', '#1FD17B', '#FFD600'];
@@ -18,7 +18,6 @@ const REAL_TILES = [
   { image: 'caofangzi-tile.jpg', href: 'caofangzi.html', title: '草房子 · 曹文轩', category: '文学', col: 2 },
   { image: 'calvino-tile.jpg', href: 'calvino.html', title: '卡尔维诺短篇小说集', category: '文学', col: 2 },
   { image: 'mlp-tile.jpg', href: 'mlp.html', title: '小马宝莉 Friendship Is Magic', category: '影视', col: 4 },
-  { image: 'zhenhuan-tile.jpg', href: 'zhenhuan.html', title: '甄嬛传', category: '影视', col: 4 },
   { image: 'itcrowd-tile.jpg', href: 'itcrowd.html', title: 'IT狂人 The IT Crowd', category: '影视', col: 4 },
   { image: 'friends-tile.jpg', href: 'friends.html', title: 'Friends 老友记', category: '影视', col: 4 },
   { image: 'sherlock-tile.jpg', href: 'sherlock.html', title: 'Sherlock 神探夏洛克', category: '影视', col: 4 }
