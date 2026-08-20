@@ -85,7 +85,12 @@ function initDriftWall(container, props = {}) {
       const c = (it && typeof it.col === 'number' && it.col >= 0 && it.col < cols) ? it.col : (i % cols);
       colsArr[c].push(it);
     });
-    return colsArr.map(col => (col.length ? col : arr.slice(0, 1)));
+    // 实际内容块（带 image / href）优先排到每列最前，占位色块沉到后面
+    const isReal = it => !!(it && (it.image || it.href));
+    return colsArr.map(col => {
+      col.sort((a, b) => (isReal(a) ? 0 : 1) - (isReal(b) ? 0 : 1));
+      return col.length ? col : arr.slice(0, 1);
+    });
   }
   function computeMeta() {
     const unit = tileHeight + gap;
@@ -181,7 +186,8 @@ function initDriftWall(container, props = {}) {
     offsets.length = 0;
     velocities.length = 0;
     meta.forEach((mm, c) => {
-      offsets[c] = mm.copyHeight * ((c * 0.37) % 1);
+      // 初始偏移归零：每列从顶部开始，列首的实际内容块第一时间可见（优先显示）
+      offsets[c] = 0;
       velocities[c] = 0;
     });
   }
