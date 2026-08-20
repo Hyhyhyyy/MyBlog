@@ -16,9 +16,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      # E3：Lanyard 构建链路挪到 CI —— 用锁定版本的依赖重建 lanyard-dist 产物，
+      # 保证 dist 可复现、不再依赖手工提交。npm 失败（网络抖动等）不阻断站点部署：
+      # 此时沿用仓库内已提交的 lanyard-dist（base_tree 继承）。
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build Lanyard (reproducible dist)
+        working-directory: prototype/neo-brutalist/lanyard-app
+        run: |
+          npm ci
+          npm run build
+        continue-on-error: true
       - name: Deploy via Git Data API (双分支)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOY_LANYARD: "1"
         run: |
           cd prototype/neo-brutalist
           python deploy.py
