@@ -1,0 +1,37 @@
+[
+  {
+    "name": "KeLing2.0",
+    "url": "https://github.com/Hyhyhyyy/KeLing2.0",
+    "desc": "📌课灵 2.0 知识管理学习助手📚🤖。Kotlin + React 单体仓库，在初代基础上重构工程结构与多端架构，持续打磨 Android 与 Web 场景下的记录、整理与连贯学习体验；内置知识卡片、标签体系与跨端同步，是课灵系列中星标最多的版本，沉淀了较多工程实践，代码结构清晰…"
+  },
+  {
+    "name": "KeLing3.0",
+    "url": "https://github.com/Hyhyhyyy/KeLing3.0",
+    "desc": "📌课灵多端知识管理学习助手🌱📚。以 Kotlin 为主打造的多端知识管理应用，覆盖笔记、收藏与复习等学习闭环，尝试让记录、整理与学习形成连贯体验；是课灵系列的持续演进版本，在 2.0 基础上进一步优化交互细节、性能与跨端一致性，延续既有的产品思路并补齐更多使用场景。"
+  },
+  {
+    "name": "Qwen3-VL-Med",
+    "url": "https://github.com/Hyhyhyyy/Qwen3-VL-Med",
+    "desc": "📌Qwen3-VL 医疗微调公开工程实践🩺。含全量微调配置、四组 LoRA 冻结消融、推理评测与隐私/完整性门禁；2026-08-14 扩充可复用 configs/scripts/docs，全部脱敏、无临床数据。"
+  },
+  {
+    "name": "DUT-ultimate-website",
+    "url": "https://github.com/Hyhyhyyy/DUT-ultimate-website",
+    "desc": "📌大连理工大学黑蚁极限飞盘队官网🥏🏫。面向校区飞盘队的前端网站，展示球队介绍、教练与队员、活动动态、比赛战报与招新信息；基于云开发部署，结构清晰、易于更新，既呈现队伍文化与训练日常，也方便新生快速了解并加入团队，是校园体育社团线上展示的轻量实践。"
+  },
+  {
+    "name": "Token_Saver",
+    "url": "https://github.com/Hyhyhyyy/Token_Saver",
+    "desc": "📌Token 节省框架💰🤖。SkillForge · Token Saver 基于 FastAPI + SQLite + Docker，提供 Prompt 压缩、语义缓存复用、调用用量统计与可视化看板，并内置技能解析与成本估算；帮助 Agent 在高频调用大模型时显著降低 Tok…"
+  },
+  {
+    "name": "train_guard",
+    "url": "https://github.com/Hyhyhyyy/train_guard",
+    "desc": "📌大模型训练守护工具包🛡️🚂。本地优先的 LLM / VLM 训练可靠性工具集：训练前做环境、GPU、依赖、模型路径、数据集与切分检查；训练中监控生命周期、日志、损失、GPU、磁盘、检查点与进程；可靠性层负责结构化事件、去重告警、状态持久化与受控恢复；训练后做产出验收、对比、评测…"
+  },
+  {
+    "name": "ChainPass",
+    "url": "https://github.com/Hyhyhyyy/ChainPass",
+    "desc": "📌区块链跨境身份与支付平台🔗🆔。基于 W3C DID 与可验证凭证（VC）技术，用户完全掌控自己的数字身份，无需依赖第三方机构；KYC 认证通过后自动签发可复用 VC 凭证，支持多币种钱包、实时汇率转换与合规风控的跨境支付，并内置账密、OAuth、零知识证明等多元登录方式，打通身…"
+  }
+]
