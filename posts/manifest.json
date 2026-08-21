@@ -1,0 +1,38 @@
+{
+  "site": "HYHY · Growth Archive",
+  "categories": [
+    "资料",
+    "笔记",
+    "感悟"
+  ],
+  "updated": "2026-08-21",
+  "posts": [
+    {
+      "slug": "welcome-to-my-blog",
+      "date": "2026-08-18",
+      "category": "资料",
+      "title": "欢迎来到我的传统博客",
+      "cover": "posts/welcome-to-my-blog/cover.svg",
+      "description": "用新搭建的传统博客环境写的第一篇示例文章，介绍整个创作与同步流程。",
+      "url": "posts/welcome-to-my-blog/index.html"
+    },
+    {
+      "slug": "reading-notes-ditan",
+      "date": "2026-08-15",
+      "category": "笔记",
+      "title": "《我与地坛》读书笔记",
+      "cover": "posts/reading-notes-ditan/cover.svg",
+      "description": "重读史铁生，记录关于命运、安静与写作的几点摘抄与感想。",
+      "url": "posts/reading-notes-ditan/index.html"
+    },
+    {
+      "slug": "reflection-on-growth",
+      "date": "2026-08-10",
+      "category": "感悟",
+      "title": "关于成长的几点感悟",
+      "cover": "posts/reflection-on-growth/cover.svg",
+      "description": "写给正在摸索方向的自己：把时间花在值得的事情上。",
+      "url": "posts/reflection-on-growth/index.html"
+    }
+  ]
+}
