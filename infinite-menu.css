@@ -1,8 +1,11 @@
-/* ============================================================
-   InfiniteMenu (React Bits) — vanilla WebGL port, LIGHT / 番茄适配
-   依赖：gl-matrix UMD（gl-matrix-min.js，全局 glMatrix）
-   作用：球面网格无限旋转菜单，逐张展示娱乐收藏，适配「学习」页
-   ============================================================ */
+/* InfiniteMenu — vanilla port styles
+ * 基于 React Bits 原版（DavidHDev/react-bits, MIT）
+ * 关键调整：
+ *   1) 文字叠层在黑底 disc 上用白字 + 阴影（无论站点明暗主题，disc 始终黑）
+ *   2) action-button 改为站点番茄色（--red），描边用 --black
+ *   3) 去掉原版 max-width:1500px 隐藏标题/描述的媒体查询 — 用户明确要求左名右分类可见
+ *   4) 新增 .im-fallback 网格兜底（无 WebGL2 时）
+ */
 
 #infinite-grid-menu-canvas {
   cursor: grab;
@@ -13,137 +16,192 @@
   outline: none;
   display: block;
 }
+#infinite-grid-menu-canvas:active { cursor: grabbing; }
 
-#infinite-grid-menu-canvas:active {
-  cursor: grabbing;
+/* Root container created by window.InfiniteMenu(rootEl, ...) */
+.im-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
 }
 
-/* 标题 / 描述 / 动作按钮（叠加在 WebGL 画布之上）
-   标题和描述：竖排、放大加粗、对称分布在大圆两侧 */
-.face-title,
+/* Left: name (.face-title) — 用户："左边文字是名称" */
+.face-title {
+  user-select: none;
+  position: absolute;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3.6vw, 3.2rem);
+  left: 1.6em;
+  top: 50%;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0,0,0,.55), 0 0 2px rgba(0,0,0,.8);
+  margin: 0;
+  max-width: 40%;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  z-index: 5;
+  transform: translate(20%, -50%);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.face-title.active {
+  opacity: 1;
+  transform: translate(20%, -50%);
+  pointer-events: auto;
+  transition: opacity .5s ease, transform .5s ease;
+}
+.face-title.inactive {
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(20%, -50%);
+  transition: opacity .15s ease;
+}
+
+/* Right: category (.face-description) — 用户："右边是所属分类" */
 .face-description {
   user-select: none;
   position: absolute;
+  max-width: 12ch;
   top: 50%;
-  z-index: 5;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  white-space: nowrap;
-  line-height: 1.25;
-}
-
-.face-title {
-  left: 18%;
-  font-family: var(--heavy);
-  font-weight: 900;
-  font-size: clamp(21px, 3.25vw, 46px);
-  color: var(--black);
-  transform: translate(-150%, -50%);
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.1s ease;
-}
-
-.face-description {
-  right: 18%;
-  font-family: var(--heavy);
-  font-weight: 700;
-  font-size: clamp(22px, 3vw, 42px);
-  color: #222;
-  transform: translate(150%, -50%);
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.1s ease;
-}
-
-.face-title.active {
-  opacity: 1;
+  right: 1.5em;
+  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+  font-weight: 600;
+  color: #fff;
+  background: var(--red, #FF4438);
+  padding: 0.5em 0.9em;
+  border: 3px solid var(--black, #000);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--black, #000);
+  text-shadow: none;
   transform: translate(0, -50%);
-  pointer-events: auto;
-  transition: 0.5s ease;
+  z-index: 5;
+  transition: opacity .35s ease, transform .35s ease;
 }
-
-.face-title.inactive {
-  opacity: 0;
-  transform: translate(-150%, -50%);
-  pointer-events: none;
-  transition: 0.1s ease;
-}
-
 .face-description.active {
   opacity: 1;
   transform: translate(0, -50%);
   pointer-events: auto;
-  transition: 0.5s ease;
+  transition: opacity .5s ease, transform .5s ease;
 }
-
 .face-description.inactive {
-  opacity: 0;
-  transform: translate(150%, -50%);
   pointer-events: none;
-  transition: 0.1s ease;
+  opacity: 0;
+  transform: translate(40%, -50%);
+  transition: opacity .15s ease, transform .15s ease;
 }
 
-/* 动作按钮：胶囊形按钮 + 简笔眼睛图标 */
+/* Action button (link) — 番茄色 + 黑色描边，呼应站点新粗野风 */
 .action-button {
   position: absolute;
   left: 50%;
-  bottom: 3.6em;
+  bottom: 3.8em;
   transform: translateX(-50%) scale(1);
   z-index: 10;
-  width: 110px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   display: grid;
   place-items: center;
-  background: var(--red);
-  border: 5px solid var(--black);
-  border-radius: 999px;
+  background: var(--red, #FF4438);
+  border: 4px solid var(--black, #000);
+  border-radius: 50%;
   cursor: pointer;
+  padding: 0;
+  font: inherit;
+  box-shadow: 4px 4px 0 var(--black, #000);
+  transition: transform .25s ease, box-shadow .15s ease, opacity .35s ease;
+}
+.action-button:hover { transform: translateX(-50%) scale(1.06); box-shadow: 6px 6px 0 var(--black, #000); }
+.action-button:active { transform: translateX(-50%) scale(0.96); box-shadow: 2px 2px 0 var(--black, #000); }
+.action-button:focus-visible { outline: 3px solid var(--red, #FF4438); outline-offset: 3px; }
+.action-button.active {
+  bottom: 3.8em;
+  transform: translateX(-50%) scale(1);
   opacity: 1;
   pointer-events: auto;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
-  transition: 0.5s ease;
+  transition: opacity .5s ease, transform .5s ease;
 }
-
-.action-button:hover {
-  transform: translateX(-50%) scale(1.05) translateY(-2px);
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 1);
-}
-
-.action-button:active {
-  transform: translateX(-50%) scale(0.96);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 1);
-}
-
-.action-button-icon {
-  user-select: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  width: 100%;
-  height: 100%;
-}
-
-.action-button-icon svg {
-  display: block;
-  width: 38px;
-  height: auto;
-}
-
 .action-button.inactive {
   bottom: -80px;
   transform: translateX(-50%) scale(0);
   opacity: 0;
   pointer-events: none;
-  transition: 0.1s ease;
+  transition: opacity .15s ease, transform .15s ease, bottom .15s ease;
+}
+.action-button-icon {
+  user-select: none;
+  position: relative;
+  color: #fff;
+  top: 2px;
+  font-size: 26px;
+  line-height: 1;
 }
 
-@media (max-width: 640px) {
-  .face-title,
-  .face-description {
-    display: none;
-  }
+/* ───────── Fallback (no WebGL2) — 网格视图 ───────── */
+.im-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.im-fallback-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.im-fallback-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--black, #000);
+  background: #fff;
+  border: 3px solid var(--black, #000);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 var(--black, #000);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.im-fallback-card:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black, #000); }
+.im-fallback-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  background: #eee;
+}
+.im-fallback-title {
+  font-weight: 900;
+  font-size: 1rem;
+  padding: 0.6em 0.8em 0.2em;
+  line-height: 1.2;
+}
+.im-fallback-desc {
+  font-size: 0.8rem;
+  color: #fff;
+  background: var(--red, #FF4438);
+  align-self: flex-start;
+  margin: 0.2em 0 0.7em 0.8em;
+  padding: 0.2em 0.6em;
+  border: 2px solid var(--black, #000);
+  border-radius: 999px;
+  font-weight: 700;
+}
+.im-fallback-note {
+  text-align: center;
+  color: #666;
+  font-size: 0.85rem;
+  margin: 16px 0 0;
+}
+
+/* ───────── 响应式：在窄屏上缩小叠层文字并允许换行 ───────── */
+@media (max-width: 720px) {
+  .face-title { font-size: 1.5rem; max-width: 55%; left: 1em; }
+  .face-description { font-size: 0.85rem; right: 1em; }
+  .action-button { width: 50px; height: 50px; bottom: 2.5em; }
+  .action-button-icon { font-size: 22px; }
 }
