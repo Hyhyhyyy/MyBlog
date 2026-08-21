@@ -1,72 +1,73 @@
 /*
- * liquid-glass-wrap.js — applies shuding/liquid-glass to a target DOM element.
- * - Mirrors the element's bounding rect into a Shader instance (sized to match).
- * - Re-renders the displacement map on resize / scroll / DPR changes.
- * - Adds the standard liquid-glass backdrop-filter stack onto an overlay layer
- *   inside the element so the glass effect captures whatever sits behind.
+ * liquid-glass-wrap.js — applies a glass effect to a target DOM element.
  *
- * Usage:
- *   const dispose = attachLiquidGlass(el, { strength: 1.0 });
- *   // later: dispose();
+ * Two modes (via opts.magnify):
+ *   - magnify: false (DEFAULT) → plain frosted glass:
+ *       backdrop-filter: blur() saturate() brightness()  (no displacement / no zoom)
+ *       This keeps the "glass texture" while the video behind stays clear & undistorted.
+ *   - magnify: true → shuding/liquid-glass SVG displacement (liquid warp + refraction).
  *
- * Requires liquid-glass.js to have already loaded (window.LiquidGlass.Shader).
+ * Requires liquid-glass.js (window.LiquidGlass.Shader) only when magnify:true.
  */
 (function () {
   'use strict';
-  if (!window.LiquidGlass) return;
+  var HAS_SHADER = !!(window.LiquidGlass && window.LiquidGlass.Shader);
 
-  var LG = window.LiquidGlass;
-
-  // Subtle "rounded-rect ripple" fragment — gentler than the original demo.
-  function liquidFrag(uv, mouse) {
-    var mx = mouse && typeof mouse.x === 'number' ? mouse.x : 0.5;
-    var my = mouse && typeof mouse.y === 'number' ? mouse.y : 0.5;
-    var ix = uv.x - 0.5;
-    var iy = uv.y - 0.5;
-    var d = LG.roundedRectSDF(ix, iy, 0.32, 0.25, 0.55);
-    var disp = LG.smoothStep(0.85, 0, d - 0.12);
-    var s = LG.smoothStep(0, 1, disp);
-    var px = ix * s + 0.5;
-    var py = iy * s + 0.5;
-    // Gentle cursor pull — barely visible, gives life to glass.
-    var pullX = (mx - 0.5) * 0.03 * disp;
-    var pullY = (my - 0.5) * 0.03 * disp;
-    return LG.texture(px + pullX, py + pullY);
-  }
-
-  function attachLiquidGlass(el, opts) {
-    if (!el) return function () {};
-    opts = opts || {};
-
-    // Ensure host can host an absolute child.
+  function applyHostContext(el) {
     var cs = getComputedStyle(el);
     if (cs.position === 'static') el.style.position = 'relative';
-    if (cs.overflow === 'visible') el.style.overflow = 'hidden';
+  }
+
+  // ---- plain frosted glass (no magnification) ----
+  function attachFrosted(el, opts) {
+    applyHostContext(el);
+    var blur = opts.blur != null ? opts.blur : 8;
+    var saturate = opts.saturate != null ? opts.saturate : 1.12;
+    var brightness = opts.brightness != null ? opts.brightness : 1.03;
+    var tint = opts.tint != null ? opts.tint : 'rgba(255,255,255,0.04)';
+    var radius = opts.borderRadius != null ? opts.borderRadius : '0px';
+
+    var overlay = document.createElement('div');
+    overlay.className = 'glass-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    var bf = 'blur(' + blur + 'px) saturate(' + saturate + ') brightness(' + brightness + ')';
+    overlay.style.cssText = [
+      'position:absolute', 'top:0', 'left:0', 'width:100%', 'height:100%',
+      'overflow:hidden', 'pointer-events:none', 'z-index:0',
+      'border-radius:' + radius,
+      'background:' + tint,
+      'backdrop-filter:' + bf,
+      '-webkit-backdrop-filter:' + bf
+    ].join(';');
+    el.insertBefore(overlay, el.firstChild);
+
+    return function dispose() {
+      if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    };
+  }
+
+  // ---- liquid-glass magnification (shuding/liquid-glass) ----
+  function attachMagnified(el, opts) {
+    if (!HAS_SHADER) return function () {};
+    applyHostContext(el);
+    var frag = opts.fragment || function (uv) { return window.LiquidGlass.texture(uv.x, uv.y); };
 
     var initial = el.getBoundingClientRect();
-    var shader = new LG.Shader({
+    var shader = new window.LiquidGlass.Shader({
       width: Math.max(1, Math.round(initial.width)),
       height: Math.max(1, Math.round(initial.height)),
-      fragment: opts.fragment || liquidFrag
+      fragment: frag
     });
 
-    // Visual styling for the glass overlay.
-    var borderRadius = opts.borderRadius != null
-      ? opts.borderRadius
-      : (getComputedStyle(el).borderRadius || '12px');
-    shader.container.style.borderRadius = borderRadius;
-    shader.container.style.backdropFilter =
-      'url(#' + shader.id + '_filter) blur(0.4px) contrast(1.25) brightness(1.05) saturate(1.15)';
-    shader.container.style.webkitBackdropFilter =
-      'url(#' + shader.id + '_filter) blur(0.4px) contrast(1.25) brightness(1.05) saturate(1.15)';
+    var radius = opts.borderRadius != null ? opts.borderRadius : (getComputedStyle(el).borderRadius || '12px');
+    var bf = 'url(#' + shader.id + '_filter) blur(0.4px) contrast(1.25) brightness(1.05) saturate(1.15)';
+    shader.container.style.borderRadius = radius;
+    shader.container.style.backdropFilter = bf;
+    shader.container.style.webkitBackdropFilter = bf;
 
-    // Insert the host as the FIRST child so it sits behind text content.
     shader.mount(el);
     el.insertBefore(shader.container, el.firstChild);
-
-    // Faint base tint so the glass has body even when behind content is dark.
-    var tint = opts.tint || 'rgba(255,255,255,0.06)';
-    shader.container.style.background = tint;
+    shader.container.style.background = opts.tint || 'rgba(255,255,255,0.06)';
 
     var needsUpdate = true;
     function syncRect() {
@@ -76,26 +77,18 @@
       shader.container.style.width = w + 'px';
       shader.container.style.height = h + 'px';
       if (w !== shader.width || h !== shader.height) {
-        shader.width = w;
-        shader.height = h;
-        needsUpdate = true;
+        shader.width = w; shader.height = h; needsUpdate = true;
       }
     }
-
     function tick() {
       syncRect();
-      if (needsUpdate) {
-        shader.updateShader();
-        needsUpdate = false;
-      }
+      if (needsUpdate) { shader.updateShader(); needsUpdate = false; }
     }
-
     var ro = (typeof ResizeObserver !== 'undefined') ? new ResizeObserver(tick) : null;
     if (ro) ro.observe(el);
     window.addEventListener('scroll', syncRect, { passive: true });
     window.addEventListener('resize', tick);
     window.addEventListener('load', tick);
-    // First sync after layout settle (one rAF).
     requestAnimationFrame(tick);
 
     return function dispose() {
@@ -107,14 +100,30 @@
     };
   }
 
-  // Convenience: auto-apply to `.liquid-glass` selectors on DOMContentLoaded.
+  function attachLiquidGlass(el, opts) {
+    if (!el) return function () {};
+    opts = opts || {};
+    // Default: no magnification — just frosted glass texture.
+    if (opts.magnify === true) return attachMagnified(el, opts);
+    return attachFrosted(el, opts);
+  }
+
+  // Attach to a host, guarding against double-apply.
+  function applyOnce(el, opts) {
+    if (!el || el.querySelector(':scope > .glass-overlay') ||
+        el.querySelector(':scope > [id^="liquid-glass-"][id$="_host"]')) {
+      return;
+    }
+    attachLiquidGlass(el, opts);
+  }
+
   function auto() {
     var nodes = document.querySelectorAll('.liquid-glass');
-    var disposers = [];
     for (var i = 0; i < nodes.length; i++) {
-      disposers.push(attachLiquidGlass(nodes[i], nodes[i].dataset.liquidOpts ? JSON.parse(nodes[i].dataset.liquidOpts) : {}));
+      var n = nodes[i];
+      var o = n.dataset.liquidOpts ? JSON.parse(n.dataset.liquidOpts) : {};
+      attachLiquidGlass(n, o);
     }
-    window.__liquidGlassDisposers = disposers;
   }
 
   if (document.readyState === 'loading') {
@@ -124,4 +133,5 @@
   }
 
   window.attachLiquidGlass = attachLiquidGlass;
+  window.applyGlassOnce = applyOnce;
 })();
