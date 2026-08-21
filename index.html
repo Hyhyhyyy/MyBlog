@@ -157,22 +157,48 @@
           if (!v || !btn) return;
           var saved = null;
           try { saved = localStorage.getItem('hyhy_bg_sound'); } catch (e) {}
+
+          /* 关键修复：始终以「静音」状态自动播放。浏览器只放行静音自动播放，
+             若加载时就把 muted 设为 false（之前 saved==='1' 的逻辑），autoplay
+             会被整段取消 → 视频停在空白占位，看起来像"不显示"。 */
+          v.muted = true;
+          v.playsInline = true;
+
           function applyIcon() {
             btn.textContent = v.muted ? '🔇' : '🔊';
             btn.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
             btn.setAttribute('aria-label', v.muted ? '开启背景视频声音' : '关闭背景视频声音');
           }
-          if (saved === '1') { v.muted = false; }
-          applyIcon();
-          btn.addEventListener('click', function () {
+
+          function tryPlay() {
+            var p = v.play();
+            if (p && typeof p.catch === 'function') p.catch(function () {});
+          }
+          tryPlay(); /* 静音自动播放（可见）；被拦截时等首次交互再播 */
+
+          /* 用户之前开过声音 → 在首次真实手势（点页面任意处）时再取消静音，
+             浏览器强制要求手势。点声音按钮本身由按钮逻辑接管，这里忽略。 */
+          if (saved === '1') {
+            var restore = function (e) {
+              if (btn.contains(e.target)) return;
+              v.muted = false;
+              applyIcon();
+              window.removeEventListener('pointerdown', restore);
+              window.removeEventListener('keydown', restore);
+            };
+            window.addEventListener('pointerdown', restore);
+            window.addEventListener('keydown', restore);
+          }
+
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
             v.muted = !v.muted;
             try { localStorage.setItem('hyhy_bg_sound', v.muted ? '0' : '1'); } catch (e) {}
             applyIcon();
-            var p = v.play();
-            if (p && typeof p.catch === 'function') p.catch(function () {});
+            tryPlay();
           });
-          var pp = v.play();
-          if (pp && typeof pp.catch === 'function') pp.catch(function () {});
+
+          applyIcon();
         })();
         // TargetCursor 绿色鼠标：仅精细指针（桌面）默认开启，且可被用户关闭；
         // reduced-motion 下不隐藏系统光标、不做旋转动画
