@@ -62,6 +62,8 @@ a{color:inherit;text-decoration:none}
 }
 .logo{font-family:var(--heavy);font-weight:900;font-size:20px;letter-spacing:-.02em}
 @media(min-width:768px){ .logo{font-size:26px} }
+.logo img{height:34px;width:auto;display:block}
+@media(min-width:768px){ .logo img{height:42px} }
 .nav-links{display:flex;gap:16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 @media(min-width:768px){ .nav-links{gap:28px;font-size:14px} }
 /* 仅作用于直接链接（旧静态导航）；GooeyNav 的嵌套链接由其自身样式接管 */
@@ -228,18 +230,46 @@ body.home .home-footer .footer-inner{ gap:20px; }
 }
 
 /* ============================================================
-   主页背景：DotField 点阵（见 DotField.css / DotField.js）
-   最底层（body.home）为纯黑 var(--black)；点阵 canvas 在其上绘制，
-   红/绿点阵在黑底上更醒目。导航条自身为白底，不受影响。
+   主页背景：循环视频 hero-bg.mp4（替代旧的 DotField 点阵）。
+   固定铺满视口、object-fit:cover，置 z-index:0；
+   导航条/主区/页脚/Lanyard 物理名片均盖在视频之上。
    ============================================================ */
-body.home{ background:var(--black); }
-/* 内容层抬到背景之上：导航/主区/页脚均盖在点阵之上（点阵 z-index:0） */
+body.home{ background:var(--white); }
+#bg-video{
+  position:fixed; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  z-index:0;
+  pointer-events:none;
+  background:#000;
+}
+/* 内容层抬到背景之上：导航/主区/页脚/Lanyard 均盖在视频之上 */
 body.home .nav{ z-index:50; position:sticky; }
 body.home .main{ position:relative; z-index:1; }
 body.home .home-footer{ position:relative; z-index:2; }
-/* 卡片/区块背景保持透明，露出黑底 + 点阵 */
+body.home .hero{ z-index:3; }       /* Lanyard 物理名片固定右上，叠在视频之上 */
+/* 区块背景保持透明，露出视频 */
 body.home .section{ background:transparent; border-bottom:2px solid var(--black); }
 @media(min-width:768px){ body.home .section{ border-bottom-width:4px; } }
+/* 背景视频声音开关：小按钮，左下角，neo-brutalist 风格 */
+.sound-toggle{
+  position:fixed;
+  left:24px; bottom:24px;
+  z-index:60;             /* 高于 nav(50) */
+  width:48px; height:48px;
+  display:flex; align-items:center; justify-content:center;
+  border:3px solid #000;
+  background:#fff;
+  box-shadow:4px 4px 0 #000;
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:22px; line-height:1;
+  cursor:pointer;
+  user-select:none;
+  padding:0;
+  transition:transform .12s, box-shadow .12s;
+}
+.sound-toggle:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 #000; }
+.sound-toggle:active{ transform:translate(2px,2px); box-shadow:2px 2px 0 #000; }
 /* 首页 bento 区：拉长占满左侧，右缘直达 Lanyard 名片左缘（卡片所在区域），
    并去掉滑动条。Lanyard 宽 min(30vw,320px)、right:4%，故其左缘 = 视口右 - (4% + min(30vw,320px)) */
 @media(min-width:1024px){
@@ -313,72 +343,3 @@ body.home .hero{
 .dw-btn:hover{ box-shadow:var(--shadow); }
 .dw-btn--red{ background:var(--red); color:#000; }
 .dw-btn:active{ transform:translate(2px,2px); }
-
-/* ============================================================
-   A2：自定义光标开关按钮（固定左下，不干扰布局）
-   ============================================================ */
-.cursor-toggle{
-  position:fixed; left:16px; bottom:16px; z-index:60;
-  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.06em;
-  background:var(--white); color:var(--black);
-  border:2px solid var(--black); box-shadow:var(--shadow);
-  padding:8px 12px; cursor:pointer;
-  transition:transform .15s ease-out, box-shadow .15s ease-out;
-}
-.cursor-toggle:hover{ box-shadow:none; transform:translate(2px,2px); }
-.cursor-toggle:focus-visible{ outline:3px solid var(--green); outline-offset:3px; }
-.cursor-toggle[aria-pressed="true"]{ background:var(--black); color:var(--white); }
-@media(max-width:767px){ .cursor-toggle{ left:10px; bottom:10px; padding:6px 9px; } }
-
-/* ============================================================
-   D1/D2/D3 设计令牌补充 + 动效/响应式 + 深色模式（U4）
-   ============================================================ */
-:root{
-  --space-1:8px; --space-2:16px; --space-3:24px; --space-4:32px; --space-5:48px;
-  --radius:0px;                                  /* 新野兽派：硬边 */
-  --motion-fast:.15s; --motion-base:.2s; --motion-slow:.3s;
-  --ease-out:cubic-bezier(.2,.7,.3,1);
-  /* 响应式断点令牌（D3）：全站统一两档 — 移动优先、≥768 平板/桌面、≥1024 宽屏 */
-  --bp-md:768px; --bp-lg:1024px;
-}
-/* 统一过渡语言（D2）：交互元素共用同一组 motion 令牌，避免各组件节奏不一 */
-.btn, .card, .dw-add-btn, .cursor-toggle, .theme-toggle, .nav-links > a{
-  transition:transform var(--motion-base) var(--ease-out),
-             box-shadow var(--motion-base) var(--ease-out),
-             background var(--motion-base) var(--ease-out),
-             color var(--motion-base) var(--ease-out),
-             border-color var(--motion-fast) var(--ease-out);
-}
-/* D3 响应式安全网：共享页（index/collections/about/projects/study）图片不溢出、
-   整页不出现横向滚动条；系列页自带 CSS 已处理，这里仅兜底共享层。
-   用 overflow-x:clip 而非 hidden —— clip 不创建滚动容器，不会破坏 nav 的 sticky。 */
-img{ max-width:100%; height:auto; }
-body{ overflow-x:clip; }
-/* 深色模式：仅反转共享令牌；首页保持黑底，不强制变浅（U4/D1） */
-:root[data-theme="dark"]{ --white:#0e0e0e; --black:#f2f2f2; }
-:root[data-theme="dark"] body.home{ background:#000; }
-
-/* 深色模式切换按钮（固定右下，与左侧 cursor-toggle 错开） */
-.theme-toggle{
-  position:fixed; right:16px; bottom:16px; z-index:60;
-  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.06em;
-  background:var(--white); color:var(--black);
-  border:2px solid var(--black); box-shadow:var(--shadow);
-  padding:8px 12px; cursor:pointer;
-  transition:transform var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out);
-}
-.theme-toggle:hover{ box-shadow:none; transform:translate(2px,2px); }
-.theme-toggle:focus-visible{ outline:3px solid var(--green); outline-offset:3px; }
-@media(max-width:767px){ .theme-toggle{ right:10px; bottom:10px; padding:6px 9px; } }
-
-/* U3：大动画（DotField / Lanyard）加载骨架屏 */
-body.home .main{ position:relative; }
-.skeleton{
-  position:absolute; inset:0; z-index:5; pointer-events:none;
-  background:linear-gradient(100deg,#161616 30%,#2a2a2a 50%,#161616 70%);
-  background-size:200% 100%;
-  animation:skel 1.2s linear infinite;
-}
-.skeleton.hidden{ display:none; }
-@keyframes skel{ from{ background-position:200% 0; } to{ background-position:-200% 0; } }
-@media (prefers-reduced-motion: reduce){ .skeleton{ animation:none; } }
