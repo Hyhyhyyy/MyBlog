@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="gooey-nav.css" />
   <link rel="stylesheet" href="lanyard.css" />
   <link rel="stylesheet" href="target-cursor.css" />
-  <link rel="stylesheet" href="DotField.css" />
   <!-- hyhy-head -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -36,13 +35,18 @@
   <!-- hyhy-skip -->
   <a class="skip-link" href="#main">跳到主内容</a>
 
-  <!-- ===== 主页背景：DotField 点阵（固定铺满视口，置于内容之下） ===== -->
-  <div class="dot-field-bg" id="dot-field-bg" aria-hidden="true"></div>
+  <!-- ===== 主页背景：循环视频（默认静音播放，可一键开关声音） ===== -->
+  <video id="bg-video" autoplay loop muted playsinline preload="auto"
+         poster="data:," aria-hidden="true">
+    <source src="assets/hero-bg.mp4" type="video/mp4">
+  </video>
+  <button id="sound-toggle" class="sound-toggle" type="button"
+          aria-pressed="false" aria-label="开关背景视频声音">🔇</button>
 
   <!-- ===== 导航（保留博客架构） ===== -->
   <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo">HYHY / GROWTH</a>
+      <a href="index.html" class="logo"><img src="assets/tomato.png" alt="HYHY · Growth"></a>
       <div class="nav-links" data-gooey-nav></div>
   <!-- hyhy-search -->
   <div class="site-search" role="search">
@@ -91,7 +95,6 @@
   <script defer src="gsap.min.js"></script>
   <script defer src="gooey-nav.js"></script>
   <script defer src="magic-bento.js"></script>
-  <script defer src="DotField.js"></script>
   <!-- Lanyard 物理引擎 wasm 的 base：必须在 lanyard.js 执行前设置（内联、解析期运行，早于 defer 脚本） -->
   <script>window.__LANYARD_WASM_BASE__ = new URL('./lanyard-dist/assets/', location.href).href;</script>
   <script defer src="lanyard-dist/assets/lanyard.js"></script>
@@ -111,20 +114,32 @@
           var sk = document.getElementById('home-skeleton');
           if (sk) sk.classList.add('hidden');
         });
-        // DotField 点阵：reduced-motion 下静态呈现，不启动光标跟随动画
-        var df = document.getElementById('dot-field-bg');
-        if (df && typeof window.DotFieldInit === 'function' && !reduce) {
-          window.DotFieldInit(df, {
-            dotRadius: 1.5,
-            dotSpacing: 14,
-            cursorRadius: 500,
-            bulgeStrength: 67,
-            glowRadius: 160,
-            gradientFrom: 'rgba(224,40,32,0.6)',   /* 深番茄红 */
-            gradientTo: 'rgba(16,150,84,0.6)',      /* 深绿 */
-            glowColor: 'rgba(0,0,0,0.08)'
+        /* 主页背景视频：浏览器自动播放策略默认拒绝带声音的 autoplay，
+           所以默认 muted；点击左下🔇按钮可启用声音（用户手势后浏览器放行），
+           选择写入 localStorage 跨刷新记忆。 */
+        (function () {
+          var v = document.getElementById('bg-video');
+          var btn = document.getElementById('sound-toggle');
+          if (!v || !btn) return;
+          var saved = null;
+          try { saved = localStorage.getItem('hyhy_bg_sound'); } catch (e) {}
+          function applyIcon() {
+            btn.textContent = v.muted ? '🔇' : '🔊';
+            btn.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
+            btn.setAttribute('aria-label', v.muted ? '开启背景视频声音' : '关闭背景视频声音');
+          }
+          if (saved === '1') { v.muted = false; }
+          applyIcon();
+          btn.addEventListener('click', function () {
+            v.muted = !v.muted;
+            try { localStorage.setItem('hyhy_bg_sound', v.muted ? '0' : '1'); } catch (e) {}
+            applyIcon();
+            var p = v.play();
+            if (p && typeof p.catch === 'function') p.catch(function () {});
           });
-        }
+          var pp = v.play();
+          if (pp && typeof pp.catch === 'function') pp.catch(function () {});
+        })();
         // TargetCursor 绿色鼠标：仅精细指针（桌面）默认开启，且可被用户关闭；
         // reduced-motion 下不隐藏系统光标、不做旋转动画
         if (typeof window.TargetCursorInit === 'function' && finePointer && !cursorOff) {
