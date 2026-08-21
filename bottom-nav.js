@@ -3,7 +3,9 @@
 (function () {
   if (document.getElementById('hyhy-bottom-nav')) return;
   var ROOT = document.documentElement;
-  var PAGE = (location.pathname.split('/').pop() || 'index.html');
+  // 站点可能挂在 /MyBlog/ 子路径下；统一取「仓库根之后的相对路径」作为页面标识，
+  // 这样 posts/<slug>/index.html 这类子页不会误匹配根页（index.html）的标题翻译。
+  var PAGE = (location.pathname.replace(/^.*\/MyBlog\//, '').replace(/^\//, '') || 'index.html');
 
   var I18N = {
     zh: {
@@ -17,16 +19,13 @@
         'calvino.html': '卡尔维诺短篇小说集 | 娱乐合集',
         'caofangzi.html': '草房子 · 曹文轩 | 娱乐合集',
         'collections.html': 'ENTERTAINMENT / 娱乐合集 — HYHY',
-        'dingkan-map.html': '顶刊顶会地图',
         'friends.html': 'Friends — 老友记 | HYHY 娱乐合集',
         'hamilton.html': '汉密尔顿 · 音乐剧 HAMILTON — 娱乐合集',
         'hulanhe.html': '呼兰河传 · 萧红 | 娱乐合集',
         'index.html': 'HYHY · Growth Archive — Neo-Brutalist Prototype',
         'itcrowd.html': 'The IT Crowd — IT狂人 | HYHY 娱乐合集',
-        'kaoyan408.html': '考研408速通 · 可交互学习站（细化版）',
         'legally-blonde.html': '律政俏佳人 · 音乐剧 LEGALLY BLONDE — 娱乐合集',
         'mlp.html': 'My Little Pony: Friendship Is Magic — 小马宝莉 | HYHY 娱乐合集',
-        'opensource-guide.html': '个人开源学习自用指南',
         'projects.html': '项目 / PROJECTS — HYHY',
         'red-black.html': '摇滚红与黑 — Le Rouge et le Noir | HYHY 娱乐合集',
         'sherlock.html': 'Sherlock — 神探夏洛克 | HYHY 娱乐合集',
@@ -38,12 +37,10 @@
         '404.html': '页面走丢了',
         'calvino.html': '卡尔维诺短篇小说集',
         'caofangzi.html': '草房子',
-        'dingkan-map.html': '顶刊顶会地图',
         'friends.html': 'Friends',
         'hamilton.html': 'HAMILTON',
         'hulanhe.html': '呼兰河传',
         'itcrowd.html': 'The IT Crowd',
-        'kaoyan408.html': '考研408 速通 学习站',
         'legally-blonde.html': 'LEGALLY BLONDE',
         'mlp.html': 'My Little Pony: Friendship Is Magic',
         'red-black.html': '摇滚红与黑',
@@ -63,16 +60,13 @@
         'calvino.html': 'Calvino Short Stories | Collection',
         'caofangzi.html': 'Cao Fangzi · Cao Wenxuan | Collection',
         'collections.html': 'ENTERTAINMENT / Collection — HYHY',
-        'dingkan-map.html': 'Top Journals & Conferences Map',
         'friends.html': 'Friends — Collection | HYHY',
         'hamilton.html': 'Hamilton · Musical — Collection | HYHY',
         'hulanhe.html': 'Hulan River · Xiao Hong | Collection',
         'index.html': 'HYHY · Growth Archive — Neo-Brutalist Prototype',
         'itcrowd.html': 'The IT Crowd — Collection | HYHY',
-        'kaoyan408.html': 'Kaoyan 408 Quick Pass · Interactive Study',
         'legally-blonde.html': 'Legally Blonde · Musical — Collection | HYHY',
         'mlp.html': 'My Little Pony: Friendship Is Magic — Collection | HYHY',
-        'opensource-guide.html': 'Personal Open-Source Learning Guide',
         'projects.html': 'PROJECTS — HYHY',
         'red-black.html': 'Le Rouge et le Noir — Collection | HYHY',
         'sherlock.html': 'Sherlock — Collection | HYHY',
@@ -84,12 +78,10 @@
         '404.html': 'Page Lost',
         'calvino.html': 'Calvino Short Stories',
         'caofangzi.html': 'Cao Fangzi',
-        'dingkan-map.html': 'Top Journals & Conferences Map',
         'friends.html': 'Friends',
         'hamilton.html': 'HAMILTON',
         'hulanhe.html': 'Hulan River',
         'itcrowd.html': 'The IT Crowd',
-        'kaoyan408.html': 'Kaoyan 408 Quick Pass',
         'legally-blonde.html': 'LEGALLY BLONDE',
         'mlp.html': 'My Little Pony: Friendship Is Magic',
         'red-black.html': 'Le Rouge et le Noir',
