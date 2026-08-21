@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="bottom-nav.css" />
   <link rel="stylesheet" href="a11y.css" />
   <link rel="stylesheet" href="search.css" />
+  <link rel="stylesheet" href="masonry.css" />
   <style>
     html, body { height: 100%; }
     body.study-page {
@@ -52,82 +53,15 @@
       margin: 0 0 14px;
       color: var(--black);
     }
-    /* 左侧：全部文章的可拖拽列表；拖动画布即可上下浏览找到对应圆 */
+    /* 左侧：文章封面瀑布流（Masonry）。容器负责滚动，内部 .masonry 由 JS 计算高度 */
     .blog-list {
       flex: 1 1 auto;
       min-height: 0;
       overflow-y: auto;
-      padding: 8px 24px 96px;
-      cursor: grab;
-      touch-action: pan-y;
+      overflow-x: hidden;
+      padding: 14px 22px 96px;
     }
-    .blog-list.dragging { cursor: grabbing; }
-    .post-row {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding: 14px 4px;
-      border-bottom: 2px dashed rgba(0,0,0,.18);
-      user-select: none;
-    }
-    .post-date {
-      flex: 0 0 92px;
-      font-family: var(--mono);
-      font-size: 14px;
-      color: var(--black);
-      text-align: right;
-      white-space: nowrap;
-    }
-    /* 圆：取封面最大内切同心圆 */
-    .post-circle {
-      flex: 0 0 auto;
-      width: 92px;
-      height: 92px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid var(--black);
-      box-shadow: 5px 5px 0 var(--black);
-      background: var(--white);
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .post-circle:hover {
-      transform: translate(-2px,-2px);
-      box-shadow: 8px 8px 0 var(--black);
-    }
-    .post-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .post-info { flex: 1 1 auto; min-width: 0; }
-    .post-title {
-      font-family: var(--heavy);
-      font-weight: 900;
-      font-size: 18px;
-      color: var(--black);
-      line-height: 1.2;
-    }
-    .post-desc {
-      font-size: 13px;
-      color: var(--black);
-      opacity: .7;
-      margin-top: 4px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .post-cat {
-      flex: 0 0 auto;
-      font-family: var(--mono);
-      font-size: 13px;
-      border: 2px solid var(--black);
-      padding: 4px 12px;
-      border-radius: 999px;
-      color: var(--black);
-      white-space: nowrap;
-    }
+    /* 旧的行式文章列表已迁移为 Masonry 瀑布流（见 masonry.css / masonry.js） */
     .post-empty {
       padding: 48px 16px;
       text-align: center;
@@ -205,7 +139,9 @@
   <meta name="twitter:image" content="https://hyhyhyyy.github.io/MyBlog/six-cover.jpg" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"STUDY / 学习 — Hyhyhyyy","url":"https://hyhyhyyy.github.io/MyBlog/study.html","isPartOf":{"@type":"WebSite","name":"Hyhyhyyy","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
   <link rel="alternate" type="application/rss+xml" title="Hyhyhyyy" href="feed.xml" />
-  </head>
+  <script defer src="gsap.min.js"></script>
+  <script defer src="masonry.js"></script>
+</head>
 <body class="study-page">
   <!-- hyhy-skip -->
   <a class="skip-link" href="#main">跳到主内容</a>
@@ -235,7 +171,7 @@
           <p class="eyebrow">STUDY / 学习与感悟 · 传统博客</p>
           <h2>ARTICLE ARCHIVE</h2>
         </header>
-        <div class="blog-list" id="blog-list" aria-label="文章列表（可拖拽浏览）">
+        <div class="blog-list" id="blog-list" aria-label="文章瀑布流（Masonry 布局），可点击封面打开文章">
           <div class="post-empty">正在加载文章…</div>
         </div>
       </div>
@@ -291,56 +227,54 @@
   <script>
     (function () {
       'use strict';
-      // 传统博客索引：从 posts/manifest.json 读取全部文章，
-      // 左侧列出 [日期 | 圆形封面 | 分类]，可拖拽浏览；右侧三个文件夹按分类筛选。
-      var list = document.getElementById('blog-list');
+      // 学习页左侧：用 React Bits 风格的 Masonry（已移植为 vanilla + GSAP）
+      // 展示 posts/manifest.json 中的文章封面瀑布流；右侧三个文件夹按分类筛选。
+      var listEl = document.getElementById('blog-list');
       var folders = Array.prototype.slice.call(document.querySelectorAll('.side-folder'));
       var posts = [];
       var filter = null;
+      var masonry = null;
 
-      function render() {
-        if (!posts.length) {
-          list.innerHTML = '<div class="post-empty">还没有文章。用 blog/new_post.py 新建，再运行 blog/sync.py 上传。</div>';
-          return;
-        }
-        var rows = posts.filter(function (p) { return !filter || p.category === filter; });
-        if (!rows.length) {
-          list.innerHTML = '<div class="post-empty">「' + filter + '」分类下暂无文章。</div>';
-          return;
-        }
-        list.innerHTML = rows.map(function (p) {
-          return '<div class="post-row" data-cat="' + p.category + '">'
-            + '<div class="post-date">' + p.date + '</div>'
-            + '<a class="post-circle" href="' + p.url + '" aria-label="打开文章：' + p.title + '">'
-            +   '<img src="' + p.cover + '" alt="' + p.title + ' 封面" loading="lazy" />'
-            + '</a>'
-            + '<div class="post-info"><div class="post-title">' + p.title + '</div>'
-            +   (p.description ? '<div class="post-desc">' + p.description + '</div>' : '')
-            + '</div>'
-            + '<div class="post-cat">' + p.category + '</div>'
-            + '</div>';
-        }).join('');
+      // 为瀑布流分配错落的瓦片高度（封面本身是 600×600 正方形，靠高度差形成瀑布感）
+      var HEIGHTS = [300, 240, 360, 280, 320, 260];
+
+      function buildItems(rows) {
+        return rows.map(function (p, i) {
+          return {
+            id: p.slug,
+            img: p.cover,
+            url: p.url,
+            title: p.title,
+            height: HEIGHTS[i % HEIGHTS.length]
+          };
+        });
       }
 
-      // 拖拽浏览：按住列表上下拖动即可滚动，拖动后不触发跳转
-      var isDown = false, startY = 0, startTop = 0, moved = false;
-      list.addEventListener('pointerdown', function (e) {
-        isDown = true; moved = false;
-        startY = e.clientY; startTop = list.scrollTop;
-        list.classList.add('dragging');
-      });
-      list.addEventListener('pointermove', function (e) {
-        if (!isDown) return;
-        var dy = e.clientY - startY;
-        if (Math.abs(dy) > 4) moved = true;
-        list.scrollTop = startTop - dy;
-      });
-      function endDrag() { isDown = false; list.classList.remove('dragging'); }
-      list.addEventListener('pointerup', endDrag);
-      list.addEventListener('pointercancel', endDrag);
-      list.addEventListener('click', function (e) {
-        if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
-      }, true);
+      function render() {
+        var rows = posts.filter(function (p) { return !filter || p.category === filter; });
+        if (!rows.length) {
+          if (masonry) { masonry.destroy(); masonry = null; }
+          listEl.innerHTML = '<div class="post-empty">「' + (filter || '') + '」分类下暂无文章。</div>';
+          return;
+        }
+        if (masonry) { masonry.destroy(); masonry = null; }
+        var empty = listEl.querySelector('.post-empty');
+        if (empty) empty.parentNode.removeChild(empty);
+
+        if (typeof Masonry === 'undefined') {
+          listEl.innerHTML = '<div class="post-empty">Masonry 组件未加载（masonry.js）。</div>';
+          return;
+        }
+        masonry = new Masonry(listEl, {
+          animateFrom: 'bottom',
+          stagger: 0.06,
+          blurToFocus: true,
+          scaleOnHover: true,
+          hoverScale: 0.95,
+          colorShiftOnHover: false
+        });
+        masonry.setItems(buildItems(rows));
+      }
 
       // 右侧文件夹：点击切换分类筛选（再次点击取消）
       folders.forEach(function (f) {
@@ -369,7 +303,7 @@
           render();
         })
         .catch(function () {
-          list.innerHTML = '<div class="post-empty">无法加载文章列表（posts/manifest.json）。请先运行 blog/sync.py 上传。</div>';
+          listEl.innerHTML = '<div class="post-empty">无法加载文章列表（posts/manifest.json）。请先运行 blog/sync.py 上传。</div>';
         });
     })();
   </script>
