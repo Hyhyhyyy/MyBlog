@@ -49,23 +49,36 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ---------- 导航 ---------- */
+/* 顶部导航：毛玻璃由 liquid-glass-wrap.js 把 Shader 容器注入到 .nav 内部提供。
+   这里只负责 host 容器（overflow:hidden 即可，position 由 wrapper 设为 relative）
+   和导航文字配色。不要在这里写 backdrop-filter / background，否则会盖住 Shader 容器。 */
 .nav{
-  background:rgba(255,255,255,0.42);
-  -webkit-backdrop-filter:blur(14px) saturate(150%);
-  backdrop-filter:blur(14px) saturate(150%);
-  border-bottom:1px solid rgba(255,255,255,0.55);
-  padding:14px 20px;
   position:sticky;top:0;z-index:50;
+  padding:14px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.45);
 }
-@media(min-width:768px){ .nav{border-bottom-width:1px;padding:18px 32px} }
+@media(min-width:768px){ .nav{padding:18px 32px} }
 .nav-inner{
   max-width:1180px;margin:0 auto;
   display:flex;align-items:center;justify-content:space-between;gap:20px;
+  position:relative;z-index:2;
 }
-.logo{font-family:var(--heavy);font-weight:900;font-size:20px;letter-spacing:-.02em}
+.logo{font-family:var(--heavy);font-weight:900;font-size:20px;letter-spacing:-.02em;display:inline-flex;align-items:center;gap:14px}
 @media(min-width:768px){ .logo{font-size:26px} }
 .logo img{height:34px;width:auto;display:block}
 @media(min-width:768px){ .logo img{height:42px} }
+/* 品牌副标题：从首页绝对定位挪进导航最左侧，与 logo 并排 */
+.brand-label{
+  font-family:var(--mono);
+  font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.92);
+  text-shadow:0 1px 6px rgba(0,0,0,0.35);
+  white-space:nowrap;
+  user-select:none;
+}
+@media(min-width:768px){ .brand-label{font-size:12px} }
+@media(max-width:640px){ .brand-label{display:none} }
 .nav-links{display:flex;gap:16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 @media(min-width:768px){ .nav-links{gap:28px;font-size:14px} }
 /* 仅作用于直接链接（旧静态导航）；GooeyNav 的嵌套链接由其自身样式接管 */
