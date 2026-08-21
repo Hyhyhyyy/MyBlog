@@ -119,21 +119,27 @@
         // 把 shuding/liquid-glass 效果套到顶部导航和所有 Bento 卡片上。
         // 卡片由 magic-bento.js 在 defer 阶段创建，等到 DOMContentLoaded 才存在；
         // 再用 rAF 多跑一次兜底，错过的元素也能补上。
+        // 玻璃效果：magnify:false → 纯磨砂质感（无放大/扭曲），视频清晰透出。
         function applyLiquidGlassOnce() {
-          if (typeof window.attachLiquidGlass !== 'function') return false;
+          if (typeof window.applyGlassOnce !== 'function') return false;
           var nav = document.querySelector('.nav');
-          if (nav && !nav.querySelector('[id^="liquid-glass-"][id$="_host"]')) {
-            window.attachLiquidGlass(nav, { tint: 'rgba(255,255,255,0.05)' });
-          }
+          window.applyGlassOnce(nav, {
+            magnify: false,
+            blur: 8,
+            saturate: 1.1,
+            brightness: 1.03,
+            tint: 'rgba(255,255,255,0.04)'
+          });
           var cards = document.querySelectorAll('.magic-bento-card');
           for (var k = 0; k < cards.length; k++) {
-            var c = cards[k];
-            if (!c.querySelector('[id^="liquid-glass-"][id$="_host"]')) {
-              window.attachLiquidGlass(c, {
-                borderRadius: '20px',
-                tint: 'rgba(255,255,255,0.08)'
-              });
-            }
+            window.applyGlassOnce(cards[k], {
+              magnify: false,
+              borderRadius: '20px',
+              blur: 9,
+              saturate: 1.12,
+              brightness: 1.03,
+              tint: 'rgba(255,255,255,0.05)'
+            });
           }
           return !!(nav && cards.length > 0);
         }
