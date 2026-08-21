@@ -46,7 +46,10 @@
   <!-- ===== 导航（保留博客架构） ===== -->
   <nav aria-label="主导航" class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="logo"><img src="assets/tomato.png" alt="HYHY · Growth"></a>
+      <a href="index.html" class="logo">
+        <img src="assets/tomato.png" alt="HYHY · Growth">
+        <span class="brand-label">GROWTH ARCHIVE / 成长档案</span>
+      </a>
       <div class="nav-links" data-gooey-nav></div>
   <!-- hyhy-search -->
   <div class="site-search" role="search">
@@ -69,9 +72,6 @@
   <!-- U3：大动画加载骨架屏（DotField / Lanyard 就绪后移除） -->
   <div class="skeleton" id="home-skeleton" aria-hidden="true"></div>
 
-  <!-- ===== C1 首页定位说明 ===== -->
-  <p class="eyebrow" style="position:absolute;top:14px;left:20px;z-index:6;margin:0;color:#fff;opacity:.9;">GROWTH ARCHIVE / 成长档案</p>
-
   <!-- ===== 交互档案（MagicBento） ===== -->
   <section class="section" id="main">
     <div class="section-inner">
@@ -93,6 +93,8 @@
   <!-- 外部脚本全部 defer：与 HTML 解析并行下载，执行顺序保留（gsap 先于依赖它的脚本），
        不阻塞首屏渲染。gsap 被 magic-bento / target-cursor / projects / flowing-menu 实际使用，保留。 -->
   <script defer src="gsap.min.js"></script>
+  <script defer src="liquid-glass.js"></script>
+  <script defer src="liquid-glass-wrap.js"></script>
   <script defer src="gooey-nav.js"></script>
   <script defer src="magic-bento.js"></script>
   <!-- Lanyard 物理引擎 wasm 的 base：必须在 lanyard.js 执行前设置（内联、解析期运行，早于 defer 脚本） -->
@@ -113,6 +115,32 @@
         window.addEventListener('load', function () {
           var sk = document.getElementById('home-skeleton');
           if (sk) sk.classList.add('hidden');
+        });
+        // 把 shuding/liquid-glass 效果套到顶部导航和所有 Bento 卡片上。
+        // 卡片由 magic-bento.js 在 defer 阶段创建，等到 DOMContentLoaded 才存在；
+        // 再用 rAF 多跑一次兜底，错过的元素也能补上。
+        function applyLiquidGlassOnce() {
+          if (typeof window.attachLiquidGlass !== 'function') return false;
+          var nav = document.querySelector('.nav');
+          if (nav && !nav.querySelector('[id^="liquid-glass-"][id$="_host"]')) {
+            window.attachLiquidGlass(nav, { tint: 'rgba(255,255,255,0.05)' });
+          }
+          var cards = document.querySelectorAll('.magic-bento-card');
+          for (var k = 0; k < cards.length; k++) {
+            var c = cards[k];
+            if (!c.querySelector('[id^="liquid-glass-"][id$="_host"]')) {
+              window.attachLiquidGlass(c, {
+                borderRadius: '20px',
+                tint: 'rgba(255,255,255,0.08)'
+              });
+            }
+          }
+          return !!(nav && cards.length > 0);
+        }
+        applyLiquidGlassOnce();
+        requestAnimationFrame(function () { applyLiquidGlassOnce(); });
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { applyLiquidGlassOnce(); });
         });
         /* 主页背景视频：浏览器自动播放策略默认拒绝带声音的 autoplay，
            所以默认 muted；点击左下🔇按钮可启用声音（用户手势后浏览器放行），
