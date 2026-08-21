@@ -1,11 +1,12 @@
 /* HYHY PWA service worker — 离线缓存核心静态资源（U7） */
-const CACHE = 'hyhy-v2';
+const CACHE = 'hyhy-v3';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
   'friends.html', 'sherlock.html', 'mlp.html', 'itcrowd.html',
   'style.css', 'a11y.css', 'favicon.svg',
-  'gooey-nav.js', 'magic-bento.js', 'DotField.js', 'drift-wall.js', 'collections.js'
+  'gooey-nav.js', 'magic-bento.js', 'DotField.js', 'drift-wall.js', 'collections.js',
+  'liquid-glass.js', 'liquid-glass-wrap.js'
 ];
 
 self.addEventListener('install', function (e) {
