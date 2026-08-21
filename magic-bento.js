@@ -341,7 +341,7 @@
         'magic-bento-card particle-container bento-size-' + (card.size || 'small') + ' ' +
         (config.textAutoHide ? 'magic-bento-card--text-autohide ' : '') +
         (config.enableBorderGlow ? 'magic-bento-card--border-glow' : '');
-      cardEl.style.backgroundColor = card.color;
+      // 不写内联 backgroundColor，让 magic-bento.css 的玻璃背景生效
       cardEl.style.setProperty('--glow-color', config.glowColor);
 
       const header = document.createElement('div');
