@@ -30,7 +30,8 @@
   <link rel="stylesheet" href="search.css" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"HYHY · Growth Archive — Neo-Brutalist Prototype","url":"https://hyhyhyyy.github.io/MyBlog/index.html","isPartOf":{"@type":"WebSite","name":"HYHY · Growth Archive","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
   <link rel="alternate" type="application/rss+xml" title="HYHY · Growth Archive" href="feed.xml" />
-</head>
+  <link rel="stylesheet" href="bottom-nav.css">
+  </head>
 <body class="home">
   <!-- hyhy-skip -->
   <a class="skip-link" href="#main">跳到主内容</a>
@@ -61,8 +62,6 @@
     </div>
   </nav>
   <!-- hyhy-theme -->
-  <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="切换深色或浅色模式">深色</button>
-
   <!-- A2：自定义光标开关（仅桌面默认开启，可一键关闭并记忆偏好） -->
   <button id="cursor-toggle" class="cursor-toggle" type="button"
           aria-pressed="false" aria-label="切换自定义鼠标指针（绿色光标）">光标: 开</button>
@@ -246,29 +245,9 @@
 
   <!-- hyhy-theme -->
   <script>
-    (function () {
-      var root = document.documentElement;
-      var saved = null;
-      try { saved = localStorage.getItem('hyhy_theme'); } catch (e) {}
-      if (saved === 'dark') root.setAttribute('data-theme', 'dark');
-      var btn = document.getElementById('theme-toggle');
-      if (btn) {
-        var sync = function () {
-          var d = root.getAttribute('data-theme') === 'dark';
-          btn.textContent = d ? '浅色' : '深色';
-          btn.setAttribute('aria-pressed', d ? 'true' : 'false');
-        };
-        sync();
-        btn.addEventListener('click', function () {
-          var d = root.getAttribute('data-theme') !== 'dark';
-          if (d) root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
-          try { localStorage.setItem('hyhy_theme', d ? 'dark' : 'light'); } catch (e) {}
-          sync();
-        });
-      }
-    })();
-  </script>
+        </script>
   <script src="search.js"></script>
   <script defer src="vitals.js"></script>
-</body>
+  <script defer src="bottom-nav.js"></script>
+  </body>
 </html>
