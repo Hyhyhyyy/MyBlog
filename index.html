@@ -148,9 +148,9 @@
         requestAnimationFrame(function () {
           requestAnimationFrame(function () { applyLiquidGlassOnce(); });
         });
-        /* 主页背景视频：浏览器自动播放策略默认拒绝带声音的 autoplay，
-           所以默认 muted；点击左下🔇按钮可启用声音（用户手势后浏览器放行），
-           选择写入 localStorage 跨刷新记忆。 */
+        /* 主页背景视频：保证「静音自动播放」始终可见；点击左下🔇按钮可启用声音。
+           浏览器只放行静音自动播放；若 autoplay 被拦截，则在用户首次任意交互
+           （点页面/按键，不必专门按音量键）时再播，避免“必须按音量键才播放”。 */
         (function () {
           var v = document.getElementById('bg-video');
           var btn = document.getElementById('sound-toggle');
@@ -158,11 +158,9 @@
           var saved = null;
           try { saved = localStorage.getItem('hyhy_bg_sound'); } catch (e) {}
 
-          /* 关键修复：始终以「静音」状态自动播放。浏览器只放行静音自动播放，
-             若加载时就把 muted 设为 false（之前 saved==='1' 的逻辑），autoplay
-             会被整段取消 → 视频停在空白占位，看起来像"不显示"。 */
-          v.muted = true;
+          v.muted = true;        // 默认静音 → 浏览器放行 autoplay
           v.playsInline = true;
+          v.setAttribute('autoplay', '');
 
           function applyIcon() {
             btn.textContent = v.muted ? '🔇' : '🔊';
@@ -170,14 +168,26 @@
             btn.setAttribute('aria-label', v.muted ? '开启背景视频声音' : '关闭背景视频声音');
           }
 
-          function tryPlay() {
+          // 静音自动播放；被拦截时，挂一次性「首次交互」兜底播放（任意位置均可）
+          function startMuted() {
             var p = v.play();
-            if (p && typeof p.catch === 'function') p.catch(function () {});
+            if (p && typeof p.catch === 'function') {
+              p.catch(function () {
+                var onFirst = function () {
+                  var q = v.play();
+                  if (q && typeof q.catch === 'function') q.catch(function () {});
+                  window.removeEventListener('pointerdown', onFirst);
+                  window.removeEventListener('keydown', onFirst);
+                };
+                window.addEventListener('pointerdown', onFirst, { once: true });
+                window.addEventListener('keydown', onFirst, { once: true });
+              });
+            }
           }
-          tryPlay(); /* 静音自动播放（可见）；被拦截时等首次交互再播 */
+          startMuted();
 
-          /* 用户之前开过声音 → 在首次真实手势（点页面任意处）时再取消静音，
-             浏览器强制要求手势。点声音按钮本身由按钮逻辑接管，这里忽略。 */
+          /* 用户之前开过声音 → 在首次真实手势（点页面任意处）时取消静音，
+             浏览器强制要求手势；点声音按钮本身由按钮逻辑接管，这里忽略。 */
           if (saved === '1') {
             var restore = function (e) {
               if (btn.contains(e.target)) return;
@@ -195,7 +205,8 @@
             v.muted = !v.muted;
             try { localStorage.setItem('hyhy_bg_sound', v.muted ? '0' : '1'); } catch (e) {}
             applyIcon();
-            tryPlay();
+            var p = v.play();
+            if (p && typeof p.catch === 'function') p.catch(function () {});
           });
 
           applyIcon();
