@@ -22,6 +22,11 @@
       cursorAria: '切换自定义鼠标指针',
       soundOnAria: '关闭背景视频声音',
       soundOffAria: '开启背景视频声音',
+      searchPlaceholder: '搜索…',
+      searchLabel: '站内搜索',
+      searchAria: '站内搜索',
+      noResults: '无匹配结果',
+      indexDesc: 'Hyhyhyyy — Neo-Brutalist 娱乐合集原型站：以新野兽派视觉呈现音乐剧、文学与影视收藏。',
       headings: {
         '404.html': '页面走丢了',
         'calvino.html': '卡尔维诺短篇小说集',
@@ -47,6 +52,11 @@
       cursorAria: 'Toggle custom cursor',
       soundOnAria: 'Turn off background video sound',
       soundOffAria: 'Turn on background video sound',
+      searchPlaceholder: 'Search…',
+      searchLabel: 'Search site',
+      searchAria: 'Search site',
+      noResults: 'No results found',
+      indexDesc: 'Hyhyhyyy — a Neo-Brutalist entertainment collection prototype: musicals, literature, and film presented in neo-brutalist visuals.',
       headings: {
         '404.html': 'Page Lost',
         'calvino.html': 'Calvino Short Stories',
@@ -65,6 +75,9 @@
   function getLang() { try { return localStorage.getItem('hyhy_lang') || 'zh'; } catch (e) { return 'zh'; } }
   function setLang(v) { try { localStorage.setItem('hyhy_lang', v); } catch (e) {} }
   function pack() { return I18N[getLang()]; }
+  // 暴露给 search.js 等其它脚本在运行时取当前语言文案（如搜索无结果提示）
+  window.HYHY_I18N = I18N;
+  window.HYHY_GET_LANG = getLang;
 
   function applyTheme() {
     var d; try { d = localStorage.getItem('hyhy_theme') === 'dark'; } catch (e) { d = false; }
@@ -131,6 +144,21 @@
     if (h1 && p.headings[PAGE]) h1.textContent = p.headings[PAGE];
     var sk = document.querySelector('.skip-link');
     if (sk) sk.textContent = p.skipLink;
+    // 站内搜索框（首页及多页共用 UI 外壳）：随语言切换占位符 / 可见标签 / aria
+    var searchInput = document.getElementById('site-search');
+    if (searchInput) {
+      searchInput.placeholder = p.searchPlaceholder;
+      searchInput.setAttribute('aria-label', p.searchAria);
+    }
+    var searchLabel = document.querySelector('.site-search label');
+    if (searchLabel) searchLabel.textContent = p.searchLabel;
+    // 首页 meta 描述（社交分享 / SEO）：随语言切换，保证英文模式下分享卡片也是英文
+    if (PAGE === 'index.html') {
+      ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]'].forEach(function (sel) {
+        var m = document.querySelector(sel);
+        if (m) m.setAttribute('content', p.indexDesc);
+      });
+    }
     langBtn.textContent = p.langOther;
     langBtn.setAttribute('aria-label', p.langAria);
     // 导航链接文案随语言切换
