@@ -481,7 +481,8 @@
     requestAnimationFrame(function (t) { this.run(t); }.bind(this));
   };
   InfiniteGridMenu.prototype._init = function (onInit) {
-    this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: false });
+    // alpha:true 让 canvas 透明，背景透出 .im-root 的 var(--white)，从而随站点主题自适应（明色→白、暗色→#181818）
+    this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: false });
     var gl = this.gl;
     if (!gl) throw new Error('No WebGL 2 context!');
 
@@ -535,6 +536,16 @@
     this._updateCameraMatrix();
     this._updateProjectionMatrix(gl);
     this.resize();
+
+    // 监听站点主题切换：data-theme 变化时同步更新 _render() 的 clearColor，避免浅色模式还把背景涂黑。
+    if (typeof MutationObserver !== 'undefined' && !this._themeObserver) {
+      var self = this;
+      this._themeObserver = new MutationObserver(function () {
+        var dark = (document.documentElement.getAttribute('data-theme') === 'dark');
+        self._clearRGB = dark ? [0, 0, 0] : [1, 1, 1];
+      });
+      this._themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    }
 
     if (onInit) onInit(this);
   };
@@ -640,7 +651,10 @@
     gl.useProgram(this.discProgram);
     gl.enable(gl.CULL_FACE);
     gl.enable(gl.DEPTH_TEST);
-    gl.clearColor(0, 0, 0, 0);
+    // 主题感知 clearColor：浅色模式用白+透明、深色模式用黑+透明。canvas 透明 + var(--white/--black) 自适应 100% 反映站点主题。
+    var _isDark = (document.documentElement.getAttribute('data-theme') === 'dark');
+    this._clearRGB = _isDark ? [0, 0, 0] : [1, 1, 1];
+    gl.clearColor(this._clearRGB[0], this._clearRGB[1], this._clearRGB[2], 0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.uniformMatrix4fv(this.discLocations.uWorldMatrix, false, this.worldMatrix);
     gl.uniformMatrix4fv(this.discLocations.uViewMatrix, false, this.camera.matrices.view);
