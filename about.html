@@ -29,6 +29,19 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"ABOUT / 关于 — Hyhyhyyy","url":"https://hyhyhyyy.github.io/MyBlog/about.html","isPartOf":{"@type":"WebSite","name":"Hyhyhyyy","url":"https://hyhyhyyy.github.io/MyBlog/"}}</script>
   <link rel="alternate" type="application/rss+xml" title="Hyhyhyyy" href="feed.xml" />
   <link rel="stylesheet" href="bottom-nav.css">
+  <style>
+    /* 单屏布局：与项目/娱乐页一致，无需滚动即可看全貌 */
+    body.about-page{ height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+    .about-page .about-main{ flex:1; min-height:0; display:flex; flex-direction:column; padding:0; }
+    /* Hello 标题区：固定 modest 高度，不随文字撑大 */
+    .about-page .tp-section{ flex:0 0 auto; height:clamp(140px, 30vh, 240px); }
+    /* 限宽使 Hello 缩小，与站点其他页面标题大小一致 */
+    .about-page .tp-container{ max-width:320px; margin:0 auto; }
+    /* 番茄流动菜单占满剩余空间，四行自适应收缩 */
+    .about-page .flowing-section{ flex:1; min-height:0; height:auto; }
+    .about-page .footer{ display:none; }
+    @media (prefers-reduced-motion: reduce){ *{ transition:none!important; animation:none!important; } }
+  </style>
   </head>
 <body class="about-page">
   <!-- hyhy-skip -->
