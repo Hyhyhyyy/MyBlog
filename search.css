@@ -31,18 +31,6 @@
   .search-results{ min-width:200px; }
 }
 
-/* ---------- U6 面包屑 ---------- */
-.breadcrumb{
-  max-width:1180px; margin:0 auto; padding:14px 20px 0;
-  font-family:var(--mono, monospace); font-size:12px; font-weight:700; letter-spacing:.04em;
-  color:var(--black, #000);
-}
-.breadcrumb a{ color:inherit; text-decoration:none; border-bottom:2px solid transparent; }
-.breadcrumb a:hover{ border-bottom-color:var(--black, #000); }
-.breadcrumb .sep{ margin:0 8px; opacity:.5; }
-.breadcrumb[aria-current]{ font-weight:900; }
-@media(min-width:768px){ .breadcrumb{ padding:18px 32px 0; } }
-
 /* ---------- C3 统一页脚 ---------- */
 .site-footer{
   background:var(--black, #000); color:var(--white, #fff);
