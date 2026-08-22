@@ -5,7 +5,7 @@
  *      canvas 在 JS 里开启 alpha:true，clearColor 透明，明色 1,1,1,0 / 暗色 0,0,0,0；下面的 .im-root 颜色透出。
  *   2) disc 中央标题（face-title）色也跟随主题走：浅色→黑、深色→白。
  *   3) action-button 保持站点番茄色（--red），描边用 --black，与页面其它卡片一致（明暗双轨已写在 var 里）。
- *   4) 去掉原版 max-width:1500px 隐藏标题/描述的媒体查询 — 用户明确要求左名右分类可见。
+ *   4) 去掉原版 max-width:1500px 隐藏标题/描述的媒体查询 — 用户要求左列：名称（中文+原文两行）+ 分类，同字体、垂直对称。
  *   5) 新增 .im-fallback 网格兜底（无 WebGL2 时）。
  */
 
@@ -30,24 +30,41 @@
   overflow: hidden;
 }
 
-/* Left: name (.face-title) — 用户："左边文字是名称" */
-/* 颜色跟站点主题走：浅色（默认）→ 黑字、深色 → 白字。text-shadow 仅在深色背景增强可读性，浅色上去除避免"白底黑字被灰阴影糊掉"。 */
-.face-title {
-  user-select: none;
+/* 左列容器：名称（中文+原文两行）与分类同处左侧、垂直居中对称。 */
+.im-left-group {
   position: absolute;
-  font-weight: 900;
-  font-size: clamp(1.6rem, 3.6vw, 3.2rem);
   left: 1.6em;
   top: 50%;
-  color: var(--black, #000000);
-  text-shadow: none;
+  transform: translateY(-50%);
+  max-width: 46%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+  z-index: 5;
+}
+
+/* 名称（.face-title）：第一行中文（.name-cn，大、粗），第二行原文（.name-orig，同字体、小一号）。
+   颜色跟站点主题走：浅色（默认）→ 黑字、深色 → 白字。 */
+.face-title {
+  user-select: none;
   margin: 0;
-  max-width: 40%;
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3.4vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  z-index: 5;
-  transform: translate(20%, -50%);
+  color: var(--black, #000000);
+  text-shadow: none;
   transition: opacity .35s ease, transform .35s ease;
+}
+.name-cn { display: block; }
+.name-orig {
+  display: block;
+  margin-top: 0.16em;
+  font-weight: 700;
+  font-size: 0.5em;
+  letter-spacing: 0;
+  opacity: 0.72;
+  line-height: 1.15;
 }
 [data-theme="dark"] .face-title {
   color: var(--black, #f2f2f2);
@@ -55,48 +72,44 @@
 }
 .face-title.active {
   opacity: 1;
-  transform: translate(20%, -50%);
+  transform: translateX(0);
   pointer-events: auto;
   transition: opacity .5s ease, transform .5s ease;
 }
 .face-title.inactive {
   pointer-events: none;
   opacity: 0;
-  transform: translate(20%, -50%);
+  transform: translateX(-14px);
   transition: opacity .15s ease;
 }
 
-/* Right: category (.face-description) — 用户："右边是所属分类" */
-/* specificity 0,2,0 > 站点 [data-theme="dark"] p（0,1,1），避免深色模式下站点 p 规则把"白字红 pill"洗成浅灰 */
+/* 分类（.face-description）：与名称同字体（同族、同字重 900）、同处左侧、垂直对称（位于名称下方）。
+   specificity 0,2,0 > 站点 [data-theme="dark"] p（0,1,1），避免深色模式下站点 p 规则把"白字红 pill"洗成浅灰。 */
 .im-root .face-description {
   user-select: none;
-  position: absolute;
-  max-width: 12ch;
-  top: 50%;
-  right: 1.5em;
-  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
-  font-weight: 600;
+  margin: 0;
+  align-self: flex-start;
+  font-size: clamp(0.95rem, 1.5vw, 1.35rem);
+  font-weight: 900;
   color: #fff;
   background: var(--red, #FF4438);
-  padding: 0.5em 0.9em;
+  padding: 0.45em 0.9em;
   border: 3px solid var(--black, #000);
   border-radius: 999px;
   box-shadow: 4px 4px 0 var(--black, #000);
   text-shadow: none;
-  transform: translate(0, -50%);
-  z-index: 5;
   transition: opacity .35s ease, transform .35s ease;
 }
 .face-description.active {
   opacity: 1;
-  transform: translate(0, -50%);
+  transform: translateX(0);
   pointer-events: auto;
   transition: opacity .5s ease, transform .5s ease;
 }
 .face-description.inactive {
   pointer-events: none;
   opacity: 0;
-  transform: translate(40%, -50%);
+  transform: translateX(40%);
   transition: opacity .15s ease, transform .15s ease;
 }
 
@@ -189,6 +202,13 @@
   padding: 0.6em 0.8em 0.2em;
   line-height: 1.2;
 }
+.im-fallback-orig {
+  display: block;
+  font-weight: 700;
+  font-size: 0.8em;
+  opacity: 0.7;
+  line-height: 1.2;
+}
 .im-fallback-desc {
   font-size: 0.8rem;
   color: #fff;
@@ -209,8 +229,9 @@
 
 /* ───────── 响应式：在窄屏上缩小叠层文字并允许换行 ───────── */
 @media (max-width: 720px) {
-  .face-title { font-size: 1.5rem; max-width: 55%; left: 1em; }
-  .face-description { font-size: 0.85rem; right: 1em; }
+  .im-left-group { left: 1em; max-width: 64%; }
+  .face-title { font-size: 1.5rem; }
+  .face-description { font-size: 0.85rem; }
   .action-button { width: 50px; height: 50px; bottom: 2.5em; }
   .action-button-icon { font-size: 22px; }
 }
