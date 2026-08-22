@@ -1,5 +1,5 @@
-/* HYHY PWA service worker — 离线缓存核心静态资源（U8） */
-const CACHE = 'hyhy-v9';
+/* HYHY PWA service worker — 离线缓存核心静态资源（U10：移动端响应式适配） */
+const CACHE = 'hyhy-v10';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
