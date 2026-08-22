@@ -5,27 +5,31 @@
   // 子页（posts/<slug>/）下相对路径需要回退到站点根
   var P = (/\/posts\//.test(location.pathname)) ? '../../' : '';
 
+  // 每条目含中文(zh)与英文(en)的标题(t)与分类(c)，按当前语言选取
   var INDEX = [
-    { t: '首页', h: 'index.html', c: '导航' },
-    { t: '娱乐合集', h: 'collections.html', c: '导航' },
-    { t: '关于', h: 'about.html', c: '导航' },
-    { t: '项目', h: 'projects.html', c: '导航' },
-    { t: '学习', h: 'study.html', c: '导航' },
-    { t: 'SIX 六位王后', h: 'six.html', c: '音乐剧' },
-    { t: '摇滚红与黑', h: 'red-black.html', c: '音乐剧' },
-    { t: '呼兰河传', h: 'hulanhe.html', c: '文学' },
-    { t: '草房子', h: 'caofangzi.html', c: '文学' },
-    { t: '卡尔维诺短篇小说集', h: 'calvino.html', c: '文学' },
-    { t: 'Friends 老友记', h: 'friends.html', c: '影视' },
-    { t: 'Sherlock 神探夏洛克', h: 'sherlock.html', c: '影视' },
-    { t: '小马宝莉', h: 'mlp.html', c: '影视' },
-    { t: 'IT狂人', h: 'itcrowd.html', c: '影视' }
+    { zh: '首页', en: 'Home', h: 'index.html', zc: '导航', ec: 'Nav' },
+    { zh: '娱乐合集', en: 'Entertainment', h: 'collections.html', zc: '导航', ec: 'Nav' },
+    { zh: '关于', en: 'About', h: 'about.html', zc: '导航', ec: 'Nav' },
+    { zh: '项目', en: 'Projects', h: 'projects.html', zc: '导航', ec: 'Nav' },
+    { zh: '学习', en: 'Study', h: 'study.html', zc: '导航', ec: 'Nav' },
+    { zh: 'SIX 六位王后', en: 'SIX', h: 'six.html', zc: '音乐剧', ec: 'Musical' },
+    { zh: '摇滚红与黑', en: 'Le Rouge et le Noir', h: 'red-black.html', zc: '音乐剧', ec: 'Musical' },
+    { zh: '呼兰河传', en: 'Hulan River', h: 'hulanhe.html', zc: '文学', ec: 'Literature' },
+    { zh: '草房子', en: 'Cao Fangzi', h: 'caofangzi.html', zc: '文学', ec: 'Literature' },
+    { zh: '卡尔维诺短篇小说集', en: 'Calvino Short Stories', h: 'calvino.html', zc: '文学', ec: 'Literature' },
+    { zh: 'Friends 老友记', en: 'Friends', h: 'friends.html', zc: '影视', ec: 'Film & TV' },
+    { zh: 'Sherlock 神探夏洛克', en: 'Sherlock', h: 'sherlock.html', zc: '影视', ec: 'Film & TV' },
+    { zh: '小马宝莉', en: 'My Little Pony', h: 'mlp.html', zc: '影视', ec: 'Film & TV' },
+    { zh: 'IT狂人', en: 'The IT Crowd', h: 'itcrowd.html', zc: '影视', ec: 'Film & TV' }
   ];
+
+  function lang() { return (window.HYHY_GET_LANG && window.HYHY_GET_LANG() === 'en') ? 'en' : 'zh'; }
 
   var currentQ = '';
 
   function matchText(it) {
-    return (it.t + ' ' + (it.c || '') + ' ' + (it.h || '') + ' ' + (it.d || '')).toLowerCase();
+    var L = lang();
+    return ((L === 'en' ? it.en : it.zh) + ' ' + (L === 'en' ? it.ec : it.zc) + ' ' + (it.h || '') + ' ' + (it.d || '')).toLowerCase();
   }
 
   function rerender() { if (currentQ) render(currentQ); }
@@ -38,11 +42,15 @@
       return matchText(it).indexOf(q) >= 0;
     }).slice(0, 10);
     if (!hits.length) {
-      list.innerHTML = '<li><a href="#" tabindex="-1">无匹配结果</a></li>';
+      var noRes = (window.HYHY_I18N && window.HYHY_GET_LANG)
+        ? window.HYHY_I18N[window.HYHY_GET_LANG()].noResults
+        : '无匹配结果';
+      list.innerHTML = '<li><a href="#" tabindex="-1">' + noRes + '</a></li>';
       list.hidden = false; return;
     }
+    var L = lang();
     list.innerHTML = hits.map(function (it) {
-      return '<li><a href="' + it.h + '">' + it.t + '<span class="cat">' + (it.c || '') + '</span></a></li>';
+      return '<li><a href="' + it.h + '">' + (L === 'en' ? it.en : it.zh) + '<span class="cat">' + (L === 'en' ? it.ec : it.zc) + '</span></a></li>';
     }).join('');
     list.hidden = false;
   }
