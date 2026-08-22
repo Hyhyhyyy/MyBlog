@@ -1,10 +1,12 @@
 /* InfiniteMenu — vanilla port styles
  * 基于 React Bits 原版（DavidHDev/react-bits, MIT）
  * 关键调整：
- *   1) 文字叠层在黑底 disc 上用白字 + 阴影（无论站点明暗主题，disc 始终黑）
- *   2) action-button 改为站点番茄色（--red），描边用 --black
- *   3) 去掉原版 max-width:1500px 隐藏标题/描述的媒体查询 — 用户明确要求左名右分类可见
- *   4) 新增 .im-fallback 网格兜底（无 WebGL2 时）
+ *   1) disc 背景随站点主题自适应：浅色→白（var(--white)=#fff）、深色→#181818（var(--white)=#181818）。
+ *      canvas 在 JS 里开启 alpha:true，clearColor 透明，明色 1,1,1,0 / 暗色 0,0,0,0；下面的 .im-root 颜色透出。
+ *   2) disc 中央标题（face-title）色也跟随主题走：浅色→黑、深色→白。
+ *   3) action-button 保持站点番茄色（--red），描边用 --black，与页面其它卡片一致（明暗双轨已写在 var 里）。
+ *   4) 去掉原版 max-width:1500px 隐藏标题/描述的媒体查询 — 用户明确要求左名右分类可见。
+ *   5) 新增 .im-fallback 网格兜底（无 WebGL2 时）。
  */
 
 #infinite-grid-menu-canvas {
@@ -19,15 +21,17 @@
 #infinite-grid-menu-canvas:active { cursor: grabbing; }
 
 /* Root container created by window.InfiniteMenu(rootEl, ...) */
+/* canvas 在 JS 里 alpha:true + 透明 clearColor → 完全透出这里的背景色 */
 .im-root {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: var(--white, #ffffff);
   overflow: hidden;
 }
 
 /* Left: name (.face-title) — 用户："左边文字是名称" */
+/* 颜色跟站点主题走：浅色（默认）→ 黑字、深色 → 白字。text-shadow 仅在深色背景增强可读性，浅色上去除避免"白底黑字被灰阴影糊掉"。 */
 .face-title {
   user-select: none;
   position: absolute;
@@ -35,8 +39,8 @@
   font-size: clamp(1.6rem, 3.6vw, 3.2rem);
   left: 1.6em;
   top: 50%;
-  color: #fff;
-  text-shadow: 0 2px 16px rgba(0,0,0,.55), 0 0 2px rgba(0,0,0,.8);
+  color: var(--black, #000000);
+  text-shadow: none;
   margin: 0;
   max-width: 40%;
   line-height: 1.1;
@@ -44,6 +48,10 @@
   z-index: 5;
   transform: translate(20%, -50%);
   transition: opacity .35s ease, transform .35s ease;
+}
+[data-theme="dark"] .face-title {
+  color: var(--black, #f2f2f2);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .55), 0 0 2px rgba(0, 0, 0, .8);
 }
 .face-title.active {
   opacity: 1;
@@ -59,7 +67,8 @@
 }
 
 /* Right: category (.face-description) — 用户："右边是所属分类" */
-.face-description {
+/* specificity 0,2,0 > 站点 [data-theme="dark"] p（0,1,1），避免深色模式下站点 p 规则把"白字红 pill"洗成浅灰 */
+.im-root .face-description {
   user-select: none;
   position: absolute;
   max-width: 12ch;
