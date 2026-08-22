@@ -96,27 +96,37 @@
       setupMarquee();
     }
 
-    link.addEventListener('mouseenter', function (ev) {
-      var rect = el.getBoundingClientRect();
-      var x = ev.clientX - rect.left, y = ev.clientY - rect.top;
-      var edge = findClosestEdge(x, y, rect.width, rect.height);
+    function animateIn(edge) {
       var mFrom = edge === 'top' ? -100 : 100;   // 遮罩从最近边的反方向滑入
       var iFrom = edge === 'top' ? 100 : -100;
       gsap.timeline({ defaults: { duration: 0.6, ease: 'expo' } })
         .set(marquee, { yPercent: mFrom }, 0)
         .set(inner, { yPercent: iFrom }, 0)
         .to([marquee, inner], { yPercent: 0 }, 0);
-    });
-
-    link.addEventListener('mouseleave', function (ev) {
-      var rect = el.getBoundingClientRect();
-      var x = ev.clientX - rect.left, y = ev.clientY - rect.top;
-      var edge = findClosestEdge(x, y, rect.width, rect.height);
+    }
+    function animateOut(edge) {
       var mTo = edge === 'top' ? -100 : 100;     // 离开时朝最近边滑出
       var iTo = edge === 'top' ? 100 : -100;
       gsap.timeline({ defaults: { duration: 0.6, ease: 'expo' } })
         .to(marquee, { yPercent: mTo }, 0)
         .to(inner, { yPercent: iTo }, 0);
+    }
+    function edgeFromEvent(ev) {
+      var rect = el.getBoundingClientRect();
+      return findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
+    }
+
+    link.addEventListener('mouseenter', function (ev) { animateIn(edgeFromEvent(ev)); });
+    link.addEventListener('mouseleave', function (ev) { animateOut(edgeFromEvent(ev)); });
+
+    /* 触屏 / 键盘：无 hover，靠 focus 与点击切换跑马灯，保证手机端也能看到流动效果 */
+    link.addEventListener('focus', function () { animateIn('top'); });
+    link.addEventListener('blur', function () { animateOut('top'); });
+    var revealed = false;
+    link.addEventListener('click', function (ev) {
+      if (link.getAttribute('href') === '#') ev.preventDefault();  // 占位链接不跳页
+      revealed = !revealed;
+      if (revealed) animateIn('top'); else animateOut('top');
     });
 
     var rt;
