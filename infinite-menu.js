@@ -768,6 +768,13 @@
       var title = document.createElement('span');
       title.className = 'im-fallback-title';
       title.textContent = it.title || '';
+      if (it.original) {
+        title.appendChild(document.createElement('br'));
+        var orig = document.createElement('span');
+        orig.className = 'im-fallback-orig';
+        orig.textContent = it.original;
+        title.appendChild(orig);
+      }
       var desc = document.createElement('span');
       desc.className = 'im-fallback-desc';
       desc.textContent = it.description || '';
@@ -801,15 +808,26 @@
     canvas.id = 'infinite-grid-menu-canvas';
     rootEl.appendChild(canvas);
 
+    // 名称：第一行中文（.name-cn）、第二行原文（.name-orig），同属一个 .face-title
     var titleEl = document.createElement('h2');
     titleEl.className = 'face-title inactive';
-    titleEl.setAttribute('data-side', 'left');
-    rootEl.appendChild(titleEl);
+    var nameCn = document.createElement('span');
+    nameCn.className = 'name-cn';
+    var nameOrig = document.createElement('span');
+    nameOrig.className = 'name-orig';
+    titleEl.appendChild(nameCn);
+    titleEl.appendChild(nameOrig);
 
+    // 分类：与名称同处左侧、同字体、垂直对称
     var descEl = document.createElement('p');
     descEl.className = 'face-description inactive';
-    descEl.setAttribute('data-side', 'right');
-    rootEl.appendChild(descEl);
+
+    // 左列容器：把名称与分类包在一起，统一在左侧垂直居中对称
+    var leftGroup = document.createElement('div');
+    leftGroup.className = 'im-left-group';
+    leftGroup.appendChild(titleEl);
+    leftGroup.appendChild(descEl);
+    rootEl.appendChild(leftGroup);
 
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -827,7 +845,8 @@
     function applyActive(it) {
       activeItem = it;
       if (it) {
-        titleEl.textContent = it.title || '';
+        nameCn.textContent = it.title || '';
+        nameOrig.textContent = it.original || '';
         descEl.textContent = it.description || '';
       }
     }
