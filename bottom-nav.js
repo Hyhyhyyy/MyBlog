@@ -1,5 +1,7 @@
 /* bottom-nav.js — 注入底部对称玻璃导航栏 + 主题/语言切换 + i18n
-   依赖：bottom-nav.css。设计为对每个页面零侵入（自动 append 到 body）。 */
+   依赖：bottom-nav.css。设计为对每个页面零侵入（自动 append 到 body）。
+   英文模式（EN）严谨翻译：导航链接、主题/语言/光标/声音按钮及全部 aria 标签；
+   浏览器标签标题在两种语言下始终为 "Hyhyhyyy"（与站点统一标题要求一致）。 */
 (function () {
   if (document.getElementById('hyhy-bottom-nav')) return;
   var ROOT = document.documentElement;
@@ -12,88 +14,57 @@
       skipLink: '跳到主内容',
       themeDark: '深色',
       themeLight: '浅色',
+      themeAria: '切换深浅模式',
       langOther: 'EN',
-      titles: {
-        '404.html': '404 / 页面走丢了 — Hyhyhyyy',
-        'about.html': 'ABOUT / 关于 — Hyhyhyyy',
-        'calvino.html': '卡尔维诺短篇小说集 | 娱乐合集',
-        'caofangzi.html': '草房子 · 曹文轩 | 娱乐合集',
-        'collections.html': 'ENTERTAINMENT / 娱乐合集 — Hyhyhyyy',
-        'friends.html': 'Friends — 老友记 | Hyhyhyyy 娱乐合集',
-        'hamilton.html': '汉密尔顿 · 音乐剧 HAMILTON — 娱乐合集',
-        'hulanhe.html': '呼兰河传 · 萧红 | 娱乐合集',
-        'index.html': 'Hyhyhyyy — Neo-Brutalist Prototype',
-        'itcrowd.html': 'The IT Crowd — IT狂人 | Hyhyhyyy 娱乐合集',
-        'legally-blonde.html': '律政俏佳人 · 音乐剧 LEGALLY BLONDE — 娱乐合集',
-        'mlp.html': 'My Little Pony: Friendship Is Magic — 小马宝莉 | Hyhyhyyy 娱乐合集',
-        'projects.html': '项目 / PROJECTS — Hyhyhyyy',
-        'red-black.html': '摇滚红与黑 — Le Rouge et le Noir | Hyhyhyyy 娱乐合集',
-        'sherlock.html': 'Sherlock — 神探夏洛克 | Hyhyhyyy 娱乐合集',
-        'six.html': 'SIX — 六位王后 | Hyhyhyyy 娱乐合集',
-        'study.html': 'STUDY / 学习 — Hyhyhyyy',
-        'woyu-ditan.html': '我与地坛 · 史铁生 — 娱乐合集'
-      },
+      langAria: '切换语言',
+      cursorOn: '光标: 开',
+      cursorOff: '光标: 关',
+      cursorAria: '切换自定义鼠标指针',
+      soundOnAria: '关闭背景视频声音',
+      soundOffAria: '开启背景视频声音',
       headings: {
         '404.html': '页面走丢了',
         'calvino.html': '卡尔维诺短篇小说集',
         'caofangzi.html': '草房子',
         'friends.html': 'Friends',
-        'hamilton.html': 'HAMILTON',
         'hulanhe.html': '呼兰河传',
         'itcrowd.html': 'The IT Crowd',
-        'legally-blonde.html': 'LEGALLY BLONDE',
         'mlp.html': 'My Little Pony: Friendship Is Magic',
         'red-black.html': '摇滚红与黑',
         'sherlock.html': 'SHERLOCK',
-        'six.html': 'SIX',
-        'woyu-ditan.html': '我与地坛'
+        'six.html': 'SIX'
       }
     },
     en: {
       skipLink: 'Skip to main content',
       themeDark: 'Dark',
       themeLight: 'Light',
+      themeAria: 'Toggle theme',
       langOther: '中',
-      titles: {
-        '404.html': '404 / Page Lost — Hyhyhyyy',
-        'about.html': 'ABOUT — Hyhyhyyy',
-        'calvino.html': 'Calvino Short Stories | Collection',
-        'caofangzi.html': 'Cao Fangzi · Cao Wenxuan | Collection',
-        'collections.html': 'ENTERTAINMENT / Collection — Hyhyhyyy',
-        'friends.html': 'Friends — Collection | Hyhyhyyy',
-        'hamilton.html': 'Hamilton · Musical — Collection | Hyhyhyyy',
-        'hulanhe.html': 'Hulan River · Xiao Hong | Collection',
-        'index.html': 'Hyhyhyyy — Neo-Brutalist Prototype',
-        'itcrowd.html': 'The IT Crowd — Collection | Hyhyhyyy',
-        'legally-blonde.html': 'Legally Blonde · Musical — Collection | Hyhyhyyy',
-        'mlp.html': 'My Little Pony: Friendship Is Magic — Collection | Hyhyhyyy',
-        'projects.html': 'PROJECTS — Hyhyhyyy',
-        'red-black.html': 'Le Rouge et le Noir — Collection | Hyhyhyyy',
-        'sherlock.html': 'Sherlock — Collection | Hyhyhyyy',
-        'six.html': 'SIX — Six Queens | Hyhyhyyy',
-        'study.html': 'STUDY — Hyhyhyyy',
-        'woyu-ditan.html': 'Me and the Altar of Earth · Shi Tiesheng — Collection'
-      },
+      langAria: 'Switch language',
+      cursorOn: 'Cursor: On',
+      cursorOff: 'Cursor: Off',
+      cursorAria: 'Toggle custom cursor',
+      soundOnAria: 'Turn off background video sound',
+      soundOffAria: 'Turn on background video sound',
       headings: {
         '404.html': 'Page Lost',
         'calvino.html': 'Calvino Short Stories',
         'caofangzi.html': 'Cao Fangzi',
         'friends.html': 'Friends',
-        'hamilton.html': 'HAMILTON',
         'hulanhe.html': 'Hulan River',
         'itcrowd.html': 'The IT Crowd',
-        'legally-blonde.html': 'LEGALLY BLONDE',
         'mlp.html': 'My Little Pony: Friendship Is Magic',
         'red-black.html': 'Le Rouge et le Noir',
         'sherlock.html': 'SHERLOCK',
-        'six.html': 'SIX',
-        'woyu-ditan.html': 'Me and the Altar of Earth'
+        'six.html': 'SIX'
       }
     }
   };
 
   function getLang() { try { return localStorage.getItem('hyhy_lang') || 'zh'; } catch (e) { return 'zh'; } }
   function setLang(v) { try { localStorage.setItem('hyhy_lang', v); } catch (e) {} }
+  function pack() { return I18N[getLang()]; }
 
   function applyTheme() {
     var d; try { d = localStorage.getItem('hyhy_theme') === 'dark'; } catch (e) { d = false; }
@@ -112,16 +83,16 @@
   var prefix = depth > 0 ? new Array(depth + 1).join('../') : '';
 
   var NAV_LINKS = [
-    { key: 'index.html', href: 'index.html', label: '首页' },
-    { key: 'study.html', href: 'study.html', label: '学习' },
-    { key: 'projects.html', href: 'projects.html', label: '项目' },
-    { key: 'collections.html', href: 'collections.html', label: '娱乐' },
-    { key: 'about.html', href: 'about.html', label: '关于' }
+    { key: 'index.html', href: 'index.html', zh: '首页', en: 'Home' },
+    { key: 'study.html', href: 'study.html', zh: '学习', en: 'Study' },
+    { key: 'projects.html', href: 'projects.html', zh: '项目', en: 'Projects' },
+    { key: 'collections.html', href: 'collections.html', zh: '娱乐', en: 'Entertainment' },
+    { key: 'about.html', href: 'about.html', zh: '关于', en: 'About' }
   ];
   var linksHtml = '<nav class="bn-links" aria-label="站内导航">';
   NAV_LINKS.forEach(function (it) {
     var active = (segs[segs.length - 1] === it.key) ? ' aria-current="page"' : '';
-    linksHtml += '<a class="bn-link" href="' + prefix + it.href + '"' + active + '>' + it.label + '</a>';
+    linksHtml += '<a class="bn-link" href="' + prefix + it.href + '"' + active + '>' + it.zh + '</a>';
   });
   linksHtml += '</nav>';
 
@@ -141,14 +112,40 @@
   var langBtn = nav.querySelector('.bn-lang');
   var soundBtn = nav.querySelector('.bn-sound');
   var cursorBtn = nav.querySelector('.bn-cursor');
+  var linkEls = nav.querySelectorAll('.bn-link');
 
   function refreshThemeBtn() {
-    var lang = getLang();
-    var pack = I18N[lang];
+    var p = pack();
     var dark = ROOT.getAttribute('data-theme') === 'dark';
-    themeBtn.textContent = dark ? pack.themeLight : pack.themeDark;
+    themeBtn.textContent = dark ? p.themeLight : p.themeDark;
     themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    themeBtn.setAttribute('aria-label', p.themeAria);
   }
+
+  function applyLang() {
+    var p = pack();
+    var lang = getLang();
+    // 浏览器标签标题在两种语言下始终为站点名（与“网页名称只叫 Hyhyhyyy”一致）
+    document.title = 'Hyhyhyyy';
+    var h1 = document.querySelector('h1');
+    if (h1 && p.headings[PAGE]) h1.textContent = p.headings[PAGE];
+    var sk = document.querySelector('.skip-link');
+    if (sk) sk.textContent = p.skipLink;
+    langBtn.textContent = p.langOther;
+    langBtn.setAttribute('aria-label', p.langAria);
+    // 导航链接文案随语言切换
+    for (var i = 0; i < linkEls.length && i < NAV_LINKS.length; i++) {
+      linkEls[i].textContent = lang === 'en' ? NAV_LINKS[i].en : NAV_LINKS[i].zh;
+    }
+    syncCursorLabel();
+    refreshSoundAria();
+    refreshThemeBtn();
+  }
+
+  langBtn.addEventListener('click', function () {
+    setLang(getLang() === 'zh' ? 'en' : 'zh');
+    applyLang();
+  });
 
   themeBtn.addEventListener('click', function () {
     var d = ROOT.getAttribute('data-theme') !== 'dark';
@@ -158,27 +155,33 @@
     refreshThemeBtn();
   });
 
-  function applyLang() {
-    var lang = getLang();
-    var pack = I18N[lang];
-    if (pack.titles[PAGE]) document.title = pack.titles[PAGE];
-    var h1 = document.querySelector('h1');
-    if (h1 && pack.headings[PAGE]) h1.textContent = pack.headings[PAGE];
-    var sk = document.querySelector('.skip-link');
-    if (sk) sk.textContent = pack.skipLink;
-    langBtn.textContent = pack.langOther;
-    refreshThemeBtn();
+  /* ---- 自定义光标开关（记忆偏好，点击后重载以应用） ---- */
+  var cursorOff = false;
+  try { cursorOff = localStorage.getItem('hyhy_cursor_off') === '1'; } catch (e) {}
+  function syncCursorLabel() {
+    var p = pack();
+    cursorBtn.textContent = cursorOff ? p.cursorOff : p.cursorOn;
+    cursorBtn.setAttribute('aria-pressed', cursorOff ? 'true' : 'false');
+    cursorBtn.setAttribute('aria-label', p.cursorAria);
   }
-
-  langBtn.addEventListener('click', function () {
-    setLang(getLang() === 'zh' ? 'en' : 'zh');
-    applyLang();
+  cursorBtn.addEventListener('click', function () {
+    cursorOff = !cursorOff;
+    try { localStorage.setItem('hyhy_cursor_off', cursorOff ? '1' : '0'); } catch (e) {}
+    syncCursorLabel();
+    location.reload();
   });
 
   /* ---- 背景视频声音开关（仅首页 #bg-video 存在时显示并生效） ---- */
+  var bgVideo = null;
+  function refreshSoundAria() {
+    if (!bgVideo || !soundBtn || soundBtn.hidden) return;
+    var p = pack();
+    soundBtn.setAttribute('aria-label', bgVideo.muted ? p.soundOffAria : p.soundOnAria);
+  }
   (function initSound() {
     var v = document.getElementById('bg-video');
     if (!v) { if (soundBtn) soundBtn.hidden = true; return; }
+    bgVideo = v;
     if (soundBtn) soundBtn.hidden = false;
     var saved = null;
     try { saved = localStorage.getItem('hyhy_bg_sound'); } catch (e) {}
@@ -188,7 +191,7 @@
     function applyIcon() {
       soundBtn.textContent = v.muted ? '🔇' : '🔊';
       soundBtn.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
-      soundBtn.setAttribute('aria-label', v.muted ? '开启背景视频声音' : '关闭背景视频声音');
+      refreshSoundAria();
     }
     function startMuted() {
       var p = v.play();
@@ -226,24 +229,6 @@
       if (p && typeof p.catch === 'function') p.catch(function () {});
     });
     applyIcon();
-  })();
-
-  /* ---- 自定义光标开关（记忆偏好，点击后重载以应用） ---- */
-  (function initCursor() {
-    if (!cursorBtn) return;
-    var off = false;
-    try { off = localStorage.getItem('hyhy_cursor_off') === '1'; } catch (e) {}
-    function sync() {
-      cursorBtn.textContent = off ? '光标: 关' : '光标: 开';
-      cursorBtn.setAttribute('aria-pressed', off ? 'true' : 'false');
-    }
-    sync();
-    cursorBtn.addEventListener('click', function () {
-      off = !off;
-      try { localStorage.setItem('hyhy_cursor_off', off ? '1' : '0'); } catch (e) {}
-      sync();
-      location.reload();
-    });
   })();
 
   // boot
