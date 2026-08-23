@@ -88,6 +88,19 @@
   border:2px solid rgba(0,0,0,.25);
   /* backgroundImage = 番茄系渐变（由 JS 注入，免外网请求） */
 }
+/* 动态文字块（取代渐变矩形）：用于「HY / BNDS&DUT / COMMUNICATION&COOPERATION」等。
+   颜色继承 .marquee__part 的 marqueeText（黑底白字场景即白字）。 */
+.marquee__img--text{
+  width:auto; height:auto; min-width:160px;
+  margin:0 2vw; padding:0 1.4vw;
+  border:none; border-radius:0; background:none; background-image:none;
+  display:flex; align-items:center; justify-content:center;
+  color:inherit;
+  font-family:var(--heavy); font-weight:900;
+  font-size:clamp(26px,4.4vh,46px);
+  letter-spacing:-.01em; text-transform:uppercase;
+  line-height:1; white-space:nowrap;
+}
 
 /* 动效降级：尊重系统“减弱动态”偏好 */
 @media(prefers-reduced-motion:reduce){
