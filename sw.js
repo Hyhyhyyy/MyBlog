@@ -1,5 +1,5 @@
-/* HYHY PWA service worker — 离线缓存核心静态资源（U16：HTML 导航请求改 network-first，避免 SW 缓存挡住页面更新） */
-const CACHE = 'hyhy-v16';
+/* HYHY PWA service worker — 离线缓存核心静态资源（U17：about 页 TextPressure 字体换完整可变子集 + 标题放大 2 倍） */
+const CACHE = 'hyhy-v17';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
