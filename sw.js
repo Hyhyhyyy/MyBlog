@@ -1,5 +1,5 @@
-/* HYHY PWA service worker — 离线缓存核心静态资源（U12：首页英文模式翻译搜索框/结果/描述） */
-const CACHE = 'hyhy-v12';
+/* HYHY PWA service worker — 离线缓存核心静态资源（U13：娱乐封面改圆形 cover） */
+const CACHE = 'hyhy-v13';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
