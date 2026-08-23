@@ -71,19 +71,19 @@ a{color:inherit;text-decoration:none}
 @media(min-width:768px){ .logo{font-size:26px} }
 .logo img{height:34px;width:auto;display:block}
 @media(min-width:768px){ .logo img{height:42px} }
-/* 品牌副标题：从首页绝对定位挪进导航最左侧，与 logo 并排。
+/* 品牌副标题（首页 navbar 内番茄右侧标签，沿用 logo 字体保持视觉统一）。
    颜色用 var(--black)：浅色模式（默认）→ 黑字；深色模式（[data-theme=dark] 下 --black 翻为 #f2f2f2）→ 浅字，无需单独写深色规则。 */
 .brand-label{
-  font-family:var(--mono);
-  font-size:11px;font-weight:700;letter-spacing:.14em;
-  text-transform:uppercase;
+  font-family:var(--heavy);
+  font-weight:900;
+  letter-spacing:-.02em;
+  font-size:20px;
   color:var(--black, #000);
   text-shadow:none;
   white-space:nowrap;
   user-select:none;
 }
-@media(min-width:768px){ .brand-label{font-size:12px} }
-@media(max-width:640px){ .brand-label{display:none} }
+@media(min-width:768px){ .brand-label{font-size:26px} }
 .nav-links{display:flex;gap:16px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 @media(min-width:768px){ .nav-links{gap:28px;font-size:14px} }
 /* 仅作用于直接链接（旧静态导航）；GooeyNav 的嵌套链接由其自身样式接管 */
