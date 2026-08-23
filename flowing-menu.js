@@ -64,8 +64,14 @@
         span.textContent = item.text;
         var img = document.createElement('div');
         img.className = 'marquee__img';
-        img.style.backgroundImage =
-          'linear-gradient(135deg,' + item.imgA + ',' + item.imgB + ')';
+        if (item.imgText) {
+          // 动态文字块：用文字（如 HY）取代原渐变长方形色块的位置
+          img.classList.add('marquee__img--text');
+          img.textContent = item.imgText;
+        } else {
+          img.style.backgroundImage =
+            'linear-gradient(135deg,' + item.imgA + ',' + item.imgB + ')';
+        }
         part.appendChild(span);
         part.appendChild(img);
         inner.appendChild(part);
