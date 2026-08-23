@@ -1,5 +1,5 @@
-/* HYHY PWA service worker — 离线缓存核心静态资源（U15：about 页流动菜单改黑白 + 双 TextPressure 标题） */
-const CACHE = 'hyhy-v15';
+/* HYHY PWA service worker — 离线缓存核心静态资源（U16：HTML 导航请求改 network-first，避免 SW 缓存挡住页面更新） */
+const CACHE = 'hyhy-v16';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
@@ -31,6 +31,28 @@ self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
   var url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
+
+  // HTML 文档（navigation 请求）：network-first
+  // 保证每次刷新都去网络拿最新页面，不再被旧 SW 缓存的 HTML 卡住；
+  // 网络成功则更新缓存，失败才降级到缓存/首页。
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(function (resp) {
+        if (resp && resp.status === 200 && resp.type === 'basic') {
+          var copy = resp.clone();
+          caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+        }
+        return resp;
+      }).catch(function () {
+        return caches.match(e.request).then(function (hit) {
+          return hit || caches.match('index.html');
+        });
+      })
+    );
+    return;
+  }
+
+  // 其余静态资源：cache-first（性能优先，资源变化靠 CACHE 版本号 bump 处理）
   e.respondWith(
     caches.match(e.request).then(function (cached) {
       if (cached) return cached;
