@@ -135,9 +135,24 @@
   <!-- hyhy-sw -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').catch(function () {});
-      });
+      if (location.search.indexOf('nocache') !== -1) {
+        // 调试开关：清除本作用域所有 Service Worker 并去掉参数重载，确保看到最新资源
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }).then(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        }).catch(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        });
+      } else {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        });
+      }
     }
   </script>
 
