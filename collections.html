@@ -112,14 +112,26 @@
   <script defer src="gl-matrix.min.js"></script>
   <script defer src="infinite-menu.js"></script>
   <script src="gooey-nav.js"></script>
-  <script defer src="collections.js"></script>
-
-  <!-- hyhy-sw -->
+  <script defer src="collections.js"></script>  <!-- hyhy-sw -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').catch(function () {});
-      });
+      if (location.search.indexOf('nocache') !== -1) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }).then(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        }).catch(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        });
+      } else {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        });
+      }
     }
   </script>
 
