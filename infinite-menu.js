@@ -575,9 +575,10 @@
         });
       })
     ).then(function (images) {
-      // 将每张图以 "contain" 方式居中绘制到 512×512 cell（保留原始宽高比），
-      // 留出的黑边与 disc 自身的黑底融合 → 3:2 封面不会被拉伸成方形。
-      // 原版假设源图就是 1:1；本博客合集封面是 3:2 JPG，故做这一处适配。
+      // 将每张图以 "cover" 方式居中裁切、铺满 512×512 cell（填满方形）。
+      // 展示框是圆形 disc 几何（UV 圆心映射到 cell 中心、半径 0.5），
+      // 圆形几何会把方形裁成圆 → 封面即呈圆形、正好填满展示框，无黑边。
+      // 原版假设源图 1:1；本博客合集封面是 3:2 JPG，用 cover 居中裁切即可适配。
       images.forEach(function (img, i) {
         var x = (i % self.atlasSize) * cellSize;
         var y = Math.floor(i / self.atlasSize) * cellSize;
@@ -585,7 +586,7 @@
         var iw = img.naturalWidth || img.width;
         var ih = img.naturalHeight || img.height;
         if (!iw || !ih) { ctx.drawImage(img, x, y, cellSize, cellSize); return; }
-        var fit = Math.min(cellSize / iw, cellSize / ih);
+        var fit = Math.max(cellSize / iw, cellSize / ih);
         var dw = iw * fit, dh = ih * fit;
         var dx = x + (cellSize - dw) / 2;
         var dy = y + (cellSize - dh) / 2;
