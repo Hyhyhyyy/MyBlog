@@ -385,14 +385,26 @@
     <section style="text-align:center; margin-top:80px;">
       <a class="btn" href="collections.html">← 返回娱乐合集</a>
     </section>
-  </div>
-
-  <!-- hyhy-sw -->
+  </div>  <!-- hyhy-sw -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').catch(function () {});
-      });
+      if (location.search.indexOf('nocache') !== -1) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }).then(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        }).catch(function () {
+          var u = new URL(location.href);
+          u.searchParams.delete('nocache');
+          location.replace(u.toString());
+        });
+      } else {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        });
+      }
     }
   </script>
   <script src="search.js"></script>
