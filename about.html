@@ -69,9 +69,14 @@
       <div id="text-pressure"></div>
     </section>
 
-    <!-- 番茄流动菜单（FlowingMenu 原生移植） -->
+    <!-- 黑白流动菜单（FlowingMenu 原生移植）：静态白底黑字，动态黑底白字 -->
     <section class="flowing-section">
       <div id="flowing-menu"></div>
+    </section>
+
+    <!-- 与顶部 HELLO! 对称的底部标题（同样的 TextPressure 交互效果） -->
+    <section class="tp-section">
+      <div id="text-pressure-2"></div>
     </section>
 
   </main>
@@ -84,38 +89,42 @@
   <script src="text-pressure.js"></script>
   <script src="flowing-menu.js"></script>
   <script>
-    // TextPressure 标题：白色 Hello!，鼠标靠近字符时字重/字宽/斜体随距离变化
+    // TextPressure 标题：白色文字，鼠标靠近字符时字重/字宽/斜体随距离变化
     (function () {
       'use strict';
-      var tp = document.getElementById('text-pressure');
-      if (tp && typeof window.TextPressureInit === 'function') {
-        window.TextPressureInit(tp, {
-          text: 'Hello!',
-          flex: true,
-          alpha: false,
-          stroke: false,
-          width: true,
-          weight: true,
-          italic: true,
-          textColor: '#000000',
-          minFontSize: 36
-        });
+      function initTP(id, text) {
+        var tp = document.getElementById(id);
+        if (tp && typeof window.TextPressureInit === 'function') {
+          window.TextPressureInit(tp, {
+            text: text,
+            flex: true,
+            alpha: false,
+            stroke: false,
+            width: true,
+            weight: true,
+            italic: true,
+            textColor: '#000000',
+            minFontSize: 36
+          });
+        }
       }
+      initTP('text-pressure', 'HELLO! NICE TO MEET YOU!');
+      initTP('text-pressure-2', 'WELCOME TO MY BLOG!');
     })();
 
-    // 番茄流动菜单：四行各一个番茄系配色，文字先占位，效果优先
+    // 黑白流动菜单：静态白底黑字（shade=黑，控制静止文字/边框与动态黑底）；
+    // 动态黑底白字（marqueeText=白）。imgText 取代原渐变长方形色块位置显示文字。
     (function () {
       'use strict';
-      var tomatoItems = [
-        { text: '番茄宣言', link: '#', shade: '#FF6347', marqueeText: '#1a1a1a', imgA: '#FF8A65', imgB: '#E53935' },
-        { text: '珊瑚漫游', link: '#', shade: '#FF7F50', marqueeText: '#1a1a1a', imgA: '#FFB74D', imgB: '#F4511E' },
-        { text: '深红档案', link: '#', shade: '#DC143C', marqueeText: '#ffffff', imgA: '#FF5252', imgB: '#B71C1C' },
-        { text: '鲑鱼物语', link: '#', shade: '#FA8072', marqueeText: '#1a1a1a', imgA: '#FFAB91', imgB: '#E64A19' }
+      var aboutItems = [
+        { text: 'I AM',    link: '#', shade: '#000000', marqueeText: '#ffffff', imgText: 'HY' },
+        { text: "I'M FROM", link: '#', shade: '#000000', marqueeText: '#ffffff', imgText: 'BNDS&DUT' },
+        { text: 'I LIKE',  link: '#', shade: '#000000', marqueeText: '#ffffff', imgText: 'COMMUNICATION&COOPERATION' }
       ];
       function bootMenu() {
         var box = document.getElementById('flowing-menu');
         if (!box || typeof window.FlowingMenuInit !== 'function') return;
-        window.FlowingMenuInit(box, tomatoItems, { speed: 14 });
+        window.FlowingMenuInit(box, aboutItems, { speed: 14 });
       }
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', bootMenu);
