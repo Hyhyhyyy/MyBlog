@@ -1,5 +1,5 @@
-/* HYHY PWA service worker — 离线缓存核心静态资源（U14：全站品牌统一为「番茄头像 + Hyhyhyyy」） */
-const CACHE = 'hyhy-v14';
+/* HYHY PWA service worker — 离线缓存核心静态资源（U15：about 页流动菜单改黑白 + 双 TextPressure 标题） */
+const CACHE = 'hyhy-v15';
 const CORE = [
   'index.html', 'collections.html', 'about.html', 'projects.html', 'study.html',
   'six.html', 'red-black.html', 'hulanhe.html', 'caofangzi.html', 'calvino.html',
