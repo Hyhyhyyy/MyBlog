@@ -183,6 +183,48 @@
         </div>
       </section>
 
+      <!-- ⑤ 计算器 -->
+      <section class="scroll-stack-card">
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 05</p>
+            <h2 class="scroll-stack-card__title">计算器</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
+        <p class="scroll-stack-card__desc">支持加减乘除、括号、取模与小数；可键盘输入（先点一下计算器区域）。本地即时计算，不上传任何内容。</p>
+        <div class="calc" id="calc" tabindex="0">
+          <div class="calc-screen">
+            <div class="calc-expr" id="calc-expr">0</div>
+            <div class="calc-result" id="calc-result">0</div>
+          </div>
+          <div class="calc-keys">
+            <button class="calc-key calc-fn" data-k="C">C</button>
+            <button class="calc-key calc-fn" data-k="⌫">⌫</button>
+            <button class="calc-key" data-k="(">(</button>
+            <button class="calc-key" data-k=")">)</button>
+            <button class="calc-key calc-op" data-k="/">÷</button>
+            <button class="calc-key" data-k="7">7</button>
+            <button class="calc-key" data-k="8">8</button>
+            <button class="calc-key" data-k="9">9</button>
+            <button class="calc-key calc-op" data-k="*">×</button>
+            <button class="calc-key" data-k="4">4</button>
+            <button class="calc-key" data-k="5">5</button>
+            <button class="calc-key" data-k="6">6</button>
+            <button class="calc-key calc-op" data-k="-">−</button>
+            <button class="calc-key" data-k="1">1</button>
+            <button class="calc-key" data-k="2">2</button>
+            <button class="calc-key" data-k="3">3</button>
+            <button class="calc-key calc-op" data-k="+">+</button>
+            <button class="calc-key" data-k="0">0</button>
+            <button class="calc-key" data-k=".">.</button>
+            <button class="calc-key calc-op" data-k="%">%</button>
+            <button class="calc-key calc-eq" data-k="=">=</button>
+          </div>
+        </div>
+      </section>
+
       <div class="scroll-stack-end"></div>
     </div>
   </div>
@@ -483,6 +525,112 @@
       });
       document.getElementById('wc-clear').addEventListener('click', function () { input.value = ''; render(); });
       render();
+    })();
+
+    // ===================== 工具 05：计算器 =====================
+    (function () {
+      var exprEl = document.getElementById('calc-expr');
+      var resEl = document.getElementById('calc-result');
+      var calcEl = document.getElementById('calc');
+      var expr = '';
+
+      // —— 安全表达式求值（递归下降，不用 eval）——
+      function tokenize(s) {
+        var tokens = [], i = 0;
+        while (i < s.length) {
+          var c = s[i];
+          if (c === ' ') { i++; continue; }
+          if (/[0-9.]/.test(c)) {
+            var num = '';
+            while (i < s.length && /[0-9.]/.test(s[i])) { num += s[i]; i++; }
+            tokens.push({ t: 'num', v: parseFloat(num) });
+            continue;
+          }
+          if ('+-*/%()'.indexOf(c) !== -1) { tokens.push({ t: 'op', v: c }); i++; continue; }
+          throw new Error('非法字符: ' + c);
+        }
+        return tokens;
+      }
+      function parse(tokens) {
+        var pos = 0;
+        function peek() { return tokens[pos]; }
+        function next() { return tokens[pos++]; }
+        function exprP() {
+          var v = termP();
+          while (peek() && peek().t === 'op' && (peek().v === '+' || peek().v === '-')) {
+            var op = next().v, r = termP();
+            v = op === '+' ? v + r : v - r;
+          }
+          return v;
+        }
+        function termP() {
+          var v = factorP();
+          while (peek() && peek().t === 'op' && (peek().v === '*' || peek().v === '/' || peek().v === '%')) {
+            var op = next().v, r = factorP();
+            if (op === '*') v = v * r;
+            else if (op === '/') { if (r === 0) throw new Error('除以零'); v = v / r; }
+            else v = v % r;
+          }
+          return v;
+        }
+        function factorP() {
+          var tk = peek();
+          if (!tk) throw new Error('表达式不完整');
+          if (tk.t === 'op' && tk.v === '-') { next(); return -factorP(); }
+          if (tk.t === 'op' && tk.v === '+') { next(); return factorP(); }
+          if (tk.t === 'op' && tk.v === '(') {
+            next(); var v = exprP();
+            if (!peek() || peek().v !== ')') throw new Error('括号不匹配');
+            next(); return v;
+          }
+          if (tk.t === 'num') { next(); return tk.v; }
+          throw new Error('意外符号');
+        }
+        var result = exprP();
+        if (pos < tokens.length) throw new Error('表达式有误');
+        return result;
+      }
+      function evaluate() {
+        if (!expr) return null;
+        try { return parse(tokenize(expr)); } catch (e) { return null; }
+      }
+      function fmt(v) {
+        if (!isFinite(v)) return '错误';
+        return String(parseFloat(v.toPrecision(12)));
+      }
+      function pretty(s) { return (s || '0').replace(/\*/g, '×').replace(/\//g, '÷').replace(/-/g, '−'); }
+
+      function refresh() {
+        exprEl.textContent = pretty(expr);
+        var v = evaluate();
+        resEl.textContent = v === null ? '—' : fmt(v);
+      }
+      function input(k) {
+        if (k === 'C') { expr = ''; }
+        else if (k === '⌫') { expr = expr.slice(0, -1); }
+        else if (k === '=') { var v = evaluate(); if (v !== null) expr = fmt(v); }
+        else {
+          // 不允许以运算符号（除负号）开头
+          if (expr === '' && (k === '*' || k === '/' || k === '%' || k === ')')) return;
+          expr += k;
+        }
+        refresh();
+      }
+
+      calcEl.querySelectorAll('.calc-key').forEach(function (b) {
+        b.addEventListener('click', function () { input(b.getAttribute('data-k')); });
+      });
+      // 键盘支持：仅当计算器区域获得焦点时（避免误触其它卡片）
+      calcEl.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if ((k >= '0' && k <= '9') || k === '.') { input(k); e.preventDefault(); }
+        else if (k === '+' || k === '-' || k === '*' || k === '/' || k === '%') { input(k); e.preventDefault(); }
+        else if (k === '(' || k === ')') { input(k); e.preventDefault(); }
+        else if (k === 'Enter') { input('='); e.preventDefault(); }
+        else if (k === 'Backspace') { input('⌫'); e.preventDefault(); }
+        else if (k === 'Escape') { input('C'); e.preventDefault(); }
+      });
+      refresh();
     })();
 
     // ===================== 通用辅助 =====================
