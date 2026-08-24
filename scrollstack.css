@@ -1,41 +1,53 @@
 /* ============================================================
-   ScrollStack (React Bits) — vanilla port, window-scroll friendly
-   适配：博客「实用工具箱」页面；沿用 --white/--black 主题变量
+   实用工具箱 — 卡片布局 + 点击展开全屏专注模式
+   设计目标：
+   1) 滚动丝滑：卡片走原生文档流，不再每帧重算 transform（根除卡顿）
+   2) 内容不被遮挡：卡片正常排列，互不叠盖
+   3) 点击「展开」→ 卡片独占全屏、锁死页面滚动；「收起」后才可继续滑动
+   沿用 --white/--black 主题变量，自动适配暗色
    ============================================================ */
 
 .scroll-stack-scroller {
   position: relative;
   width: 100%;
-  /* 注意：window-scroll 模式下页面自身滚动，这里不再做内层 overflow 容器，
-     否则会和 window 滚动冲突。仅作为卡片流的定位上下文。 */
 }
 
 .scroll-stack-inner {
   max-width: 980px;
   margin: 0 auto;
-  padding: 24vh 20px 45vh;
-  min-height: 100vh;
+  padding: 24px 20px 80px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
-/* 单张工具卡：新野兽派白底黑框，自动适配暗色主题（--white/--black 翻转） */
+/* 单张工具卡：新野兽派白底黑框，正常文档流，互不叠盖 */
 .scroll-stack-card {
+  position: relative;
   transform-origin: top center;
-  will-change: transform, filter;
-  backface-visibility: hidden;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
   width: 100%;
-  margin: 30px 0;
   padding: 2.4rem 2.6rem;
   border-radius: 26px;
   box-sizing: border-box;
   background: var(--white);
   border: 2px solid var(--black);
   color: var(--black);
-  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.scroll-stack-card:hover {
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
 }
 
-/* 卡片头：标签 + 标题 */
+/* 卡片头：标签 + 标题 + 展开按钮 */
+.scroll-stack-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
 .scroll-stack-card__eyebrow {
   font-family: var(--mono, monospace);
   font-size: 12px;
@@ -60,12 +72,97 @@
   margin: 0 0 20px;
 }
 
+/* 展开按钮（卡片内） */
+.card-expand-btn {
+  flex: none;
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 9px 14px;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  white-space: nowrap;
+}
+.card-expand-btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 1); }
+.card-expand-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 1); }
+
+/* 收起按钮：仅展开态显示，固定在视口右上角 */
+.card-expand-close {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 2001;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: var(--red);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+.card-expand-close:hover { filter: brightness(1.08); }
+
+/* ====== 展开全屏专注模式 ====== */
+body.card-focus {
+  /* 兜底锁（iOS 用 JS 的 position:fixed 方案更可靠，这里双保险） */
+  overflow: hidden;
+}
+body.card-focus .nav,
+body.card-focus .bottom-nav,
+body.card-focus .tools-hero,
+body.card-focus .scroll-stack-scroller > .scroll-stack-inner > .scroll-stack-card:not(.is-expanded) {
+  /* 非展开的卡片与导航在专注态隐藏，确保「页面只有卡片本身」 */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scroll-stack-card.is-expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding: 70px 24px 48px;
+  overflow: auto;
+  transform: none !important;
+  background: var(--white);
+  color: var(--black);
+}
+.scroll-stack-card.is-expanded .card-expand-close { display: flex; }
+.scroll-stack-card.is-expanded:hover { transform: none !important; box-shadow: none; }
+
+/* 展开态下工具区占满：两栏在宽屏并排，窄屏堆叠 */
+.scroll-stack-card.is-expanded .tool-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.scroll-stack-card.is-expanded .tool-pane textarea,
+.scroll-stack-card.is-expanded .tool-pane pre {
+  min-height: 320px;
+}
+
 .scroll-stack-end {
   width: 100%;
   height: 1px;
 }
 
-/* 工具内部布局（MD→PDF 等） */
+/* 工具内部布局（MD→PDF / JSON / Base64） */
 .tool-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -73,6 +170,7 @@
 }
 @media (max-width: 720px) {
   .tool-grid { grid-template-columns: 1fr; }
+  .scroll-stack-card.is-expanded .tool-grid { grid-template-columns: 1fr; }
 }
 .tool-pane { display: flex; flex-direction: column; min-width: 0; }
 .tool-pane label {
@@ -129,8 +227,7 @@
 }
 .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 1); }
 .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 1); }
-.btn--red { background: var(--red); color: var(--white); }
-.btn--red { color: #fff; }
+.btn--red { background: var(--red); color: #fff; }
 
 .tool-status {
   font-size: 12px;
@@ -194,7 +291,7 @@
   border-radius: 8px;
 }
 
-/* 打印导出：仅显示渲染结果，隐藏页面其余部分（含被 transform 的卡片） */
+/* 打印导出：仅显示渲染结果，隐藏页面其余部分（含被展开锁定的卡片） */
 #print-output {
   display: none;
 }
