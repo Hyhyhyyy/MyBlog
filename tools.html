@@ -16,8 +16,6 @@
   <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/tools.html" />
   <meta name="description" content="Hyhyhyyy 实用工具箱：Markdown 转 PDF、JSON 格式化、Base64 编解码等随手可用的小工具。" />
   <link rel="alternate" type="application/rss+xml" title="Hyhyhyyy" href="feed.xml" />
-  <!-- React Bits ScrollStack 依赖项：Lenis 平滑滚动（CDN，缺失则降级原生） -->
-  <script defer src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
   <!-- Markdown → PDF 依赖项：Mermaid 图渲染（CDN，缺失则降级为原文展示） -->
   <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script defer src="scrollstack.js"></script>
@@ -58,7 +56,7 @@
   <header class="tools-hero">
     <p class="eyebrow">TOOLBOX / 实用工具箱</p>
     <h1>随手可用的小工具</h1>
-    <p>向下滚动，卡片依次堆叠。第一项是 Markdown 转 PDF，下面还有 JSON 格式化与 Base64 编解码。全部在浏览器本地运行，不上传任何内容。</p>
+    <p>向下浏览各工具卡，点击右上角「展开」可进入全屏专注模式（锁定页面滚动）；点「×」收起后继续浏览。第一项是 Markdown 转 PDF，下面还有 JSON 格式化与 Base64 编解码。全部在浏览器本地运行，不上传任何内容。</p>
   </header>
 
   <!-- ScrollStack 容器（React Bits 组件 vanilla 移植） -->
@@ -67,8 +65,14 @@
 
       <!-- ① Markdown → PDF -->
       <section class="scroll-stack-card">
-        <p class="scroll-stack-card__eyebrow">TOOL 01</p>
-        <h2 class="scroll-stack-card__title">Markdown → PDF</h2>
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 01</p>
+            <h2 class="scroll-stack-card__title">Markdown → PDF</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
         <p class="scroll-stack-card__desc">左侧写 Markdown，右侧实时预览；一键调用浏览器「另存为 PDF」。支持标题、加粗、列表、表格、代码块、Mermaid 图、引用、链接、图片（表格/图片/Mermaid 均会原样进入 PDF）。</p>
         <div class="tool-grid">
           <div class="tool-pane">
@@ -92,8 +96,14 @@
 
       <!-- ② JSON 格式化 / 校验 -->
       <section class="scroll-stack-card">
-        <p class="scroll-stack-card__eyebrow">TOOL 02</p>
-        <h2 class="scroll-stack-card__title">JSON 格式化 / 校验</h2>
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 02</p>
+            <h2 class="scroll-stack-card__title">JSON 格式化 / 校验</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
         <p class="scroll-stack-card__desc">粘贴 JSON，格式化美化或压缩成单行；非法 JSON 会给出错误位置提示。</p>
         <div class="tool-grid">
           <div class="tool-pane">
@@ -116,8 +126,14 @@
 
       <!-- ③ Base64 编解码 -->
       <section class="scroll-stack-card">
-        <p class="scroll-stack-card__eyebrow">TOOL 03</p>
-        <h2 class="scroll-stack-card__title">Base64 编解码</h2>
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 03</p>
+            <h2 class="scroll-stack-card__title">Base64 编解码</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
         <p class="scroll-stack-card__desc">文本与 Base64 互转，支持 UTF-8 中文。常用于内联图片、传输编码等场景。</p>
         <div class="tool-grid">
           <div class="tool-pane">
