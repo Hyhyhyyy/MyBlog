@@ -171,6 +171,28 @@
 .md-preview ul, .md-preview ol { padding-left: 1.4em; margin: 0.5em 0; }
 .md-preview img { max-width: 100%; border-radius: 8px; }
 .md-preview a { color: var(--red); text-decoration: underline; }
+.md-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.9em 0;
+  font-size: 13px;
+}
+.md-preview th, .md-preview td {
+  border: 1px solid var(--black);
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.md-preview th { background: rgba(0, 0, 0, 0.05); font-weight: 700; }
+.md-preview .mermaid-diagram { margin: 1em 0; }
+.md-preview .mermaid-diagram svg { max-width: 100%; height: auto; display: block; }
+.md-preview .mermaid-error {
+  color: var(--red);
+  white-space: pre-wrap;
+  border: 2px dashed var(--red);
+  padding: 10px;
+  border-radius: 8px;
+}
 
 /* 打印导出：仅显示渲染结果，隐藏页面其余部分（含被 transform 的卡片） */
 #print-output {
