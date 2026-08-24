@@ -343,6 +343,54 @@ body.card-focus .scroll-stack-scroller > .scroll-stack-inner > .scroll-stack-car
 .calc-fn { background: rgba(0, 0, 0, 0.06); }
 .calc-eq { grid-column: span 4; background: var(--red); color: #fff; font-size: 20px; }
 
+/* 进制转换工具 */
+.tool-pane input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--mono, monospace);
+  font-size: 14px;
+  border: 2px solid var(--black);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--white);
+  color: var(--black);
+}
+.tool-pane input[type="text"]:focus { outline: 3px solid var(--red); }
+.bc-base-sel { margin: 4px 0 12px; font-size: 14px; }
+.bc-base-sel select {
+  font-family: var(--mono, monospace);
+  font-size: 14px;
+  padding: 6px 10px;
+  border: 2px solid var(--black);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--black);
+}
+.bc-grid { display: flex; flex-direction: column; gap: 8px; }
+.bc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.bc-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  flex: none;
+}
+.bc-row code {
+  font-family: var(--mono, monospace);
+  font-size: 15px;
+  word-break: break-all;
+  text-align: right;
+}
+
 /* 渲染后的 Markdown 预览 */
 .md-preview { font-size: 14px; line-height: 1.7; }
 .md-preview h1, .md-preview h2, .md-preview h3 { line-height: 1.25; margin: 1em 0 0.4em; }
