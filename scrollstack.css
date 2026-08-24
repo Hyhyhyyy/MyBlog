@@ -293,6 +293,56 @@ body.card-focus .scroll-stack-scroller > .scroll-stack-inner > .scroll-stack-car
   font-family: var(--mono, monospace);
 }
 
+/* 计算器工具 */
+.calc { max-width: 360px; margin: 6px 0 4px; }
+.calc:focus { outline: none; }
+.calc-screen {
+  border: 2px solid var(--black);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: var(--white);
+  text-align: right;
+}
+.calc-expr {
+  font-family: var(--mono, monospace);
+  font-size: 15px;
+  min-height: 20px;
+  opacity: 0.8;
+  word-break: break-all;
+}
+.calc-result {
+  font-family: var(--heavy, "Arial Black", sans-serif);
+  font-weight: 900;
+  font-size: 34px;
+  line-height: 1.1;
+  margin-top: 4px;
+  word-break: break-all;
+}
+.calc-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.calc-key {
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  font-size: 18px;
+  padding: 14px 0;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.calc-key:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 1); }
+.calc-key:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 1); }
+.calc-op { background: var(--red); color: #fff; }
+.calc-fn { background: rgba(0, 0, 0, 0.06); }
+.calc-eq { grid-column: span 4; background: var(--red); color: #fff; font-size: 20px; }
+
 /* 渲染后的 Markdown 预览 */
 .md-preview { font-size: 14px; line-height: 1.7; }
 .md-preview h1, .md-preview h2, .md-preview h3 { line-height: 1.25; margin: 1em 0 0.4em; }
