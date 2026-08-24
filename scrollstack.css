@@ -237,6 +237,62 @@ body.card-focus .scroll-stack-scroller > .scroll-stack-inner > .scroll-stack-car
 }
 .tool-status.err { color: var(--red); font-weight: 700; }
 
+/* 字数统计工具 */
+.wc-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  margin: 4px 0 14px;
+  font-size: 14px;
+}
+.wc-options label { cursor: pointer; }
+.wc-options input { vertical-align: middle; margin-right: 5px; }
+.wc-radio { display: inline-flex; gap: 12px; align-items: center; }
+.wc-result { margin-top: 6px; }
+.wc-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.wc-headline .wc-num {
+  font-family: var(--heavy, "Arial Black", sans-serif);
+  font-weight: 900;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--black);
+}
+.wc-headline .wc-unit { font-size: 18px; font-weight: 700; }
+.wc-headline .wc-note { font-size: 12px; opacity: 0.7; }
+.wc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (max-width: 560px) { .wc-grid { grid-template-columns: repeat(2, 1fr); } }
+.wc-stat {
+  border: 2px solid var(--black);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wc-stat b {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+.wc-stat span {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--mono, monospace);
+}
+
 /* 渲染后的 Markdown 预览 */
 .md-preview { font-size: 14px; line-height: 1.7; }
 .md-preview h1, .md-preview h2, .md-preview h3 { line-height: 1.25; margin: 1em 0 0.4em; }
