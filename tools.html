@@ -18,6 +18,8 @@
   <link rel="alternate" type="application/rss+xml" title="Hyhyhyyy" href="feed.xml" />
   <!-- React Bits ScrollStack 依赖项：Lenis 平滑滚动（CDN，缺失则降级原生） -->
   <script defer src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <!-- Markdown → PDF 依赖项：Mermaid 图渲染（CDN，缺失则降级为原文展示） -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script defer src="scrollstack.js"></script>
   <style>
     body.tools-page { background: var(--white); color: var(--black); min-height: 100vh; }
@@ -67,7 +69,7 @@
       <section class="scroll-stack-card">
         <p class="scroll-stack-card__eyebrow">TOOL 01</p>
         <h2 class="scroll-stack-card__title">Markdown → PDF</h2>
-        <p class="scroll-stack-card__desc">左侧写 Markdown，右侧实时预览；一键调用浏览器「另存为 PDF」。支持标题、加粗、列表、代码块、引用、链接、图片。</p>
+        <p class="scroll-stack-card__desc">左侧写 Markdown，右侧实时预览；一键调用浏览器「另存为 PDF」。支持标题、加粗、列表、表格、代码块、Mermaid 图、引用、链接、图片（表格/图片/Mermaid 均会原样进入 PDF）。</p>
         <div class="tool-grid">
           <div class="tool-pane">
             <label for="md-input">Markdown 源</label>
@@ -162,13 +164,41 @@
     function parseMd(src) {
       var lines = src.replace(/\r\n/g, '\n').split('\n');
       var html = '', i = 0;
+      function splitRow(row) {
+        var s = row.trim();
+        if (s.charAt(0) === '|') s = s.slice(1);
+        if (s.charAt(s.length - 1) === '|') s = s.slice(0, -1);
+        return s.split('|').map(function (c) { return c.trim(); });
+      }
+      function buildTable(header, rows) {
+        var thead = '<thead><tr>' + header.map(function (c) { return '<th>' + mdInline(c) + '</th>'; }).join('') + '</tr></thead>';
+        var tbody = '<tbody>' + rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + mdInline(c) + '</td>'; }).join('') + '</tr>';
+        }).join('') + '</tbody>';
+        return '<table>' + thead + tbody + '</table>';
+      }
+      function isTableRow(l) { return /^\s*\|/.test(l) && l.indexOf('|') !== l.lastIndexOf('|'); }
       while (i < lines.length) {
         var line = lines[i];
         if (/^```/.test(line)) {
+          var lang = line.replace(/^```/, '').trim();
           var buf = []; i++;
           while (i < lines.length && !/^```/.test(lines[i])) { buf.push(lines[i]); i++; }
           i++;
-          html += '<pre><code>' + escapeHtml(buf.join('\n')) + '</code></pre>';
+          if (lang === 'mermaid') {
+            html += '<div class="mermaid">' + escapeHtml(buf.join('\n')) + '</div>';
+          } else {
+            html += '<pre><code>' + escapeHtml(buf.join('\n')) + '</code></pre>';
+          }
+          continue;
+        }
+        // GFM 表格：表头行 + 分隔行（含 -） + 若干数据行
+        if (isTableRow(line) && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i + 1]) && /-/.test(lines[i + 1])) {
+          var header = splitRow(line);
+          i += 2;
+          var rows = [];
+          while (i < lines.length && isTableRow(lines[i])) { rows.push(splitRow(lines[i])); i++; }
+          html += buildTable(header, rows);
           continue;
         }
         var h = line.match(/^(#{1,6})\s+(.*)$/);
@@ -208,20 +238,47 @@
       var preview = document.getElementById('md-preview');
       var status = document.getElementById('md-status');
       var out = document.getElementById('print-output');
-      var sample = '# 我的文档标题\n\n这是一段 **加粗** 与 *斜体* 的示例，还有一个 `行内代码`。\n\n## 列表\n\n- 第一项\n- 第二项\n  - 嵌套项\n\n## 代码块\n\n```js\nconsole.log("Hello, Hyhyhyyy!");\n```\n\n> 这是一段引用。\n\n[访问我的博客](https://hyhyhyyy.github.io/MyBlog/)\n';
+      var sample = '# 我的文档标题\n\n这是一段 **加粗** 与 *斜体* 的示例，还有一个 `行内代码`。\n\n## 表格\n\n| 名称 | 类型 | 说明 |\n| --- | --- | --- |\n| ScrollStack | 组件 | React Bits 卡片堆叠 |\n| Mermaid | 图 | 流程图 / 时序图 |\n\n## 列表\n\n- 第一项\n- 第二项\n  - 嵌套项\n\n## 代码块\n\n```js\nconsole.log("Hello, Hyhyhyyy!");\n```\n\n## 流程图\n\n```mermaid\nflowchart LR\n  A[开始] --> B{判断}\n  B -->|是| C[导出 PDF]\n  B -->|否| D[继续编辑]\n```\n\n> 这是一段引用。\n\n[访问我的博客](https://hyhyhyyy.github.io/MyBlog/)\n';
 
-      function render() {
+      // 把 .mermaid 占位块渲染成 SVG（mermaid 未加载则保留原文）
+      async function renderMermaid(container) {
+        if (typeof window.mermaid === 'undefined') return;
+        if (!window.__mermaidInit) {
+          try { window.mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' }); window.__mermaidInit = true; } catch (e) {}
+        }
+        var nodes = container.querySelectorAll('.mermaid');
+        for (var k = 0; k < nodes.length; k++) {
+          var node = nodes[k];
+          var code = node.textContent;
+          try {
+            var id = 'mmd-' + Date.now() + '-' + k;
+            var res = await window.mermaid.render(id, code);
+            var wrap = document.createElement('div');
+            wrap.className = 'mermaid-diagram';
+            wrap.innerHTML = (res && res.svg) ? res.svg : res;
+            node.parentNode.replaceChild(wrap, node);
+          } catch (e) {
+            var err = document.createElement('pre');
+            err.className = 'mermaid-error';
+            err.textContent = 'Mermaid 渲染失败：' + e.message + '\n\n' + code;
+            node.parentNode.replaceChild(err, node);
+          }
+        }
+      }
+
+      async function render() {
         var html = parseMd(input.value);
         preview.innerHTML = html || '<span style="opacity:.5">（预览为空）</span>';
-        out.innerHTML = '<div class="md-preview">' + (html || '') + '</div>';
-        status.textContent = '已渲染 ' + input.value.length + ' 字符';
+        await renderMermaid(preview);
+        // 把已渲染（含 Mermaid SVG / 表格 / 图片）的预览原样复制到打印容器
+        out.innerHTML = '<div class="md-preview">' + preview.innerHTML + '</div>';
+        status.textContent = '已渲染 ' + input.value.length + ' 字符' + (typeof window.mermaid === 'undefined' ? '（Mermaid 未加载，图以原文显示）' : '');
         status.className = 'tool-status';
       }
-      input.addEventListener('input', render);
+      input.addEventListener('input', function () { render(); });
 
       document.getElementById('md-export').addEventListener('click', function () {
-        render();
-        window.print();
+        render().then(function () { window.print(); });
       });
       document.getElementById('md-copy').addEventListener('click', function () {
         var text = out.innerHTML;
