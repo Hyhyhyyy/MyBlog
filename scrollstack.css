@@ -1,0 +1,192 @@
+/* ============================================================
+   ScrollStack (React Bits) — vanilla port, window-scroll friendly
+   适配：博客「实用工具箱」页面；沿用 --white/--black 主题变量
+   ============================================================ */
+
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  /* 注意：window-scroll 模式下页面自身滚动，这里不再做内层 overflow 容器，
+     否则会和 window 滚动冲突。仅作为卡片流的定位上下文。 */
+}
+
+.scroll-stack-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24vh 20px 45vh;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 单张工具卡：新野兽派白底黑框，自动适配暗色主题（--white/--black 翻转） */
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  margin: 30px 0;
+  padding: 2.4rem 2.6rem;
+  border-radius: 26px;
+  box-sizing: border-box;
+  background: var(--white);
+  border: 2px solid var(--black);
+  color: var(--black);
+  position: relative;
+}
+
+/* 卡片头：标签 + 标题 */
+.scroll-stack-card__eyebrow {
+  font-family: var(--mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--red);
+  margin: 0 0 10px;
+}
+.scroll-stack-card__title {
+  font-family: var(--heavy, "Arial Black", sans-serif);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: 30px;
+  margin: 0 0 8px;
+}
+.scroll-stack-card__desc {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.8;
+  margin: 0 0 20px;
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+/* 工具内部布局（MD→PDF 等） */
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 720px) {
+  .tool-grid { grid-template-columns: 1fr; }
+}
+.tool-pane { display: flex; flex-direction: column; min-width: 0; }
+.tool-pane label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+.tool-pane textarea,
+.tool-pane pre {
+  width: 100%;
+  min-height: 260px;
+  box-sizing: border-box;
+  font-family: var(--mono, monospace);
+  font-size: 13px;
+  line-height: 1.55;
+  border: 2px solid var(--black);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--white);
+  color: var(--black);
+  resize: vertical;
+}
+.tool-pane pre {
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+.tool-pane textarea:focus,
+.tool-pane pre:focus { outline: 3px solid var(--red); }
+
+.tool-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.btn {
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  padding: 10px 16px;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--black);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 1);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 rgba(0, 0, 0, 1); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0, 0, 0, 1); }
+.btn--red { background: var(--red); color: var(--white); }
+.btn--red { color: #fff; }
+
+.tool-status {
+  font-size: 12px;
+  margin-top: 10px;
+  min-height: 16px;
+  opacity: 0.85;
+}
+.tool-status.err { color: var(--red); font-weight: 700; }
+
+/* 渲染后的 Markdown 预览 */
+.md-preview { font-size: 14px; line-height: 1.7; }
+.md-preview h1, .md-preview h2, .md-preview h3 { line-height: 1.25; margin: 1em 0 0.4em; }
+.md-preview h1 { font-size: 24px; }
+.md-preview h2 { font-size: 20px; border-bottom: 2px solid var(--black); padding-bottom: 4px; }
+.md-preview h3 { font-size: 17px; }
+.md-preview p { margin: 0.6em 0; }
+.md-preview code {
+  font-family: var(--mono, monospace);
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-size: 0.92em;
+}
+.md-preview pre {
+  background: var(--black);
+  color: var(--white);
+  padding: 12px;
+  border-radius: 10px;
+  overflow: auto;
+}
+.md-preview pre code { background: none; padding: 0; color: inherit; }
+.md-preview blockquote {
+  margin: 0.6em 0;
+  padding: 4px 14px;
+  border-left: 4px solid var(--red);
+  opacity: 0.85;
+}
+.md-preview ul, .md-preview ol { padding-left: 1.4em; margin: 0.5em 0; }
+.md-preview img { max-width: 100%; border-radius: 8px; }
+.md-preview a { color: var(--red); text-decoration: underline; }
+
+/* 打印导出：仅显示渲染结果，隐藏页面其余部分（含被 transform 的卡片） */
+#print-output {
+  display: none;
+}
+@media print {
+  body * { visibility: hidden !important; }
+  #print-output, #print-output * { visibility: visible !important; }
+  #print-output {
+    display: block;
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    padding: 24px 28px;
+    color: #000;
+    background: #fff;
+  }
+  #print-output pre { background: #f4f4f4; color: #000; }
+}
