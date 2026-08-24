@@ -154,6 +154,35 @@
         <div class="tool-status" id="b64-status">等待输入…</div>
       </section>
 
+      <!-- ④ 字数统计 -->
+      <section class="scroll-stack-card">
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 04</p>
+            <h2 class="scroll-stack-card__title">字数统计</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
+        <p class="scroll-stack-card__desc">区分中英文统计字数；可选是否计入标点符号；英文可按词或按字母统计。</p>
+        <div class="tool-pane" style="margin-bottom:14px;">
+          <label for="wc-input">待统计文本</label>
+          <textarea id="wc-input" placeholder="在此粘贴或输入文本…" spellcheck="false"></textarea>
+        </div>
+        <div class="wc-options">
+          <label class="wc-check"><input type="checkbox" id="wc-punct" checked> 计入标点符号</label>
+          <span class="wc-radio">英文统计方式：
+            <label><input type="radio" name="wc-engmode" value="word" checked> 按词</label>
+            <label><input type="radio" name="wc-engmode" value="letter"> 按字母</label>
+          </span>
+        </div>
+        <div class="wc-result" id="wc-result">等待输入…</div>
+        <div class="tool-bar">
+          <button class="btn btn--red" id="wc-copy">复制统计结果</button>
+          <button class="btn" id="wc-clear">清空</button>
+        </div>
+      </section>
+
       <div class="scroll-stack-end"></div>
     </div>
   </div>
@@ -377,6 +406,83 @@
       document.getElementById('b64-clear').addEventListener('click', function () {
         input.value = ''; output.textContent = ''; status.textContent = '已清空'; status.className = 'tool-status';
       });
+    })();
+
+    // ===================== 工具 04：字数统计 =====================
+    (function () {
+      var input = document.getElementById('wc-input');
+      var result = document.getElementById('wc-result');
+      var punctChk = document.getElementById('wc-punct');
+      // 常见中英文标点（含全角），用于「标点」项统计
+      var PUNCT_STR = "！？。，、；：“”‘’（）【】《》〈〉「」『』〖〗〔〕·…—～!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+      function countText(text, includePunct, engMode) {
+        var chars = Array.from(text);
+        var chinese = 0, letters = 0, digits = 0, punct = 0, spaces = 0, others = 0;
+        for (var i = 0; i < chars.length; i++) {
+          var ch = chars[i];
+          if (/\s/.test(ch)) { spaces++; continue; }
+          if (/[一-鿿㐀-䶿]/.test(ch)) { chinese++; continue; }
+          if (/[a-zA-Z]/.test(ch)) { letters++; continue; }
+          if (/[0-9]/.test(ch)) { digits++; continue; }
+          if (PUNCT_STR.indexOf(ch) !== -1) { punct++; continue; }
+          others++;
+        }
+        var engWords = (text.match(/[a-zA-Z]+(?:['’][a-zA-Z]+)?/g) || []).length;
+        var engPart = engMode === 'word' ? engWords : letters;
+        var main = chinese + engPart + digits + others + (includePunct ? punct : 0);
+        return { chinese: chinese, letters: letters, digits: digits, punct: punct, spaces: spaces, others: others, engWords: engWords, main: main };
+      }
+
+      function getEngMode() {
+        var els = document.getElementsByName('wc-engmode');
+        for (var i = 0; i < els.length; i++) if (els[i].checked) return els[i].value;
+        return 'word';
+      }
+
+      function stat(label, val) {
+        return '<div class="wc-stat"><b>' + label + '</b><span>' + val + '</span></div>';
+      }
+
+      function render() {
+        var text = input.value;
+        var includePunct = punctChk.checked;
+        var mode = getEngMode();
+        if (!text) { result.innerHTML = '<span style="opacity:.5">等待输入…</span>'; return; }
+        var r = countText(text, includePunct, mode);
+        var note = (includePunct ? '计入标点' : '不计标点') + ' · 英文按' + (mode === 'word' ? '词' : '字母');
+        result.innerHTML =
+          '<div class="wc-headline"><span class="wc-num">' + r.main + '</span>' +
+          '<span class="wc-unit">字</span><span class="wc-note">（' + note + '）</span></div>' +
+          '<div class="wc-grid">' +
+          stat('中文', r.chinese) +
+          stat(mode === 'word' ? '英文(词)' : '英文(字母)', mode === 'word' ? r.engWords : r.letters) +
+          stat('英文字母', r.letters) +
+          stat('数字', r.digits) +
+          stat('标点', r.punct) +
+          stat('空格', r.spaces) +
+          '</div>';
+      }
+
+      input.addEventListener('input', render);
+      punctChk.addEventListener('change', render);
+      var radios = document.getElementsByName('wc-engmode');
+      for (var i = 0; i < radios.length; i++) radios[i].addEventListener('change', render);
+
+      document.getElementById('wc-copy').addEventListener('click', function () {
+        var text = input.value;
+        if (!text) return;
+        var r = countText(text, punctChk.checked, getEngMode());
+        var summary = '字数统计（' + (punctChk.checked ? '计标点' : '不计标点') + '·英文按' +
+          (getEngMode() === 'word' ? '词' : '字母') + '）：' + r.main + ' 字\n' +
+          '中文 ' + r.chinese + ' · 英文(词) ' + r.engWords + ' · 英文(字母) ' + r.letters +
+          ' · 数字 ' + r.digits + ' · 标点 ' + r.punct + ' · 空格 ' + r.spaces;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(summary).then(function () {}).catch(function () { fallbackCopy(summary); });
+        } else { fallbackCopy(summary); }
+      });
+      document.getElementById('wc-clear').addEventListener('click', function () { input.value = ''; render(); });
+      render();
     })();
 
     // ===================== 通用辅助 =====================
