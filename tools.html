@@ -225,6 +225,43 @@
         </div>
       </section>
 
+      <!-- ⑥ 进制转换 -->
+      <section class="scroll-stack-card">
+        <button class="card-expand-close" aria-label="收起">×</button>
+        <div class="scroll-stack-card__head">
+          <div>
+            <p class="scroll-stack-card__eyebrow">TOOL 06</p>
+            <h2 class="scroll-stack-card__title">进制转换</h2>
+          </div>
+          <button class="card-expand-btn" aria-label="展开全屏">⤢ 展开</button>
+        </div>
+        <p class="scroll-stack-card__desc">在 2 / 8 / 10 / 16 进制间互转；输入支持 0x / 0o / 0b 前缀与下划线分隔。基于 BigInt，超大数也精确。</p>
+        <div class="tool-pane" style="margin-bottom:12px;">
+          <label for="bc-input">输入数值（选择其进制）</label>
+          <input type="text" id="bc-input" placeholder="例如 255 或 0xff 或 1010" spellcheck="false" autocomplete="off">
+        </div>
+        <div class="bc-base-sel">
+          <label>输入进制：
+            <select id="bc-base">
+              <option value="10" selected>十进制 (10)</option>
+              <option value="2">二进制 (2)</option>
+              <option value="8">八进制 (8)</option>
+              <option value="16">十六进制 (16)</option>
+            </select>
+          </label>
+        </div>
+        <div class="bc-grid">
+          <div class="bc-row"><span class="bc-label">二进制 (2)</span><code id="bc-2">—</code></div>
+          <div class="bc-row"><span class="bc-label">八进制 (8)</span><code id="bc-8">—</code></div>
+          <div class="bc-row"><span class="bc-label">十进制 (10)</span><code id="bc-10">—</code></div>
+          <div class="bc-row"><span class="bc-label">十六进制 (16)</span><code id="bc-16">—</code></div>
+        </div>
+        <div class="tool-bar">
+          <button class="btn btn--red" id="bc-copy">复制全部</button>
+          <button class="btn" id="bc-clear">清空</button>
+        </div>
+      </section>
+
       <div class="scroll-stack-end"></div>
     </div>
   </div>
@@ -631,6 +668,60 @@
         else if (k === 'Escape') { input('C'); e.preventDefault(); }
       });
       refresh();
+    })();
+
+    // ===================== 工具 06：进制转换 =====================
+    (function () {
+      var input = document.getElementById('bc-input');
+      var baseSel = document.getElementById('bc-base');
+      var rows = {
+        2: document.getElementById('bc-2'),
+        8: document.getElementById('bc-8'),
+        10: document.getElementById('bc-10'),
+        16: document.getElementById('bc-16')
+      };
+      function digitValue(ch) {
+        if (ch >= '0' && ch <= '9') return ch.charCodeAt(0) - 48;
+        if (ch >= 'a' && ch <= 'f') return ch.charCodeAt(0) - 87;
+        return -1;
+      }
+      function parseBig(str, base) {
+        str = str.trim().toLowerCase().replace(/^0x|^0o|^0b/, '').replace(/[\s_]/g, '');
+        if (str === '') return null;
+        var acc = 0n;
+        for (var i = 0; i < str.length; i++) {
+          var d = digitValue(str[i]);
+          if (d < 0 || d >= base) throw new Error('非法字符');
+          acc = acc * BigInt(base) + BigInt(d);
+        }
+        return acc;
+      }
+      function render() {
+        var base = parseInt(baseSel.value, 10);
+        var v;
+        try { v = parseBig(input.value, base); }
+        catch (e) { v = undefined; }
+        if (v === null || v === undefined) {
+          for (var b in rows) rows[b].textContent = '—';
+          return;
+        }
+        for (var b2 in rows) rows[b2].textContent = v.toString(parseInt(b2, 10));
+      }
+      input.addEventListener('input', render);
+      baseSel.addEventListener('change', render);
+      document.getElementById('bc-copy').addEventListener('click', function () {
+        var base = parseInt(baseSel.value, 10);
+        var v;
+        try { v = parseBig(input.value, base); } catch (e) { v = null; }
+        if (v === null) return;
+        var txt = '二进制 ' + v.toString(2) + '\n八进制 ' + v.toString(8) +
+          '\n十进制 ' + v.toString(10) + '\n十六进制 ' + v.toString(16);
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(txt).then(function () {}).catch(function () { fallbackCopy(txt); });
+        } else { fallbackCopy(txt); }
+      });
+      document.getElementById('bc-clear').addEventListener('click', function () { input.value = ''; render(); });
+      render();
     })();
 
     // ===================== 通用辅助 =====================
