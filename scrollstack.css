@@ -34,11 +34,11 @@
   background: var(--white);
   border: 2px solid var(--black);
   color: var(--black);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* 仅过渡阴影；transform 由滚动装饰逐帧驱动，避免与 hover 位移冲突 */
+  transition: box-shadow 0.3s ease;
 }
 .scroll-stack-card:hover {
   box-shadow: 0 20px 54px rgba(0, 0, 0, 0.2);
-  transform: translateY(-3px);
 }
 
 /* 卡片头：标签 + 标题 + 展开按钮 */
