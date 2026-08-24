@@ -57,10 +57,10 @@
     },
     {
       color: '#ffffff',
-      title: '联系',
-      description: '13581912370@139.com · GitHub',
-      label: 'CONTACT',
-      href: 'mailto:13581912370@139.com',
+      title: '实用工具箱',
+      description: 'Markdown 转 PDF、格式整理等随手可用的小工具。',
+      label: 'TOOLBOX',
+      href: 'tools.html',
       size: 'small'
     }
   ];
