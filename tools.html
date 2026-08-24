@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>实用工具箱 — Hyhyhyyy</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="gooey-nav.css" />
+  <link rel="stylesheet" href="bottom-nav.css" />
+  <link rel="stylesheet" href="a11y.css" />
+  <link rel="stylesheet" href="search.css" />
+  <link rel="stylesheet" href="scrollstack.css" />
+  <link rel="icon" href="assets/tomato.png" type="image/png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#FF4438" />
+  <link rel="canonical" href="https://hyhyhyyy.github.io/MyBlog/tools.html" />
+  <meta name="description" content="Hyhyhyyy 实用工具箱：Markdown 转 PDF、JSON 格式化、Base64 编解码等随手可用的小工具。" />
+  <link rel="alternate" type="application/rss+xml" title="Hyhyhyyy" href="feed.xml" />
+  <!-- React Bits ScrollStack 依赖项：Lenis 平滑滚动（CDN，缺失则降级原生） -->
+  <script defer src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script defer src="scrollstack.js"></script>
+  <style>
+    body.tools-page { background: var(--white); color: var(--black); min-height: 100vh; }
+    .tools-hero {
+      max-width: 980px; margin: 0 auto; padding: 96px 20px 0;
+      text-align: left;
+    }
+    .tools-hero .eyebrow { color: var(--red); }
+    .tools-hero h1 {
+      font-family: var(--heavy, "Arial Black", sans-serif);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 0.95;
+      font-size: clamp(40px, 7vw, 78px); margin: 0 0 14px;
+    }
+    .tools-hero p { font-size: 16px; opacity: 0.8; max-width: 640px; margin: 0; }
+  </style>
+</head>
+<body class="tools-page">
+
+  <!-- 顶部导航 -->
+  <nav aria-label="主导航" class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <img src="assets/tomato.png" alt="Hyhyhyyy">
+        <span class="brand-label">Hyhyhyyy</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首页</a>
+        <a href="study.html">学习</a>
+        <a href="projects.html">项目</a>
+        <a href="about.html">关于</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 页头 -->
+  <header class="tools-hero">
+    <p class="eyebrow">TOOLBOX / 实用工具箱</p>
+    <h1>随手可用的小工具</h1>
+    <p>向下滚动，卡片依次堆叠。第一项是 Markdown 转 PDF，下面还有 JSON 格式化与 Base64 编解码。全部在浏览器本地运行，不上传任何内容。</p>
+  </header>
+
+  <!-- ScrollStack 容器（React Bits 组件 vanilla 移植） -->
+  <div class="scroll-stack-scroller" data-stack-position="22%" data-scale-end-position="12%">
+    <div class="scroll-stack-inner">
+
+      <!-- ① Markdown → PDF -->
+      <section class="scroll-stack-card">
+        <p class="scroll-stack-card__eyebrow">TOOL 01</p>
+        <h2 class="scroll-stack-card__title">Markdown → PDF</h2>
+        <p class="scroll-stack-card__desc">左侧写 Markdown，右侧实时预览；一键调用浏览器「另存为 PDF」。支持标题、加粗、列表、代码块、引用、链接、图片。</p>
+        <div class="tool-grid">
+          <div class="tool-pane">
+            <label for="md-input">Markdown 源</label>
+            <textarea id="md-input" placeholder="在此输入 Markdown…" spellcheck="false"></textarea>
+          </div>
+          <div class="tool-pane">
+            <label>实时预览</label>
+            <pre class="md-preview" id="md-preview"></pre>
+          </div>
+        </div>
+        <div class="tool-bar">
+          <button class="btn btn--red" id="md-export">导出 PDF（浏览器另存为）</button>
+          <button class="btn" id="md-copy">复制 HTML</button>
+          <button class="btn" id="md-download">下载 .md</button>
+          <button class="btn" id="md-sample">载入示例</button>
+          <button class="btn" id="md-clear">清空</button>
+        </div>
+        <div class="tool-status" id="md-status">等待输入…</div>
+      </section>
+
+      <!-- ② JSON 格式化 / 校验 -->
+      <section class="scroll-stack-card">
+        <p class="scroll-stack-card__eyebrow">TOOL 02</p>
+        <h2 class="scroll-stack-card__title">JSON 格式化 / 校验</h2>
+        <p class="scroll-stack-card__desc">粘贴 JSON，格式化美化或压缩成单行；非法 JSON 会给出错误位置提示。</p>
+        <div class="tool-grid">
+          <div class="tool-pane">
+            <label for="json-input">JSON 源</label>
+            <textarea id="json-input" placeholder='{"hello":"world"}' spellcheck="false"></textarea>
+          </div>
+          <div class="tool-pane">
+            <label for="json-output">结果</label>
+            <pre id="json-output"></pre>
+          </div>
+        </div>
+        <div class="tool-bar">
+          <button class="btn btn--red" id="json-format">格式化</button>
+          <button class="btn" id="json-minify">压缩</button>
+          <button class="btn" id="json-copy">复制结果</button>
+          <button class="btn" id="json-clear">清空</button>
+        </div>
+        <div class="tool-status" id="json-status">等待输入…</div>
+      </section>
+
+      <!-- ③ Base64 编解码 -->
+      <section class="scroll-stack-card">
+        <p class="scroll-stack-card__eyebrow">TOOL 03</p>
+        <h2 class="scroll-stack-card__title">Base64 编解码</h2>
+        <p class="scroll-stack-card__desc">文本与 Base64 互转，支持 UTF-8 中文。常用于内联图片、传输编码等场景。</p>
+        <div class="tool-grid">
+          <div class="tool-pane">
+            <label for="b64-input">文本 / Base64</label>
+            <textarea id="b64-input" placeholder="输入要编码或解码的内容…" spellcheck="false"></textarea>
+          </div>
+          <div class="tool-pane">
+            <label for="b64-output">结果</label>
+            <pre id="b64-output"></pre>
+          </div>
+        </div>
+        <div class="tool-bar">
+          <button class="btn btn--red" id="b64-encode">编码 →</button>
+          <button class="btn" id="b64-decode">← 解码</button>
+          <button class="btn" id="b64-copy">复制结果</button>
+          <button class="btn" id="b64-clear">清空</button>
+        </div>
+        <div class="tool-status" id="b64-status">等待输入…</div>
+      </section>
+
+      <div class="scroll-stack-end"></div>
+    </div>
+  </div>
+
+  <!-- 打印导出容器（仅导出 PDF 时可见） -->
+  <div id="print-output" aria-hidden="true"></div>
+
+  <!-- 站点脚本（与子页一致） -->
+  <script src="gooey-nav.js"></script>
+  <script>
+    // ===================== 轻量 Markdown 解析 =====================
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function mdInline(s) {
+      s = escapeHtml(s);
+      s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+      s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">');
+      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      return s;
+    }
+    function parseMd(src) {
+      var lines = src.replace(/\r\n/g, '\n').split('\n');
+      var html = '', i = 0;
+      while (i < lines.length) {
+        var line = lines[i];
+        if (/^```/.test(line)) {
+          var buf = []; i++;
+          while (i < lines.length && !/^```/.test(lines[i])) { buf.push(lines[i]); i++; }
+          i++;
+          html += '<pre><code>' + escapeHtml(buf.join('\n')) + '</code></pre>';
+          continue;
+        }
+        var h = line.match(/^(#{1,6})\s+(.*)$/);
+        if (h) { var lv = h[1].length; html += '<h' + lv + '>' + mdInline(h[2]) + '</h' + lv + '>'; i++; continue; }
+        if (/^(---|\*\*\*|___)\s*$/.test(line)) { html += '<hr>'; i++; continue; }
+        if (/^>\s?/.test(line)) {
+          var q = [];
+          while (i < lines.length && /^>\s?/.test(lines[i])) { q.push(lines[i].replace(/^>\s?/, '')); i++; }
+          html += '<blockquote>' + mdInline(q.join(' ')) + '</blockquote>';
+          continue;
+        }
+        if (/^\s*[-*]\s+/.test(line)) {
+          var ul = [];
+          while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) { ul.push('<li>' + mdInline(lines[i].replace(/^\s*[-*]\s+/, '')) + '</li>'); i++; }
+          html += '<ul>' + ul.join('') + '</ul>';
+          continue;
+        }
+        if (/^\s*\d+\.\s+/.test(line)) {
+          var ol = [];
+          while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) { ol.push('<li>' + mdInline(lines[i].replace(/^\s*\d+\.\s+/, '')) + '</li>'); i++; }
+          html += '<ol>' + ol.join('') + '</ol>';
+          continue;
+        }
+        if (/^\s*$/.test(line)) { i++; continue; }
+        var p = [];
+        while (i < lines.length && !/^\s*$/.test(lines[i]) && !/^```/.test(lines[i]) && !/^(#{1,6})\s/.test(lines[i]) && !/^>\s?/.test(lines[i]) && !/^\s*[-*]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) && !/^(---|\*\*\*|___)\s*$/.test(lines[i])) {
+          p.push(lines[i]); i++;
+        }
+        html += '<p>' + mdInline(p.join(' ')) + '</p>';
+      }
+      return html;
+    }
+
+    // ===================== 工具 01：Markdown → PDF =====================
+    (function () {
+      var input = document.getElementById('md-input');
+      var preview = document.getElementById('md-preview');
+      var status = document.getElementById('md-status');
+      var out = document.getElementById('print-output');
+      var sample = '# 我的文档标题\n\n这是一段 **加粗** 与 *斜体* 的示例，还有一个 `行内代码`。\n\n## 列表\n\n- 第一项\n- 第二项\n  - 嵌套项\n\n## 代码块\n\n```js\nconsole.log("Hello, Hyhyhyyy!");\n```\n\n> 这是一段引用。\n\n[访问我的博客](https://hyhyhyyy.github.io/MyBlog/)\n';
+
+      function render() {
+        var html = parseMd(input.value);
+        preview.innerHTML = html || '<span style="opacity:.5">（预览为空）</span>';
+        out.innerHTML = '<div class="md-preview">' + (html || '') + '</div>';
+        status.textContent = '已渲染 ' + input.value.length + ' 字符';
+        status.className = 'tool-status';
+      }
+      input.addEventListener('input', render);
+
+      document.getElementById('md-export').addEventListener('click', function () {
+        render();
+        window.print();
+      });
+      document.getElementById('md-copy').addEventListener('click', function () {
+        var text = out.innerHTML;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(function () {
+            status.textContent = '已复制 HTML 到剪贴板'; status.className = 'tool-status';
+          }).catch(function () { fallbackCopy(text, status); });
+        } else { fallbackCopy(text, status); }
+      });
+      document.getElementById('md-download').addEventListener('click', function () {
+        var blob = new Blob([input.value], { type: 'text/markdown;charset=utf-8' });
+        downloadBlob(blob, 'document.md');
+        status.textContent = '已下载 document.md'; status.className = 'tool-status';
+      });
+      document.getElementById('md-sample').addEventListener('click', function () {
+        input.value = sample; render();
+      });
+      document.getElementById('md-clear').addEventListener('click', function () {
+        input.value = ''; render();
+      });
+      render();
+    })();
+
+    // ===================== 工具 02：JSON =====================
+    (function () {
+      var input = document.getElementById('json-input');
+      var output = document.getElementById('json-output');
+      var status = document.getElementById('json-status');
+      function run(minify) {
+        var raw = input.value.trim();
+        if (!raw) { status.textContent = '请输入内容'; status.className = 'tool-status err'; return; }
+        try {
+          var obj = JSON.parse(raw);
+          output.textContent = minify ? JSON.stringify(obj) : JSON.stringify(obj, null, 2);
+          status.textContent = '合法 JSON，' + (minify ? '已压缩' : '已格式化');
+          status.className = 'tool-status';
+        } catch (e) {
+          status.textContent = '解析失败：' + e.message;
+          status.className = 'tool-status err';
+        }
+      }
+      document.getElementById('json-format').addEventListener('click', function () { run(false); });
+      document.getElementById('json-minify').addEventListener('click', function () { run(true); });
+      document.getElementById('json-copy').addEventListener('click', function () {
+        if (!output.textContent) return;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(output.textContent).then(function () {
+            status.textContent = '已复制结果'; status.className = 'tool-status';
+          }).catch(function () { fallbackCopy(output.textContent, status); });
+        } else { fallbackCopy(output.textContent, status); }
+      });
+      document.getElementById('json-clear').addEventListener('click', function () {
+        input.value = ''; output.textContent = ''; status.textContent = '已清空'; status.className = 'tool-status';
+      });
+    })();
+
+    // ===================== 工具 03：Base64 =====================
+    (function () {
+      var input = document.getElementById('b64-input');
+      var output = document.getElementById('b64-output');
+      var status = document.getElementById('b64-status');
+      function utf8Encode(str) { return btoa(unescape(encodeURIComponent(str))); }
+      function utf8Decode(str) { return decodeURIComponent(escape(atob(str))); }
+      document.getElementById('b64-encode').addEventListener('click', function () {
+        try { output.textContent = utf8Encode(input.value); status.textContent = '已编码'; status.className = 'tool-status'; }
+        catch (e) { status.textContent = '编码失败（含非法字符？）'; status.className = 'tool-status err'; }
+      });
+      document.getElementById('b64-decode').addEventListener('click', function () {
+        try { output.textContent = utf8Decode(input.value.trim()); status.textContent = '已解码'; status.className = 'tool-status'; }
+        catch (e) { status.textContent = '解码失败：不是合法 Base64'; status.className = 'tool-status err'; }
+      });
+      document.getElementById('b64-copy').addEventListener('click', function () {
+        if (!output.textContent) return;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(output.textContent).then(function () {
+            status.textContent = '已复制结果'; status.className = 'tool-status';
+          }).catch(function () { fallbackCopy(output.textContent, status); });
+        } else { fallbackCopy(output.textContent, status); }
+      });
+      document.getElementById('b64-clear').addEventListener('click', function () {
+        input.value = ''; output.textContent = ''; status.textContent = '已清空'; status.className = 'tool-status';
+      });
+    })();
+
+    // ===================== 通用辅助 =====================
+    function fallbackCopy(text, status) {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); status.textContent = '已复制'; status.className = 'tool-status'; }
+      catch (e) { status.textContent = '复制失败，请手动选择'; status.className = 'tool-status err'; }
+      document.body.removeChild(ta);
+    }
+    function downloadBlob(blob, name) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = name; document.body.appendChild(a); a.click();
+      document.body.removeChild(a); setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    }
+  </script>
+
+  <!-- 站内搜索 / 底部导航 / 主题切换 -->
+  <script src="search.js"></script>
+  <script defer src="vitals.js"></script>
+  <script defer src="bottom-nav.js"></script>
+
+  <!-- Service Worker 注册（含 ?nocache 清缓存开关） -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      if (location.search.indexOf('nocache') !== -1) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          return Promise.all(regs.map(function (r) { return r.unregister(); }));
+        }).then(function () {
+          var u = new URL(location.href); u.searchParams.delete('nocache'); location.replace(u.toString());
+        }).catch(function () {
+          var u = new URL(location.href); u.searchParams.delete('nocache'); location.replace(u.toString());
+        });
+      } else {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        });
+      }
+    }
+  </script>
+</body>
+</html>
