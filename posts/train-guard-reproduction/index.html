@@ -47,6 +47,17 @@
     .post-body pre{ background:var(--black,#000); color:#fff; border:3px solid var(--black,#000); padding:14px; overflow:auto; }
     .post-body code{ font-family:var(--mono); font-size:.92em; }
     .post-body a{ color:inherit; text-decoration:underline; font-weight:700; }
+    .post-body .table-scroll{ margin:18px 0; overflow-x:auto; border:3px solid var(--black,#000);
+      box-shadow:4px 4px 0 var(--black,#000); background:var(--white,#fff); }
+    .post-body table{ width:100%; min-width:560px; border-collapse:collapse; font-family:var(--mono); font-size:15px; line-height:1.5; }
+    .post-body table.wide-table{ min-width:720px; }
+    .post-body th,.post-body td{ padding:10px 12px; border-right:2px solid var(--black,#000);
+      border-bottom:2px solid var(--black,#000); text-align:left; vertical-align:top; }
+    .post-body th{ background:var(--yellow,#f8ff13); font-weight:900; }
+    .post-body th:last-child,.post-body td:last-child{ border-right:0; }
+    .post-body tbody tr:last-child th,.post-body tbody tr:last-child td{ border-bottom:0; }
+    .post-body tbody tr:nth-child(even){ background:rgba(0,0,0,.04); }
+    .post-body .table-scroll:focus-visible{ outline:4px solid var(--black,#000); outline-offset:4px; }
     .post-back{ display:inline-block; margin:0 0 18px; font-family:var(--mono); font-size:14px;
       border:2px solid var(--black,#000); padding:6px 14px; box-shadow:3px 3px 0 var(--black,#000); }
   </style>
@@ -93,20 +104,53 @@
 <p>如果不使用虚拟环境，可能出现：</p>
 <blockquote>TODO：至少列举两个问题。</blockquote>
 <h3>2.2 四种环境方案的比较</h3>
-<p>| 方案 | 我理解的优点 | 我理解的缺点 | 是否适合本次任务 | |---|---|---|---| | <code>venv</code> | TODO | TODO | TODO | | <code>uv venv</code> | TODO | TODO | TODO | | Conda/Mamba | TODO | TODO | TODO | | Docker | TODO | TODO | TODO |</p>
+<div class="table-scroll" role="region" aria-label="四种环境方案的比较" tabindex="0">
+  <table class="wide-table">
+    <thead><tr><th scope="col">方案</th><th scope="col">我理解的优点</th><th scope="col">我理解的缺点</th><th scope="col">是否适合本次任务</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>venv</code></th><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row"><code>uv venv</code></th><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">Conda/Mamba</th><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">Docker</th><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>我最终选择：</p>
 <blockquote>TODO：填写选择。</blockquote>
 <p>选择理由：</p>
 <blockquote>TODO：不要只写“简单”，结合项目依赖和复现目标解释。</blockquote>
 <h2>3. 实验环境</h2>
-<p>| 项目 | 实际值 | |---|---| | 操作系统 | TODO | | Shell | TODO | | Python 版本 | TODO | | Python 路径 | TODO | | Git 版本 | TODO | | 项目 commit SHA | TODO | | 虚拟环境路径 | TODO | | 实践日期 | TODO |</p>
+<div class="table-scroll" role="region" aria-label="实验环境" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">项目</th><th scope="col">实际值</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">操作系统</th><td>TODO</td></tr>
+      <tr><th scope="row">Shell</th><td>TODO</td></tr>
+      <tr><th scope="row">Python 版本</th><td>TODO</td></tr>
+      <tr><th scope="row">Python 路径</th><td>TODO</td></tr>
+      <tr><th scope="row">Git 版本</th><td>TODO</td></tr>
+      <tr><th scope="row">项目 commit SHA</th><td>TODO</td></tr>
+      <tr><th scope="row">虚拟环境路径</th><td>TODO</td></tr>
+      <tr><th scope="row">实践日期</th><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <h3>3.1 检查可用的 Python</h3>
 <p>我执行了：</p>
 <pre><code>py -0p
 python --version
 where.exe python</code></pre>
 <p>这三条命令分别用于：</p>
-<p>| 命令 | 我的解释 | |---|---| | <code>py -0p</code> | TODO | | <code>python --version</code> | TODO | | <code>where.exe python</code> | TODO |</p>
+<div class="table-scroll" role="region" aria-label="Python 检查命令说明" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">命令</th><th scope="col">我的解释</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>py -0p</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>python --version</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>where.exe python</code></th><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>执行结果截图：</p>
 <blockquote>TODO：插入截图。  建议文件名：<code>images/m01-01-python-interpreters.png</code></blockquote>
 <pre><code>![本机可用的 Python 解释器](images/m01-01-python-interpreters.png)</code></pre>
@@ -117,7 +161,18 @@ where.exe python</code></pre>
 <p>我使用的命令是：</p>
 <pre><code>py -3.12 -m venv "&lt;填写你选择的完整环境路径&gt;"</code></pre>
 <h3>4.1 命令逐项解释</h3>
-<p>| 片段 | 我的解释 | |---|---| | <code>py</code> | TODO | | <code>-3.12</code> | TODO | | <code>-m</code> | TODO | | <code>venv</code> | TODO | | 最后的路径参数 | TODO |</p>
+<div class="table-scroll" role="region" aria-label="虚拟环境创建命令逐项解释" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">片段</th><th scope="col">我的解释</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>py</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>-3.12</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>-m</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>venv</code></th><td>TODO</td></tr>
+      <tr><th scope="row">最后的路径参数</th><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>在执行之前，我预测该目录中至少会出现：</p>
 <blockquote>TODO：列举 <code>Scripts</code>、<code>Lib</code>、<code>pyvenv.cfg</code> 等，并说明用途。</blockquote>
 <p>执行后的目录截图：</p>
@@ -164,14 +219,37 @@ where.exe python</code></pre>
 <p>在安装之前，我查看了：</p>
 <pre><code>Get-Content .\pyproject.toml</code></pre>
 <p>我从中提取了：</p>
-<p>| 配置 | 实际值 | 我的解释 | |---|---|---| | 项目发行名称 | TODO | TODO | | CLI 名称 | TODO | TODO | | 最低 Python 版本 | TODO | TODO | | 核心依赖 | TODO | TODO | | 可选依赖 | TODO | TODO | | 构建后端 | TODO | TODO |</p>
+<div class="table-scroll" role="region" aria-label="项目配置摘要" tabindex="0">
+  <table class="wide-table">
+    <thead><tr><th scope="col">配置</th><th scope="col">实际值</th><th scope="col">我的解释</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">项目发行名称</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">CLI 名称</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">最低 Python 版本</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">核心依赖</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">可选依赖</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">构建后端</th><td>TODO</td><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>我注意到“Python 包名、发行名称和 CLI 名称”并不一定相同。本项目中分别是：</p>
 <ul><li>Python import 名称：<code>TODO</code></li><li>PyPI/发行名称：<code>TODO</code></li><li>CLI 命令：<code>TODO</code></li></ul>
 <h2>7. 按 README 从源码安装</h2>
 <p>我在项目根目录执行：</p>
 <pre><code>python -m pip install -e .</code></pre>
 <p>执行前，我对以下内容的理解是：</p>
-<p>| 内容 | 我的解释 | |---|---| | <code>python -m pip</code> | TODO | | 为什么不直接写 <code>pip</code> | TODO | | <code>install</code> | TODO | | <code>-e</code> | TODO | | <code>.</code> | TODO |</p>
+<div class="table-scroll" role="region" aria-label="可编辑安装命令说明" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">内容</th><th scope="col">我的解释</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>python -m pip</code></th><td>TODO</td></tr>
+      <tr><th scope="row">为什么不直接写 <code>pip</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>install</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>-e</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>.</code></th><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>安装输出截图：</p>
 <pre><code>![train_guard 可编辑安装](images/m01-05-editable-install.png)</code></pre>
 <p>安装结果：</p>
@@ -201,7 +279,19 @@ python -m pip freeze</code></pre>
 <h3>8.2 帮助命令</h3>
 <pre><code>train-guard --help</code></pre>
 <p>我看到的主要子命令包括：</p>
-<p>| 子命令 | 我根据帮助信息理解的作用 | |---|---| | <code>init</code> | TODO | | <code>doctor</code> | TODO | | <code>data</code> | TODO | | <code>run</code> | TODO | | <code>eval</code> | TODO | | <code>manifest</code> | TODO |</p>
+<div class="table-scroll" role="region" aria-label="train-guard 主要子命令" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">子命令</th><th scope="col">我根据帮助信息理解的作用</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><code>init</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>doctor</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>data</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>run</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>eval</code></th><td>TODO</td></tr>
+      <tr><th scope="row"><code>manifest</code></th><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <h3>8.3 生成配置</h3>
 <p>我执行：</p>
 <pre><code>train-guard init --template transformers --output "&lt;自行选择的实验目录&gt;\train-guard.json"</code></pre>
@@ -210,7 +300,18 @@ python -m pip freeze</code></pre>
 <p>截图：</p>
 <pre><code>![生成 Transformers 配置](images/m01-07-init-config.png)</code></pre>
 <p>生成的配置中，我能解释的五个字段：</p>
-<p>| 字段 | 作用 | 填错后可能产生的结果 | |---|---|---| | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO |</p>
+<div class="table-scroll" role="region" aria-label="Transformers 配置字段说明" tabindex="0">
+  <table class="wide-table">
+    <thead><tr><th scope="col">字段</th><th scope="col">作用</th><th scope="col">填错后可能产生的结果</th></tr></thead>
+    <tbody>
+      <tr><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+      <tr><td>TODO</td><td>TODO</td><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <h2>9. 不激活环境再次运行</h2>
 <p>为了证明命令并不依赖当前 PowerShell 的激活状态，我关闭当前终端，重新打开 PowerShell，然后执行：</p>
 <pre><code>&amp; "&lt;虚拟环境完整路径&gt;\Scripts\train-guard.exe" --version</code></pre>
@@ -234,7 +335,20 @@ python -m pip freeze</code></pre>
 <p>这个问题是否说明 README 需要改进：</p>
 <blockquote>TODO：是/否，并解释理由。</blockquote>
 <h2>11. 对 README 可复现性的评价</h2>
-<p>| 检查项 | 通过情况 | 证据 | |---|---|---| | Python 要求明确 | TODO | TODO | | 安装命令可运行 | TODO | TODO | | CLI 名称明确 | TODO | TODO | | 核心依赖最小 | TODO | TODO | | 可选依赖解释清楚 | TODO | TODO | | 新用户知道下一步做什么 | TODO | TODO | | Windows 特殊问题有说明 | TODO | TODO |</p>
+<div class="table-scroll" role="region" aria-label="README 可复现性评价" tabindex="0">
+  <table class="wide-table">
+    <thead><tr><th scope="col">检查项</th><th scope="col">通过情况</th><th scope="col">证据</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Python 要求明确</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">安装命令可运行</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">CLI 名称明确</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">核心依赖最小</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">可选依赖解释清楚</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">新用户知道下一步做什么</th><td>TODO</td><td>TODO</td></tr>
+      <tr><th scope="row">Windows 特殊问题有说明</th><td>TODO</td><td>TODO</td></tr>
+    </tbody>
+  </table>
+</div>
 <p>综合评价：</p>
 <blockquote>TODO：给出具体评价，不只写“很好”或“不好”。</blockquote>
 <h2>12. 理解检查</h2>
