@@ -5,34 +5,25 @@
     "笔记",
     "感悟"
   ],
-  "updated": "2026-08-21",
+  "updated": "2026-08-25",
   "posts": [
     {
-      "slug": "welcome-to-my-blog",
-      "date": "2026-08-18",
-      "category": "资料",
-      "title": "欢迎来到我的传统博客",
-      "cover": "posts/welcome-to-my-blog/cover.svg",
-      "description": "用新搭建的传统博客环境写的第一篇示例文章，介绍整个创作与同步流程。",
-      "url": "posts/welcome-to-my-blog/index.html"
-    },
-    {
-      "slug": "reading-notes-ditan",
-      "date": "2026-08-15",
+      "slug": "train-guard-reproduction",
+      "date": "<填写日期>",
       "category": "笔记",
-      "title": "《我与地坛》读书笔记",
-      "cover": "posts/reading-notes-ditan/cover.svg",
-      "description": "重读史铁生，记录关于命运、安静与写作的几点摘抄与感想。",
-      "url": "posts/reading-notes-ditan/index.html"
+      "title": "从零复现 train_guard：Python 虚拟环境、可编辑安装与 CLI 验证",
+      "cover": "posts/train-guard-reproduction/cover.jpg",
+      "description": "从零复现 train_guard：Python 虚拟环境、可编辑安装与 CLI 验证\n1. 实践目标\n本次实践的目标是：",
+      "url": "posts/train-guard-reproduction/index.html"
     },
     {
-      "slug": "reflection-on-growth",
-      "date": "2026-08-10",
-      "category": "感悟",
-      "title": "关于成长的几点感悟",
-      "cover": "posts/reflection-on-growth/cover.svg",
-      "description": "写给正在摸索方向的自己：把时间花在值得的事情上。",
-      "url": "posts/reflection-on-growth/index.html"
+      "slug": "sample-note",
+      "date": "2026-08-25",
+      "category": "笔记",
+      "title": "样例笔记 · Markdown 写作演示",
+      "cover": "posts/sample-note/cover.png",
+      "description": "一篇用来演示 Markdown 写作与博客发布流程的样例笔记。",
+      "url": "posts/sample-note/index.html"
     }
   ]
 }
