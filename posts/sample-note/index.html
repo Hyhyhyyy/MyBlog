@@ -38,8 +38,21 @@
     .post-body ul,.post-body ol{ margin:14px 0; padding-left:26px; }
     .post-body li{ margin:6px 0; }
     .post-body img{ max-width:100%; height:auto; display:block; margin:16px 0; border:3px solid var(--black,#000); }
-    .post-body pre{ background:var(--black,#000); color:#fff; border:3px solid var(--black,#000); padding:14px; overflow:auto; }
-    .post-body code{ font-family:var(--mono); font-size:.92em; }
+    .post-body pre{ background:#1e1e2e; color:#e8e8f0; border:3px solid var(--black,#000);
+      border-radius:10px; padding:14px 16px; overflow:auto; margin:16px 0;
+      font-family:var(--mono); font-size:14px; line-height:1.6; }
+    .post-body pre code{ background:none; color:inherit; border:0; padding:0; font-size:inherit; }
+    .post-body code{ font-family:var(--mono); font-size:.9em; background:rgba(128,128,128,.16);
+      color:inherit; padding:.12em .42em; border-radius:5px; border:1px solid rgba(128,128,128,.25); }
+    .post-body blockquote{ margin:16px 0; padding:10px 16px; border-left:4px solid var(--black,#000);
+      background:rgba(128,128,128,.08); border-radius:0 8px 8px 0; font-style:italic; color:inherit; }
+    .post-body hr{ border:0; border-top:3px solid var(--black,#000); margin:26px 0; opacity:.35; }
+    .post-body .table-wrap{ overflow-x:auto; margin:18px 0; border:3px solid var(--black,#000); border-radius:10px; }
+    .post-body table{ border-collapse:collapse; width:100%; font-size:15px; }
+    .post-body th,.post-body td{ border:1px solid var(--black,#000); padding:9px 12px; text-align:left; vertical-align:top; }
+    .post-body thead th{ background:var(--black,#000); color:var(--white,#fff); font-weight:700; }
+    .post-body tbody tr:nth-child(even){ background:rgba(128,128,128,.10); }
+    .post-body .mermaid{ margin:18px 0; text-align:center; }
     .post-body a{ color:inherit; text-decoration:underline; font-weight:700; }
     .post-back{ display:inline-block; margin:0 0 18px; font-family:var(--mono); font-size:14px;
       border:2px solid var(--black,#000); padding:6px 14px; box-shadow:3px 3px 0 var(--black,#000); }
@@ -82,7 +95,7 @@
 <ol><li>在 IDE 里写一份 <code>.md</code>（带或不带 frontmatter 都行）；</li><li>运行 <code>python blog/md_post.py &lt;文件&gt;.md --cover 封面.png</code>；</li><li>运行 <code>python blog/sync.py</code> 推到 GitHub Pages。</li></ol>
 <blockquote>封面图片建议 1:1 方形 PNG，会被复制为 <code>posts/&lt;slug&gt;/cover.png</code> 并在文章页与学习页以方形圆角展示；不传 <code>--cover</code> 则生成占位渐变 SVG。</blockquote>
 <p>外部链接示例：<a href="https://hyhyhyyy.github.io/MyBlog/">回到博客首页</a>。</p>
-<pre><code># 一行命令发布
+<pre><code class="language-bash"># 一行命令发布
 python blog/md_post.py notes/my-note.md --cover notes/cover.png --force &amp;&amp; python blog/sync.py</code></pre>
 <blockquote>想再改一遍文章？改完 <code>.md</code> 重新跑 <code>md_post.py ... --force</code>，再 <code>sync.py</code> 即可。</blockquote>
 <p>以上就是全部。</p>
@@ -100,5 +113,6 @@ python blog/md_post.py notes/my-note.md --cover notes/cover.png --force &amp;&am
       });
     }
   </script>
+  
 </body>
 </html>
