@@ -44,8 +44,21 @@
     .post-body ul,.post-body ol{ margin:14px 0; padding-left:26px; }
     .post-body li{ margin:6px 0; }
     .post-body img{ max-width:100%; height:auto; display:block; margin:16px 0; border:3px solid var(--black,#000); }
-    .post-body pre{ background:var(--black,#000); color:#fff; border:3px solid var(--black,#000); padding:14px; overflow:auto; }
-    .post-body code{ font-family:var(--mono); font-size:.92em; }
+    .post-body pre{ background:#1e1e2e; color:#e8e8f0; border:3px solid var(--black,#000);
+      border-radius:10px; padding:14px 16px; overflow:auto; margin:16px 0;
+      font-family:var(--mono); font-size:14px; line-height:1.6; }
+    .post-body pre code{ background:none; color:inherit; border:0; padding:0; font-size:inherit; }
+    .post-body code{ font-family:var(--mono); font-size:.9em; background:rgba(128,128,128,.16);
+      color:inherit; padding:.12em .42em; border-radius:5px; border:1px solid rgba(128,128,128,.25); }
+    .post-body blockquote{ margin:16px 0; padding:10px 16px; border-left:4px solid var(--black,#000);
+      background:rgba(128,128,128,.08); border-radius:0 8px 8px 0; font-style:italic; color:inherit; }
+    .post-body hr{ border:0; border-top:3px solid var(--black,#000); margin:26px 0; opacity:.35; }
+    .post-body .table-wrap{ overflow-x:auto; margin:18px 0; border:3px solid var(--black,#000); border-radius:10px; }
+    .post-body table{ border-collapse:collapse; width:100%; font-size:15px; }
+    .post-body th,.post-body td{ border:1px solid var(--black,#000); padding:9px 12px; text-align:left; vertical-align:top; }
+    .post-body thead th{ background:var(--black,#000); color:var(--white,#fff); font-weight:700; }
+    .post-body tbody tr:nth-child(even){ background:rgba(128,128,128,.10); }
+    .post-body .mermaid{ margin:18px 0; text-align:center; }
     .post-body a{ color:inherit; text-decoration:underline; font-weight:700; }
     .post-back{ display:inline-block; margin:0 0 18px; font-family:var(--mono); font-size:14px;
       border:2px solid var(--black,#000); padding:6px 14px; box-shadow:3px 3px 0 var(--black,#000); }
@@ -93,57 +106,57 @@
 <p>如果不使用虚拟环境，可能出现：</p>
 <blockquote>TODO：至少列举两个问题。</blockquote>
 <h3>2.2 四种环境方案的比较</h3>
-<p>| 方案 | 我理解的优点 | 我理解的缺点 | 是否适合本次任务 | |---|---|---|---| | <code>venv</code> | TODO | TODO | TODO | | <code>uv venv</code> | TODO | TODO | TODO | | Conda/Mamba | TODO | TODO | TODO | | Docker | TODO | TODO | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>方案</th><th>我理解的优点</th><th>我理解的缺点</th><th>是否适合本次任务</th></tr></thead><tbody><tr><td><code>venv</code></td><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td><code>uv venv</code></td><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>Conda/Mamba</td><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>Docker</td><td>TODO</td><td>TODO</td><td>TODO</td></tr></tbody></table></div>
 <p>我最终选择：</p>
 <blockquote>TODO：填写选择。</blockquote>
 <p>选择理由：</p>
 <blockquote>TODO：不要只写“简单”，结合项目依赖和复现目标解释。</blockquote>
 <h2>3. 实验环境</h2>
-<p>| 项目 | 实际值 | |---|---| | 操作系统 | TODO | | Shell | TODO | | Python 版本 | TODO | | Python 路径 | TODO | | Git 版本 | TODO | | 项目 commit SHA | TODO | | 虚拟环境路径 | TODO | | 实践日期 | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>项目</th><th>实际值</th></tr></thead><tbody><tr><td>操作系统</td><td>TODO</td></tr><tr><td>Shell</td><td>TODO</td></tr><tr><td>Python 版本</td><td>TODO</td></tr><tr><td>Python 路径</td><td>TODO</td></tr><tr><td>Git 版本</td><td>TODO</td></tr><tr><td>项目 commit SHA</td><td>TODO</td></tr><tr><td>虚拟环境路径</td><td>TODO</td></tr><tr><td>实践日期</td><td>TODO</td></tr></tbody></table></div>
 <h3>3.1 检查可用的 Python</h3>
 <p>我执行了：</p>
-<pre><code>py -0p
+<pre><code class="language-powershell">py -0p
 python --version
 where.exe python</code></pre>
 <p>这三条命令分别用于：</p>
-<p>| 命令 | 我的解释 | |---|---| | <code>py -0p</code> | TODO | | <code>python --version</code> | TODO | | <code>where.exe python</code> | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>命令</th><th>我的解释</th></tr></thead><tbody><tr><td><code>py -0p</code></td><td>TODO</td></tr><tr><td><code>python --version</code></td><td>TODO</td></tr><tr><td><code>where.exe python</code></td><td>TODO</td></tr></tbody></table></div>
 <p>执行结果截图：</p>
 <blockquote>TODO：插入截图。  建议文件名：<code>images/m01-01-python-interpreters.png</code></blockquote>
-<pre><code>![本机可用的 Python 解释器](images/m01-01-python-interpreters.png)</code></pre>
+<pre><code class="language-markdown">![本机可用的 Python 解释器](images/m01-01-python-interpreters.png)</code></pre>
 <p>我从输出中发现：</p>
 <blockquote>TODO：说明默认 Python 版本、实际路径以及是否存在多个解释器。</blockquote>
 <h2>4. 创建全新的虚拟环境</h2>
 <blockquote>注意：不要使用此前由助手创建的 <code>train-guard-py312</code> 作为“亲手创建”的证据。请自行选择不同路径，例如 <code>train-guard-m01-self</code>。</blockquote>
 <p>我使用的命令是：</p>
-<pre><code>py -3.12 -m venv "&lt;填写你选择的完整环境路径&gt;"</code></pre>
+<pre><code class="language-powershell">py -3.12 -m venv "&lt;填写你选择的完整环境路径&gt;"</code></pre>
 <h3>4.1 命令逐项解释</h3>
-<p>| 片段 | 我的解释 | |---|---| | <code>py</code> | TODO | | <code>-3.12</code> | TODO | | <code>-m</code> | TODO | | <code>venv</code> | TODO | | 最后的路径参数 | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>片段</th><th>我的解释</th></tr></thead><tbody><tr><td><code>py</code></td><td>TODO</td></tr><tr><td><code>-3.12</code></td><td>TODO</td></tr><tr><td><code>-m</code></td><td>TODO</td></tr><tr><td><code>venv</code></td><td>TODO</td></tr><tr><td>最后的路径参数</td><td>TODO</td></tr></tbody></table></div>
 <p>在执行之前，我预测该目录中至少会出现：</p>
 <blockquote>TODO：列举 <code>Scripts</code>、<code>Lib</code>、<code>pyvenv.cfg</code> 等，并说明用途。</blockquote>
 <p>执行后的目录截图：</p>
 <blockquote>TODO：插入截图。  建议文件名：<code>images/m01-02-venv-directory.png</code></blockquote>
-<pre><code>![新虚拟环境的目录结构](images/m01-02-venv-directory.png)</code></pre>
+<pre><code class="language-markdown">![新虚拟环境的目录结构](images/m01-02-venv-directory.png)</code></pre>
 <p>实际目录结构与预测的差异：</p>
 <blockquote>TODO。</blockquote>
 <h2>5. 激活环境并证明隔离</h2>
 <h3>5.1 激活</h3>
 <p>PowerShell 命令：</p>
-<pre><code>&amp; "&lt;虚拟环境完整路径&gt;\Scripts\Activate.ps1"</code></pre>
+<pre><code class="language-powershell">&amp; "&lt;虚拟环境完整路径&gt;\Scripts\Activate.ps1"</code></pre>
 <p>如果发生 Execution Policy 错误，我看到的原始错误是：</p>
-<pre><code>TODO：如果没有发生，填写“未发生”。</code></pre>
+<pre><code class="language-text">TODO：如果没有发生，填写“未发生”。</code></pre>
 <p>我的处理方式是：</p>
 <blockquote>TODO：不得照抄不理解的全局安全策略修改。</blockquote>
 <p>激活后的提示符截图：</p>
-<pre><code>![激活后的 PowerShell](images/m01-03-activated-environment.png)</code></pre>
+<pre><code class="language-markdown">![激活后的 PowerShell](images/m01-03-activated-environment.png)</code></pre>
 <h3>5.2 验证解释器</h3>
 <p>我执行：</p>
-<pre><code>python -c "import sys; print('executable:', sys.executable); print('prefix:', sys.prefix); print('base_prefix:', sys.base_prefix)"
+<pre><code class="language-powershell">python -c "import sys; print('executable:', sys.executable); print('prefix:', sys.prefix); print('base_prefix:', sys.base_prefix)"
 python -m pip --version
 where.exe python</code></pre>
 <p>实际输出：</p>
-<pre><code>TODO：粘贴关键输出，注意删除用户名之外的敏感信息。</code></pre>
+<pre><code class="language-text">TODO：粘贴关键输出，注意删除用户名之外的敏感信息。</code></pre>
 <p>截图：</p>
-<pre><code>![虚拟环境解释器验证](images/m01-04-environment-verification.png)</code></pre>
+<pre><code class="language-markdown">![虚拟环境解释器验证](images/m01-04-environment-verification.png)</code></pre>
 <h3>5.3 我如何证明隔离成立</h3>
 <p><code>sys.executable</code> 表示：</p>
 <blockquote>TODO。</blockquote>
@@ -152,81 +165,81 @@ where.exe python</code></pre>
 <p><code>sys.base_prefix</code> 表示：</p>
 <blockquote>TODO。</blockquote>
 <p>当下面的关系成立时，可以证明当前处于虚拟环境：</p>
-<pre><code>sys.prefix != sys.base_prefix</code></pre>
+<pre><code class="language-text">sys.prefix != sys.base_prefix</code></pre>
 <p>我本次观察到：</p>
 <blockquote>TODO：填写实际关系和结论。</blockquote>
 <h3>5.4 为什么激活不是必需的</h3>
 <p>即使不激活，也可以直接运行：</p>
-<pre><code>&amp; "&lt;虚拟环境完整路径&gt;\Scripts\python.exe" -m pip --version</code></pre>
+<pre><code class="language-powershell">&amp; "&lt;虚拟环境完整路径&gt;\Scripts\python.exe" -m pip --version</code></pre>
 <p>我对“激活”的理解是：</p>
 <blockquote>TODO：解释激活主要改变 PATH，而不是创造另一套 Python。</blockquote>
 <h2>6. 阅读项目安装配置</h2>
 <p>在安装之前，我查看了：</p>
-<pre><code>Get-Content .\pyproject.toml</code></pre>
+<pre><code class="language-powershell">Get-Content .\pyproject.toml</code></pre>
 <p>我从中提取了：</p>
-<p>| 配置 | 实际值 | 我的解释 | |---|---|---| | 项目发行名称 | TODO | TODO | | CLI 名称 | TODO | TODO | | 最低 Python 版本 | TODO | TODO | | 核心依赖 | TODO | TODO | | 可选依赖 | TODO | TODO | | 构建后端 | TODO | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>配置</th><th>实际值</th><th>我的解释</th></tr></thead><tbody><tr><td>项目发行名称</td><td>TODO</td><td>TODO</td></tr><tr><td>CLI 名称</td><td>TODO</td><td>TODO</td></tr><tr><td>最低 Python 版本</td><td>TODO</td><td>TODO</td></tr><tr><td>核心依赖</td><td>TODO</td><td>TODO</td></tr><tr><td>可选依赖</td><td>TODO</td><td>TODO</td></tr><tr><td>构建后端</td><td>TODO</td><td>TODO</td></tr></tbody></table></div>
 <p>我注意到“Python 包名、发行名称和 CLI 名称”并不一定相同。本项目中分别是：</p>
 <ul><li>Python import 名称：<code>TODO</code></li><li>PyPI/发行名称：<code>TODO</code></li><li>CLI 命令：<code>TODO</code></li></ul>
 <h2>7. 按 README 从源码安装</h2>
 <p>我在项目根目录执行：</p>
-<pre><code>python -m pip install -e .</code></pre>
+<pre><code class="language-powershell">python -m pip install -e .</code></pre>
 <p>执行前，我对以下内容的理解是：</p>
-<p>| 内容 | 我的解释 | |---|---| | <code>python -m pip</code> | TODO | | 为什么不直接写 <code>pip</code> | TODO | | <code>install</code> | TODO | | <code>-e</code> | TODO | | <code>.</code> | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>内容</th><th>我的解释</th></tr></thead><tbody><tr><td><code>python -m pip</code></td><td>TODO</td></tr><tr><td>为什么不直接写 <code>pip</code></td><td>TODO</td></tr><tr><td><code>install</code></td><td>TODO</td></tr><tr><td><code>-e</code></td><td>TODO</td></tr><tr><td><code>.</code></td><td>TODO</td></tr></tbody></table></div>
 <p>安装输出截图：</p>
-<pre><code>![train_guard 可编辑安装](images/m01-05-editable-install.png)</code></pre>
+<pre><code class="language-markdown">![train_guard 可编辑安装](images/m01-05-editable-install.png)</code></pre>
 <p>安装结果：</p>
-<pre><code>TODO：粘贴最终成功或失败信息。</code></pre>
+<pre><code class="language-text">TODO：粘贴最终成功或失败信息。</code></pre>
 <h3>7.1 为什么先不安装 <code>[all]</code></h3>
 <p>我先安装核心包而不是：</p>
-<pre><code>python -m pip install -e ".[all]"</code></pre>
+<pre><code class="language-powershell">python -m pip install -e ".[all]"</code></pre>
 <p>原因是：</p>
 <blockquote>TODO：从“最小依赖”和“验证核心包声明”角度解释。</blockquote>
 <h3>7.2 验证安装来源</h3>
 <p>我执行：</p>
-<pre><code>python -m pip show llm-train-guard
+<pre><code class="language-powershell">python -m pip show llm-train-guard
 python -m pip freeze</code></pre>
 <p>关键输出：</p>
-<pre><code>TODO。</code></pre>
+<pre><code class="language-text">TODO。</code></pre>
 <p><code>Editable project location</code> 指向：</p>
 <blockquote>TODO。</blockquote>
 <p>这意味着：</p>
 <blockquote>TODO：解释修改源码后是否需要重新安装，以及 editable install 与普通 wheel 安装的区别。</blockquote>
 <h2>8. CLI Smoke Test</h2>
 <h3>8.1 版本命令</h3>
-<pre><code>train-guard --version</code></pre>
+<pre><code class="language-powershell">train-guard --version</code></pre>
 <p>实际输出：</p>
-<pre><code>TODO。</code></pre>
+<pre><code class="language-text">TODO。</code></pre>
 <p>截图：</p>
-<pre><code>![train-guard 版本验证](images/m01-06-version.png)</code></pre>
+<pre><code class="language-markdown">![train-guard 版本验证](images/m01-06-version.png)</code></pre>
 <h3>8.2 帮助命令</h3>
-<pre><code>train-guard --help</code></pre>
+<pre><code class="language-powershell">train-guard --help</code></pre>
 <p>我看到的主要子命令包括：</p>
-<p>| 子命令 | 我根据帮助信息理解的作用 | |---|---| | <code>init</code> | TODO | | <code>doctor</code> | TODO | | <code>data</code> | TODO | | <code>run</code> | TODO | | <code>eval</code> | TODO | | <code>manifest</code> | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>子命令</th><th>我根据帮助信息理解的作用</th></tr></thead><tbody><tr><td><code>init</code></td><td>TODO</td></tr><tr><td><code>doctor</code></td><td>TODO</td></tr><tr><td><code>data</code></td><td>TODO</td></tr><tr><td><code>run</code></td><td>TODO</td></tr><tr><td><code>eval</code></td><td>TODO</td></tr><tr><td><code>manifest</code></td><td>TODO</td></tr></tbody></table></div>
 <h3>8.3 生成配置</h3>
 <p>我执行：</p>
-<pre><code>train-guard init --template transformers --output "&lt;自行选择的实验目录&gt;\train-guard.json"</code></pre>
+<pre><code class="language-powershell">train-guard init --template transformers --output "&lt;自行选择的实验目录&gt;\train-guard.json"</code></pre>
 <p>实际输出：</p>
-<pre><code>TODO。</code></pre>
+<pre><code class="language-text">TODO。</code></pre>
 <p>截图：</p>
-<pre><code>![生成 Transformers 配置](images/m01-07-init-config.png)</code></pre>
+<pre><code class="language-markdown">![生成 Transformers 配置](images/m01-07-init-config.png)</code></pre>
 <p>生成的配置中，我能解释的五个字段：</p>
-<p>| 字段 | 作用 | 填错后可能产生的结果 | |---|---|---| | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO | | TODO | TODO | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>字段</th><th>作用</th><th>填错后可能产生的结果</th></tr></thead><tbody><tr><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>TODO</td><td>TODO</td><td>TODO</td></tr><tr><td>TODO</td><td>TODO</td><td>TODO</td></tr></tbody></table></div>
 <h2>9. 不激活环境再次运行</h2>
 <p>为了证明命令并不依赖当前 PowerShell 的激活状态，我关闭当前终端，重新打开 PowerShell，然后执行：</p>
-<pre><code>&amp; "&lt;虚拟环境完整路径&gt;\Scripts\train-guard.exe" --version</code></pre>
+<pre><code class="language-powershell">&amp; "&lt;虚拟环境完整路径&gt;\Scripts\train-guard.exe" --version</code></pre>
 <p>实际结果：</p>
-<pre><code>TODO。</code></pre>
+<pre><code class="language-text">TODO。</code></pre>
 <p>我的结论：</p>
 <blockquote>TODO：解释为什么显式路径更适合 CI、脚本和故障排查。</blockquote>
 <h2>10. 我遇到的第一个真实问题</h2>
 <p>问题现象：</p>
 <blockquote>TODO：如果完全没有问题，可以选择 README 中一个不够清晰的地方，但不得虚构错误。</blockquote>
 <p>原始错误或困惑：</p>
-<pre><code>TODO。</code></pre>
+<pre><code class="language-text">TODO。</code></pre>
 <p>我的第一条假设：</p>
 <blockquote>TODO。</blockquote>
 <p>我用于验证假设的命令或操作：</p>
-<pre><code># TODO</code></pre>
+<pre><code class="language-powershell"># TODO</code></pre>
 <p>实际根因：</p>
 <blockquote>TODO。</blockquote>
 <p>最终处理方式：</p>
@@ -234,7 +247,7 @@ python -m pip freeze</code></pre>
 <p>这个问题是否说明 README 需要改进：</p>
 <blockquote>TODO：是/否，并解释理由。</blockquote>
 <h2>11. 对 README 可复现性的评价</h2>
-<p>| 检查项 | 通过情况 | 证据 | |---|---|---| | Python 要求明确 | TODO | TODO | | 安装命令可运行 | TODO | TODO | | CLI 名称明确 | TODO | TODO | | 核心依赖最小 | TODO | TODO | | 可选依赖解释清楚 | TODO | TODO | | 新用户知道下一步做什么 | TODO | TODO | | Windows 特殊问题有说明 | TODO | TODO |</p>
+<div class="table-wrap"><table><thead><tr><th>检查项</th><th>通过情况</th><th>证据</th></tr></thead><tbody><tr><td>Python 要求明确</td><td>TODO</td><td>TODO</td></tr><tr><td>安装命令可运行</td><td>TODO</td><td>TODO</td></tr><tr><td>CLI 名称明确</td><td>TODO</td><td>TODO</td></tr><tr><td>核心依赖最小</td><td>TODO</td><td>TODO</td></tr><tr><td>可选依赖解释清楚</td><td>TODO</td><td>TODO</td></tr><tr><td>新用户知道下一步做什么</td><td>TODO</td><td>TODO</td></tr><tr><td>Windows 特殊问题有说明</td><td>TODO</td><td>TODO</td></tr></tbody></table></div>
 <p>综合评价：</p>
 <blockquote>TODO：给出具体评价，不只写“很好”或“不好”。</blockquote>
 <h2>12. 理解检查</h2>
@@ -288,5 +301,6 @@ python -m pip freeze</code></pre>
       });
     }
   </script>
+  
 </body>
 </html>
